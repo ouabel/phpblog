@@ -18,6 +18,8 @@
 <?php }?>
 		</section>
 		
+		<?php require('pagination.php'); ?>
+		
 <?php $content = ob_get_clean(); ?>
 
 <?php require('template.php'); ?>

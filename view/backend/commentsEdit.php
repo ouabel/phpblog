@@ -39,6 +39,7 @@ foreach ($comments as $comment)
 ?>
 </table>
 <?php
+require('/../frontend/pagination.php');
 
 $content = ob_get_clean();
 

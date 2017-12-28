@@ -21,6 +21,9 @@
     
 <?php }?>
 </table>
+
+<?php require('/../frontend/pagination.php'); ?>
+
 <?php $content = ob_get_clean(); ?>
 
 <?php require('template.php'); ?>

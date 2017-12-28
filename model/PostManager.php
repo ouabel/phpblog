@@ -1,13 +1,35 @@
 <?php
 class PostManager extends Manager
 {
+	private $postsPerPage;
+	
+	public function postsPerPage(){
+		return $this->postsPerPage;
+	}
+	
+	public function setPostsPerPage($int){
+		$int = (int) $int;
+		$this->postsPerPage = $int;
+	}
+	
 	public function getPosts()
 	{
 		$db = $this->dbConnect();
-		$req = $db->prepare('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM posts ORDER BY creation_date DESC LIMIT 0, 10');
-		$req->execute();
+		$currentPage = $this->currentPage();
+		$postsPerPage = $this->postsPerPage;
+		
+		$req = $db->prepare('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM posts ORDER BY creation_date DESC LIMIT ?, ?');
+		$req->execute([($currentPage-1)*$postsPerPage, $postsPerPage]);
 		$posts = $req->fetchAll();
 		return $posts;
+	}
+	
+	public function countPosts(){
+        $db = $this->dbConnect();
+		$req = $db->prepare("SELECT count(*) FROM posts"); 
+		$req->execute(); 
+		$postsNumber = $req->fetchColumn();
+		return $postsNumber;
 	}
 	
 	public function getPost($postId)
@@ -49,5 +71,17 @@ class PostManager extends Manager
 		
 		return $executeResult;
 	}
-
+	
+	public function currentPage()
+	{
+		if(isset($_GET['page'])){
+			$page = intval($_GET['page']);
+			if($page <= 1){
+				$page = 1;
+			}
+		} else {
+			$page = 1;
+		}
+		return $page;
+	}
 }

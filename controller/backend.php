@@ -7,8 +7,14 @@ function editPosts()
 	$postManager = new PostManager();
 	
 	$settings = $blogManager->getSettings();
+	$postManager->setPostsPerPage(20);
 	$posts = $postManager->getPosts();
 
+	$pagination['page'] = $postManager->currentPage();
+	$pagination['items'] = $postManager->countPosts();
+	$pagination['itemsPerPage'] = $postManager->postsPerPage();
+	$pagination['path'] = "admin.php?page=";
+	
 	require('view/backend/postsEdit.php');
 }
 
@@ -84,8 +90,20 @@ function editComments($criteria)
 	}
 	
 	$settings = $blogManager->getSettings();
+	$commentManager->setCommentsPerPage(50);
 	$comments = $commentManager->getComments($criteria);
-
+	
+	$pagination['page'] = $commentManager->currentPage();
+	$pagination['items'] = $commentManager->countComments($criteria);
+	$pagination['itemsPerPage'] = $commentManager->commentsPerPage();
+	if ($criteria === 'all') {
+		$pagination['path'] = "admin.php?action=editComments&page=";
+	} else if ($criteria === 'reported'){
+		$pagination['path'] = "admin.php?action=editComments&reported=1&page=";
+	} else {
+		$pagination['path'] = "admin.php?action=editComments&id=$criteria&page=";
+	}
+	
 	require('view/backend/commentsEdit.php');
 }
 
@@ -163,7 +181,6 @@ function updateAuthor($name, $pseudo, $email, $pass, $pass2)
 			$pass = $author['pass'];
 		}
 		
-		var_dump($author);
 		$executeResult = $authorManager->setAuthor($name, $pseudo, $email, $pass);
 		if ($executeResult === false) {
 			throw new Exception('Impossible de modifier l\'autheur !');

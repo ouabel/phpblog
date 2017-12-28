@@ -1,6 +1,7 @@
 <?php
 class BlogManager extends Manager
 {
+
 	public function getSettings()
 	{
 		$db = $this->dbConnect();

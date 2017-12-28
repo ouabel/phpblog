@@ -9,7 +9,8 @@
 					<h3>Par: <?= $author['author'] ?> le <?= $post['date_fr'] ?></h3>
 				</header>
 				<p><?= $post['content'] ?></p>
-				
+			</article>
+			
 				<h2>Ajouter un commentaire</h2>
 				<form action="index.php?action=addComment&amp;id=<?= $post['id'] ?>" method="post">
 					<p>
@@ -38,8 +39,9 @@
 					</div>
 				</div>
 				<?php } ?>
-		
-			</article>
+				
+				<?php require('pagination.php'); ?>
+				
 		</section>
 
 <?php $content = ob_get_clean(); ?>

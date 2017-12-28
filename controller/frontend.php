@@ -13,7 +13,13 @@ function post($postId)
 	$author = $authorManager->getAuthor();
 	
 	$commentManager = new CommentManager();
+	$commentManager->setCommentsPerPage(20);
 	$comments = $commentManager->getComments($postId);
+	
+	$pagination['page'] = $commentManager->currentPage();
+	$pagination['items'] = $commentManager->countComments($postId);
+	$pagination['itemsPerPage'] = $commentManager->commentsPerPage();
+	$pagination['path'] = "index.php?action=post&id=$postId&page=";
 	
 	require_once('view/frontend/post.php');
 }
@@ -23,8 +29,14 @@ function listPosts()
 	$blogManager = new BlogManager();
 	$settings = $blogManager->getSettings();
 	
-	$postsManager = new PostManager();
-	$posts = $postsManager->getPosts();
+	$postManager = new PostManager();
+	$postManager->setPostsPerPage(10);
+	$posts = $postManager->getPosts();
+	
+	$pagination['page'] = $postManager->currentPage();
+	$pagination['items'] = $postManager->countPosts();
+	$pagination['itemsPerPage'] = $postManager->postsPerPage();
+	$pagination['path'] = "index.php?page=";
 	
 	$authorManager = new AuthorManager();
 	$author = $authorManager->getAuthor();
