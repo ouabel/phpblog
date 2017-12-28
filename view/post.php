@@ -53,7 +53,7 @@
 		</section>
 		
 		<footer>
-			<em><?= $settings['title'] ?></em>
+			<em><a href="index.php?action=login">Se Connecter</a></em>
 		</footer>
 	</div>
 	

@@ -29,7 +29,7 @@
 		</section>
 		
 		<footer>
-			<em>Billet simple pour l'Alaska</em>
+			<em><a href="index.php?action=login">Se Connecter</a></em>
 		</footer>
 	</div>
 	

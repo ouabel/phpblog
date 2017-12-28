@@ -46,6 +46,25 @@ try
 					throw new Exception('Aucun identifiant de commentaire envoyé');
 				}
 			break;
+			
+			case 'login':
+				var_dump(loggedIn());
+				if(loggedIn()){
+					echo 'Vous êtes connecté';
+					echo '<p><a href="index.php?action=logout">Se déconnecter</a></p>';
+					}
+				else{
+					if (isset($_POST['pseudo']) && isset($_POST['pass'])) {
+						login($_POST['pseudo'], $_POST['pass']);
+					}else{
+						getLoginForm();
+					}
+				}
+			break;
+
+			case 'logout':
+				logout();
+			break;
 		}
 	}
 	else
