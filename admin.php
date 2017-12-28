@@ -3,26 +3,27 @@
 require_once('controller/backend.php');
 try
 {
-	if(loggedIn()){
+	$backend = new Backend();
+	if($backend->loggedIn()){
 		if (isset($_GET['action']))
 		{
 			$action = $_GET['action'];
 			switch ($action){
 				case 'insertPost':
 					if (!empty($_POST['title']) && !empty($_POST['content'])) {
-						insertPost($_POST['title'], $_POST['content']);
+						$backend->insertPost($_POST['title'], $_POST['content']);
 					} else {
 						throw new Exception('Tous les champs ne sont pas remplis !');
 					}
 				break;
 					
 				case 'newPost':
-					newPost();
+					$backend->newPost();
 					break;
 					
 				case 'editPost':
 					if (isset($_GET['id']) && $_GET['id'] > 0) {
-						editPost(intval($_GET['id']));
+						$backend->editPost(intval($_GET['id']));
 					} else {
 						throw new Exception('Aucun identifiant de billet envoyé');
 					}
@@ -31,7 +32,7 @@ try
 				case 'updatePost':
 					if (isset($_GET['id']) && $_GET['id'] > 0) {
 						if (!empty($_POST['title']) && !empty($_POST['content'])) {
-							updatePost(intval($_GET['id']), $_POST['title'], $_POST['content']);
+							$backend->updatePost(intval($_GET['id']), $_POST['title'], $_POST['content']);
 						} else {
 							throw new Exception('Tous les champs ne sont pas remplis !');
 						}
@@ -42,7 +43,7 @@ try
 				
 				case 'deletePost':
 					if (isset($_GET['id']) && $_GET['id'] > 0) {
-							deletePost(intval($_GET['id']));
+							$backend->deletePost(intval($_GET['id']));
 					} else {
 						throw new Exception('Aucun identifiant de billet envoyé');
 					}
@@ -50,19 +51,19 @@ try
 					
 				case 'editComments':
 					if (isset($_GET['id']) && $_GET['id'] > 0) {
-						editComments(intval($_GET['id']));
+						$backend->editComments(intval($_GET['id']));
 					} else {
 						if (isset($_GET['reported']) && (int) $_GET['reported'] === 1){
-							editComments('reported');
+							$backend->editComments('reported');
 						} else {
-							editComments('all');
+							$backend->editComments('all');
 						}
 					}
 					break;
 				
 				case 'editComment':
 					if (isset($_GET['id']) && $_GET['id'] > 0) {
-						editComment(intval($_GET['id']));
+						$backend->editComment(intval($_GET['id']));
 					} else {
 						throw new Exception('Aucun identifiant de commentaire envoyé');
 					}
@@ -71,7 +72,7 @@ try
 				case 'updateComment':
 					if (isset($_GET['id']) && $_GET['id'] > 0) {
 						if (!empty($_POST['author']) && !empty($_POST['comment'])) {
-							updateComment(intval($_GET['id']), $_POST['author'], $_POST['comment']);
+							$backend->updateComment(intval($_GET['id']), $_POST['author'], $_POST['comment']);
 						} else {
 							throw new Exception('Tous les champs ne sont pas remplis !');
 						}
@@ -82,20 +83,20 @@ try
 					
 				case 'deleteComment':
 					if (isset($_GET['id']) && $_GET['id'] > 0) {
-						deleteComment(intval($_GET['id']));
+						$backend->deleteComment(intval($_GET['id']));
 					} else {
 						throw new Exception('Aucun identifiant de commentaire envoyé');
 					}
 					break;
 					
 				case 'settings':
-						editSettings();
+						$backend->editSettings();
 					break;
 				
 				case 'updateSettings':
 					if (!empty($_POST['title']) && !empty($_POST['description'])) {
 
-						updateSettings($_POST['title'], $_POST['description']);
+						$backend->updateSettings($_POST['title'], $_POST['description']);
 						
 					} else {
 						throw new Exception('Tous les champs ne sont pas remplis !');
@@ -105,7 +106,7 @@ try
 				case 'updateAuthor':
 					if (!empty($_POST['author']) && !empty($_POST['author_pseudo']) && !empty($_POST['email'])) {
 
-						updateAuthor($_POST['author'], $_POST['author_pseudo'], $_POST['email'], $_POST['pass'], $_POST['pass2']);
+						$backend->updateAuthor($_POST['author'], $_POST['author_pseudo'], $_POST['email'], $_POST['pass'], $_POST['pass2']);
 						
 					} else {
 						throw new Exception('Tous les champs ne sont pas remplis !');
@@ -115,7 +116,7 @@ try
 		}
 		else
 		{
-			editPosts();
+			$backend->editPosts();
 		}
 	}
 	else

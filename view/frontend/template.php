@@ -16,7 +16,7 @@
 		
 		<footer class="blog-footer">
 			<a href="admin.php">Tableau de bord</a>
-			<?php if(loggedIn()){ ?>
+			<?php if($this->loggedIn()){ ?>
 				| <a href="index.php?action=logout">Se déconnecter</a></li>
 			<?php } ?>
 		</footer>

@@ -6,11 +6,14 @@ require('model/PostManager.php');
 require('model/AuthorManager.php');
 require('model/CommentManager.php');
 
-function loggedIn()
+class Controller
 {
-	if(isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
-		return true;
-	} else {
-		return false;
+	function loggedIn()
+	{
+		if(isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
