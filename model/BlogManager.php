@@ -10,4 +10,13 @@ class BlogManager extends Manager
 		return $settings;
 	}
 	
+	public function setSettings($title, $description)
+	{
+		$db = $this->dbConnect();
+		$req = $db->prepare('UPDATE settings SET title = ?, description = ? WHERE id = 1');
+		$executeResult = $req->execute([$title, $description]);
+
+		return $executeResult;
+	}
+	
 }

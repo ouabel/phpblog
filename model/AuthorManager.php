@@ -10,4 +10,12 @@ class AuthorManager extends Manager
 		return $author;
 	}
 	
+	public function setAuthor($name, $pseudo, $email, $pass)
+	{
+		$db = $this->dbConnect();
+		$req = $db->prepare('UPDATE settings SET author = ?, author_pseudo = ?, email = ?, pass = ? WHERE id = 1');
+		$executeResult = $req->execute([$name, $pseudo, $email, $pass]);
+
+		return $executeResult;
+	}
 }
