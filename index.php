@@ -1,6 +1,6 @@
 <?php
 
-require_once('include/functions.php');
+require_once('controller/frontend.php');
 
 if (isset($_GET['action']))
 {
@@ -11,7 +11,6 @@ if (isset($_GET['action']))
 			if (isset($_GET['id']) && (int) $_GET['id'] > 0)
 			{
 				$post = post(intval($_GET['id']));
-				require_once('view/post.php');
 			}
 			else
 			{
@@ -24,5 +23,4 @@ if (isset($_GET['action']))
 else
 {
 	$posts = listPosts();
-	require_once('view/home.php');
 }
