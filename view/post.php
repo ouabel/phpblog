@@ -40,7 +40,8 @@
 				<?php foreach($comments as $comment){ ?>
 				<div>
 					<div>
-					Par: <?= $comment['author'] ?> le: <?= $comment['date_fr'] ?>		
+					Par: <?= $comment['author'] ?> le: <?= $comment['date_fr'] ?>
+					<a href="index.php?action=reportComment&amp;id=<?= $comment['id'] ?>">Signaler un contenu inapproprié</a>
 					</div>
 					<div>
 						<p><?= $comment['comment'] ?></p>

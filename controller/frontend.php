@@ -29,3 +29,14 @@ function addComment($postId, $author, $content){
 		header('Location: index.php?action=post&id=' . $postId);
 	}
 }
+
+function reportComment($commentId){
+	$commentManager = new CommentManager();
+	$executeResult = $commentManager->reportComment($commentId);
+	if($executeResult === false){
+		throw new Exception('Impossible de signaler le commentaire !');
+	} else {
+		$_SESSION["reportComment-$commentId"] = "reported";
+		echo 'Commentaire signalé';
+	}
+}

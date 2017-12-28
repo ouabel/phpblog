@@ -13,8 +13,7 @@ try
 				{
 					$post = post(intval($_GET['id']));
 				}
-				else
-				{
+				else {
 					throw new Exception('Aucun identifiant d\'article envoyé');
 				}
 			break;
@@ -32,6 +31,20 @@ try
 					throw new Exception('Aucun identifiant d\'article envoyé');
 				}
 				break;
+			break;
+			
+			case 'reportComment':
+				if (isset($_GET['id']) && (int) $_GET['id'] > 0) {
+					if (!isset($_SESSION['reportComment-'.$_GET['id']])) {
+						reportComment(intval($_GET['id']));
+					}
+					else {
+						throw new Exception('Vous avez déja signalé ce commentaire !');
+					}
+				}
+				else {
+					throw new Exception('Aucun identifiant de commentaire envoyé');
+				}
 			break;
 		}
 	}
