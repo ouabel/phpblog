@@ -16,12 +16,38 @@
 		 
 				<header>
 					<h2><a href="index.php?action=post&amp;id=<?= $post['id'] ?>"><?= $post['title'] ?></a></h2>
+					<h3>Le <?= $post['date_fr'] ?></h3>
 				</header>
-				<p><?= $post['content'] ?>;</p>
+				<p><?= $post['content'] ?></p>
 				
-				<footer>
-					<p><a href="index.php?action=post&amp;id=<?= $post['id'] ?>">Commentaires</a></p>
-				</footer>
+				<h2>Ajouter un commentaire</h2>
+				<form action="index.php?action=addComment&amp;id=<?= $post['id'] ?>" method="post">
+					<p>
+						<label for="author">Auteur</label><br />
+						<input type="text" id="author" name="author" />
+					</p>
+					<p>
+						<label for="comment">Commentaire</label><br />
+						<textarea id="comment" name="comment" rows="8"></textarea>
+					</p>
+					<p>
+						<button type="submit" />Envoyer</button>
+					</p>
+				</form>
+	
+				<h2>Commentaires</h2>
+				
+				<?php foreach($comments as $comment){ ?>
+				<div>
+					<div>
+					Par: <?= $comment['author'] ?> le: <?= $comment['date_fr'] ?>		
+					</div>
+					<div>
+						<p><?= $comment['comment'] ?></p>
+					</div>
+				</div>
+				<?php } ?>
+		
 			</article>
 		</section>
 		

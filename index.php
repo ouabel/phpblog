@@ -18,6 +18,20 @@ if (isset($_GET['action']))
 			}
 		break;
 
+		case 'addComment':
+			if (isset($_GET['id']) && (int) $_GET['id'] > 0) {
+				if (!empty($_POST['author']) && !empty($_POST['comment'])) {
+					addComment(intval($_GET['id']), $_POST['author'], $_POST['comment']);
+				}
+				else {
+					echo 'Tous les champs ne sont pas remplis !';
+				}
+			}
+			else {
+				echo 'Aucun identifiant d\'article envoyé';
+			}
+			break;
+		break;
 	}
 }
 else

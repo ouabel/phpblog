@@ -17,6 +17,7 @@
 		 
 				<header>
 					<h2><a href="index.php?action=post&amp;id=<?= $post['id'] ?>"><?= $post['title'] ?></a></h2>
+					<h3>Le <?= $post['date_fr'] ?></h3>
 				</header>
 				<p><?= $post['content'] ?>;</p>
 				
