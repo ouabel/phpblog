@@ -1,0 +1,157 @@
+body {
+	background: #1a1a1a;
+	margin: 0;
+	padding: 0;
+}
+
+#container {
+	background: #f5f5f5;
+	font-family: Arial;
+	color: #1a1a1a;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px;
+	/*box-shadow: 0 0 15px rgba(255,255,255,0.35);*/
+	box-sizing: border-box;
+}
+
+.blog-header {
+	text-align: center;
+}
+
+.box {
+	width: 100%;
+	background: #fff;
+	padding: 20px;
+	margin: 20px 0;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+	box-sizing: border-box;
+}
+
+.post header a {
+	text-decoration: none;
+	color: #1565c0;
+}
+
+.blog-footer {
+	text-align: center;
+}
+
+.comment-form {
+	background: #fff;
+	padding: 20px;
+	margin: 0;
+}
+
+.in-box {
+	padding: 0;
+	margin: 0;
+	background-color: #fff;
+}
+
+.in-box-header {
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #1565c0;
+    color: #fff;
+	font-weight: bold;
+	line-height: 30px;
+	padding: 10px;
+    overflow: hidden;
+    transition-property: height;
+}
+
+.in-box-header a {
+	color: #cccccc;
+	text-decoration: none;
+}
+
+.in-box-header a:hover {
+	color: #e5e5e5;
+}
+
+.in-box-content {
+	padding: 15px;
+	margin: 0 0 30px 0;
+	box-sizing: border-box;
+}
+
+button {
+	opacity: 0.8;
+    cursor: pointer;
+    display: inline-block;
+    border: 0;
+    border-radius: 2px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #4285f4;
+    box-sizing: border-box;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 10px;
+    text-align: center;
+    margin-top: 4px;
+}
+
+button:hover {
+	opacity: 1;
+}
+
+.pagination {
+	padding: 5px 10px;
+	margin: 5px 0;
+	text-align: center;
+	line-height: 45px;
+}
+
+.pagination a, .current-page{
+	display: inline-block;
+	color: #1a1a1a;
+	background-color: #b8d0ec;
+	padding: 0 10px;
+	height: 35px;
+	line-height: 35px;
+	text-decoration: none;
+	border: solid 1px #105099;
+}
+
+.pagination a:hover{
+	background-color: #72a2d9;
+}
+
+.current-page{
+	background-color: #e7eff8;
+	font-weight: bold;
+}
+.pagination a, .current-page{
+	
+}
+
+#login, #error {
+	width: 300px;
+	margin: 150px auto 0;
+}
+
+#login input{
+	font-size: 24px;
+    width: 100%;
+    padding: 3px;
+    margin: 0;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+textarea, input[type="text"]{
+    border-radius: 2px;
+    color: #686868;
+    padding: 0.625em 0.4375em;
+	border: 1px solid #ccc;
+    width: 100%;
+	box-sizing: border-box;
+}
+
+#error .in-box-header {
+	background-color: #db4437;
+}

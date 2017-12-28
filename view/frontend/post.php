@@ -2,7 +2,7 @@
 <?php ob_start(); ?>
 
 		<section>
-			<article>
+			<article class="box post">
 		 
 				<header>
 					<h2><a href="index.php?action=post&amp;id=<?= $post['id'] ?>"><?= $post['title'] ?></a></h2>
@@ -11,8 +11,8 @@
 				<p><?= $post['content'] ?></p>
 			</article>
 			
+				<form class="comment-form" action="index.php?action=addComment&amp;id=<?= $post['id'] ?>" method="post">
 				<h2>Ajouter un commentaire</h2>
-				<form action="index.php?action=addComment&amp;id=<?= $post['id'] ?>" method="post">
 					<p>
 						<label for="author">Auteur</label><br />
 						<input type="text" id="author" name="author" />
@@ -29,12 +29,12 @@
 				<h2>Commentaires</h2>
 				
 				<?php foreach($comments as $comment){ ?>
-				<div>
-					<div>
+				<div class="box in-box">
+					<div class="in-box-header">
 					Par: <?= $comment['author'] ?> le: <?= $comment['date_fr'] ?>
 					<a href="index.php?action=reportComment&amp;id=<?= $comment['id'] ?>">Signaler un contenu inapproprié</a>
 					</div>
-					<div>
+					<div class="in-box-content">
 						<p><?= $comment['comment'] ?></p>
 					</div>
 				</div>

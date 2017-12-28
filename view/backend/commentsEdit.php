@@ -13,7 +13,7 @@ if(isset($_GET['reported'])){
 
 <h1><?= $h1 ?></h1>
 
-<table>
+<table class="box">
 <?php
 foreach ($comments as $comment)
 {

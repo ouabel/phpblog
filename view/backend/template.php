@@ -3,13 +3,15 @@
 <head>
 	<meta charset="utf-8" />
 	<title><?= $title ?></title>
+	<link href="public/css/style.css" rel="stylesheet" /> 
+	<link href="admin/css/style.css" rel="stylesheet" /> 
 </head>
 	
 <body>
 <div id="container">
 
 	<div id="admin-nav">
-		<span>Tableau de bord</span>
+		<span class="dashboard">Tableau de bord</span>
 		<ul>
 			<li><a href="index.php">Afficher le blog</a></li>
 			<li><a href="admin.php">Articles</a></li>

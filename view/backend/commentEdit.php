@@ -4,7 +4,7 @@
 
 <h1>Modifier le commentaire</h1>
 
-<form method="post" action="admin.php?action=updateComment&id=<?=$comment['id']; ?>">
+<form class="box" method="post" action="admin.php?action=updateComment&id=<?=$comment['id']; ?>">
 	
 	<p>
 		Auteur:

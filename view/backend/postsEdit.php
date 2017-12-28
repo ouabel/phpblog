@@ -2,7 +2,7 @@
 
 <?php ob_start(); ?>
 <h1>Modérer les articles</h1>
-<table>
+<table class="box">
 <?php foreach ($posts as $post) { ?>
     
 	<tr>

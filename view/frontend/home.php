@@ -3,7 +3,7 @@
 
 		<section>
 <?php foreach($posts as $post) {?>
-			<article>
+			<article class="box post">
 		 
 				<header>
 					<h2><a href="index.php?action=post&amp;id=<?= $post['id'] ?>"><?= $post['title'] ?></a></h2>
