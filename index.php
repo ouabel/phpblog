@@ -11,7 +11,7 @@ if (isset($_GET['action']))
 			if (isset($_GET['id']) && (int) $_GET['id'] > 0)
 			{
 				$post = post(intval($_GET['id']));
-				var_dump($post);
+				require_once('view/post.php');
 			}
 			else
 			{
@@ -24,5 +24,5 @@ if (isset($_GET['action']))
 else
 {
 	$posts = listPosts();
-	var_dump($posts);
+	require_once('view/home.php');
 }
