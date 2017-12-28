@@ -1,8 +1,6 @@
 <?php
 
-$db = new PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', '');
-$db->setAttribute(PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
-$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+require_once('include/functions.php');
 
 if (isset($_GET['action']))
 {
@@ -12,7 +10,8 @@ if (isset($_GET['action']))
 		case 'post':
 			if (isset($_GET['id']) && (int) $_GET['id'] > 0)
 			{
-				var_dump(intval($_GET['id']));
+				$post = post(intval($_GET['id']));
+				var_dump($post);
 			}
 			else
 			{
@@ -24,5 +23,6 @@ if (isset($_GET['action']))
 }
 else
 {
-	echo 'Home';
+	$posts = listPosts();
+	var_dump($posts);
 }
