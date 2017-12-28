@@ -1,22 +1,38 @@
 <?php
 
 require('model/Manager.php');
+require('model/BlogManager.php');
 require('model/PostManager.php');
+require('model/AuthorManager.php');
 require('model/CommentManager.php');
 
 function post($postId)
 {
+	$blogManager = new BlogManager();
+	$settings = $blogManager->getSettings();
+	
 	$postManager = new PostManager();
 	$post = $postManager->getPost($postId);
 	
+	$authorManager = new AuthorManager();
+	$author = $authorManager->getAuthor();
+	
 	$commentManager = new CommentManager();
 	$comments = $commentManager->getComments($postId);
+	
 	require_once('view/post.php');
 }
 
 function listPosts(){
+	$blogManager = new BlogManager();
+	$settings = $blogManager->getSettings();
+	
 	$postsManager = new PostManager();
 	$posts = $postsManager->getPosts();
+	
+	$authorManager = new AuthorManager();
+	$author = $authorManager->getAuthor();
+	
 	require_once('view/home.php');
 }
 

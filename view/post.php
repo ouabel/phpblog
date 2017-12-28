@@ -2,13 +2,13 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Billet simple pour l'Alaska</title>
+	<title><?= $settings['title'] ?></title>
 </head>
 <body>
 
 	<div id="container">
 		<header>
-			<h1><a href="index.php">Billet simple pour l'Alaska</a></h1>
+			<h1><a href="index.php"><?= $settings['title'] ?></a></h1>
 		</header>
 		
 		<section>
@@ -16,7 +16,7 @@
 		 
 				<header>
 					<h2><a href="index.php?action=post&amp;id=<?= $post['id'] ?>"><?= $post['title'] ?></a></h2>
-					<h3>Le <?= $post['date_fr'] ?></h3>
+					<h3>Par: <?= $author['author'] ?> le <?= $post['date_fr'] ?></h3>
 				</header>
 				<p><?= $post['content'] ?></p>
 				
@@ -53,7 +53,7 @@
 		</section>
 		
 		<footer>
-			<em>Billet simple pour l'Alaska</em>
+			<em><?= $settings['title'] ?></em>
 		</footer>
 	</div>
 	
