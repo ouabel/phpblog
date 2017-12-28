@@ -11,7 +11,7 @@ try
 			case 'post':
 				if (isset($_GET['id']) && (int) $_GET['id'] > 0)
 				{
-					$post = post(intval($_GET['id']));
+					post(intval($_GET['id']));
 				}
 				else {
 					throw new Exception('Aucun identifiant d\'article envoyé');
@@ -48,10 +48,8 @@ try
 			break;
 			
 			case 'login':
-				var_dump(loggedIn());
 				if(loggedIn()){
-					echo 'Vous êtes connecté';
-					echo '<p><a href="index.php?action=logout">Se déconnecter</a></p>';
+					header('location:admin.php');
 					}
 				else{
 					if (isset($_POST['pseudo']) && isset($_POST['pass'])) {
@@ -69,11 +67,11 @@ try
 	}
 	else
 	{
-		$posts = listPosts();
+		listPosts();
 	}
 }
 catch (Exception $e)
 {
 	$error = $e->getMessage();
-	require('view/error.php');
+	require('view/frontend/error.php');
 }

@@ -1,10 +1,5 @@
 <?php
-
-require('model/Manager.php');
-require('model/BlogManager.php');
-require('model/PostManager.php');
-require('model/AuthorManager.php');
-require('model/CommentManager.php');
+require_once('controller/controller.php');
 
 function post($postId)
 {
@@ -20,7 +15,7 @@ function post($postId)
 	$commentManager = new CommentManager();
 	$comments = $commentManager->getComments($postId);
 	
-	require_once('view/post.php');
+	require_once('view/frontend/post.php');
 }
 
 function listPosts()
@@ -34,7 +29,7 @@ function listPosts()
 	$authorManager = new AuthorManager();
 	$author = $authorManager->getAuthor();
 	
-	require_once('view/home.php');
+	require_once('view/frontend/home.php');
 }
 
 function addComment($postId, $author, $content)
@@ -71,7 +66,7 @@ function login($pseudo,$pass)
 		if($pv){
 			$_SESSION['id'] = $author['id'];
 			$_SESSION['pseudo'] = $pseudo;
-			header('index.php?action=login');
+			header('location:admin.php');
 		}else{
 			throw new Exception('Mot de passe erroné !');
 		}
@@ -79,19 +74,10 @@ function login($pseudo,$pass)
 		throw new Exception('Utilisateur non trouvé !');
 	}
 }
-	
-function loggedIn()
-{
-	if(isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
-		return true;
-	} else {
-		return false;
-	}
-}
 
 function getLoginForm()
 {	
-	require('view/login.php');
+	require('view/frontend/login.php');
 }
 
 function logout()

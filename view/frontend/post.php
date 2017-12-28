@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8" />
-	<title><?= $settings['title'] ?></title>
-</head>
-<body>
+<?php $title = $post['title'] ?>
+<?php ob_start(); ?>
 
-	<div id="container">
-		<header>
-			<h1><a href="index.php"><?= $settings['title'] ?></a></h1>
-		</header>
-		
 		<section>
 			<article>
 		 
@@ -51,11 +41,6 @@
 		
 			</article>
 		</section>
-		
-		<footer>
-			<em><a href="index.php?action=login">Se Connecter</a></em>
-		</footer>
-	</div>
-	
-</body>
-</html>
+
+<?php $content = ob_get_clean(); ?>
+<?php require('template.php'); ?>
