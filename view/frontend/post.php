@@ -6,7 +6,12 @@
 		 
 				<header>
 					<h2><a href="index.php?action=post&amp;id=<?= $post->id() ?>"><?= $post->title() ?></a></h2>
-					<h3>Par: <?= $author->name() ?> le <?= $post->dateFr() ?></h3>
+					<h3>
+						Par: <?= $author->name() ?> le <?= $post->dateFr() ?>
+						<?php if($this->loggedIn()){ ?>
+						( <a href="admin.php?action=editPost&amp;id=<?= $post->id() ?>">Modifier</a> | <a href="admin.php?action=deletePost&amp;id=<?= $post->id() ?>">Supprimer</a> )
+						<?php } ?>
+					</h3>
 				</header>
 				<p><?= $post->content() ?></p>
 			</article>
@@ -32,8 +37,13 @@
 				<?php foreach($comments as $comment){ ?>
 				<div class="box in-box">
 					<div class="in-box-header">
-					Par: <?= $comment->author() ?> le: <?= $comment->dateFr() ?>
-					<a href="index.php?action=reportComment&amp;id=<?= $comment->id() ?>">Signaler un contenu inapproprié</a>
+						Par: <?= $comment->author() ?> le: <?= $comment->dateFr() ?>
+						<?php if($this->loggedIn()){ ?>
+						( <a href="admin.php?action=editComment&amp;id=<?= $comment->id() ?>">Modifier</a> | <a href="admin.php?action=deleteComment&amp;id=<?= $comment->id() ?>">Supprimer</a> )
+						<?php } else {?>
+						<a href="index.php?action=reportComment&amp;id=<?= $comment->id() ?>">Signaler un contenu inapproprié</a>
+						<?php } ?>
+
 					</div>
 					<div class="in-box-content">
 						<p><?= $comment->content() ?></p>
