@@ -124,10 +124,10 @@ class backend extends Controller
 		require('view/backend/commentEdit.php');
 	}
 
-	function updateComment($id,$author,$content)
+	function updateComment($commentId,$author,$content)
 	{
 		$commentManager = new CommentManager();
-		$comment = new Comment([$id,$author,$content]);
+		$comment = new Comment(['id'=>$commentId, 'author'=>$author, 'content'=>$content]);
 		
 		$executeResult = $commentManager->updateComment($comment);
 
