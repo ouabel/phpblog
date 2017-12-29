@@ -3,7 +3,7 @@
 if(isset($_GET['reported'])){
 	$h1 = "Modérer les comentaires signalés";
 }elseif(isset($_GET['id'])) {
-	$h1 = "Modérer les comentaires sur " . $post['title'];
+	$h1 = "Modérer les comentaires sur " . $post->title();
 }	else {
 	$h1 = "Modérer les comentaires";
 }
@@ -23,13 +23,13 @@ if($comments){
 		
 			<td>
 
-				Par: <?= $comment['author'] ?>
-				le: <?= $comment['date_fr'] ?>
-				<p><?= $comment['comment'] ?></p>
+				Par: <?= $comment->author() ?>
+				le: <?= $comment->dateFr() ?>
+				<p><?= $comment->content() ?></p>
 
-				<a href="admin.php?action=editComment&amp;id=<?= $comment['id'] ?>">Modifier</a>
-				<a href="admin.php?action=deleteComment&amp;id=<?= $comment['id'] ?>">Supprimer</a>
-				<a href="index.php?action=post&amp;id=<?= $comment['id'] ?>">Article</a>
+				<a href="admin.php?action=editComment&amp;id=<?= $comment->id() ?>">Modifier</a>
+				<a href="admin.php?action=deleteComment&amp;id=<?= $comment->id() ?>">Supprimer</a>
+				<a href="index.php?action=post&amp;id=<?= $comment->id() ?>">Article</a>
 				
 			</td>
 

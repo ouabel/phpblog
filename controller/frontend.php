@@ -6,7 +6,7 @@ class Frontend extends Controller
 	function post($postId)
 	{
 		$blogManager = new BlogManager();
-		$settings = $blogManager->getSettings();
+		$blog = $blogManager->getSettings();
 		
 		$postManager = new PostManager();
 		$post = $postManager->getPost($postId);
@@ -29,7 +29,7 @@ class Frontend extends Controller
 	function listPosts()
 	{
 		$blogManager = new BlogManager();
-		$settings = $blogManager->getSettings();
+		$blog = $blogManager->getSettings();
 		
 		$postManager = new PostManager();
 		$postManager->setPostsPerPage(10);
@@ -49,7 +49,9 @@ class Frontend extends Controller
 	function addComment($postId, $author, $content)
 	{
 		$commentManager = new CommentManager();
-		$executeResult = $commentManager->newComment($postId, $author, $content);
+		$comment = new Comment(['postId'=>$postId, 'author'=>$author, 'content'=>$content]);
+
+		$executeResult = $commentManager->newComment($comment);
 		if($executeResult === false){
 			throw new Exception('Impossible d\'ajouter le commentaire !');
 		} else {
@@ -60,11 +62,12 @@ class Frontend extends Controller
 	function reportComment($commentId)
 	{
 		$commentManager = new CommentManager();
-		$executeResult = $commentManager->reportComment($commentId);
+		$comment = $commentManager->getComment($commentId);
+		$executeResult = $commentManager->reportComment($comment);
 		if($executeResult === false){
 			throw new Exception('Impossible de signaler le commentaire !');
 		} else {
-			$_SESSION["reportComment-$commentId"] = "reported";
+			$_SESSION["reportComment-".$comment->Id()] = "reported";
 			echo 'Commentaire signalé';
 		}
 	}
@@ -74,11 +77,11 @@ class Frontend extends Controller
 		$authorManager = new AuthorManager();
 		$author = $authorManager->getAuthor();
 
-		if ($pseudo === $author['author_pseudo']){
-			$pv = password_verify($pass, $author['pass']);
+		if ($pseudo === $author->pseudo()){
+			$pv = password_verify($pass, $author->pass());
 			
 			if($pv){
-				$_SESSION['id'] = $author['id'];
+				$_SESSION['id'] = $author->id();
 				$_SESSION['pseudo'] = $pseudo;
 				header('location:admin.php');
 			}else{

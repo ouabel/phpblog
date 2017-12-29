@@ -7,15 +7,16 @@ class BlogManager extends Manager
 		$db = $this->dbConnect();
 		$req = $db->prepare("SELECT id, title, description FROM settings");
 		$req->execute();
-		$settings = $req->fetch();
-		return $settings;
+		$data = $req->fetch(PDO::FETCH_ASSOC);
+		$blog = new Blog($data);
+		return $blog;
 	}
 	
-	public function setSettings($title, $description)
+	public function setSettings(Blog $blog)
 	{
 		$db = $this->dbConnect();
 		$req = $db->prepare('UPDATE settings SET title = ?, description = ? WHERE id = 1');
-		$executeResult = $req->execute([$title, $description]);
+		$executeResult = $req->execute([$blog->title(), $blog->description()]);
 
 		return $executeResult;
 	}

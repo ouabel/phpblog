@@ -1,4 +1,4 @@
-<?php $title = $settings['title'] ?>
+<?php $title = $blog->title() ?>
 
 <?php ob_start(); ?>
 <h1>Modérer les articles</h1>
@@ -8,12 +8,12 @@
 	<tr>
 	
 		<td>
-			<p><?= $post['title'] ?></p>
-			Pblié le <?= $post['date_fr'] ?>
-			<a href="index.php?action=post&amp;id=<?= $post['id'] ?>">Afficher</a>
-			<a href="admin.php?action=editPost&amp;id=<?= $post['id'] ?>">Modifier</a>
-			<a href="admin.php?action=deletePost&amp;id=<?= $post['id'] ?>">Supprimer</a>
-			<a href="admin.php?action=editComments&amp;id=<?= $post['id'] ?>">Commentaires</a>
+			<p><?= $post->title() ?></p>
+			Pblié le <?= $post->dateFR() ?>
+			<a href="index.php?action=post&amp;id=<?= $post->id() ?>">Afficher</a>
+			<a href="admin.php?action=editPost&amp;id=<?= $post->id() ?>">Modifier</a>
+			<a href="admin.php?action=deletePost&amp;id=<?= $post->id() ?>">Supprimer</a>
+			<a href="admin.php?action=editComments&amp;id=<?= $post->id() ?>">Commentaires</a>
 		</td>
 
 	</tr>

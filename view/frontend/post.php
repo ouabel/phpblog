@@ -1,17 +1,17 @@
-<?php $title = $post['title'] ?>
+<?php $title = $post->title() ?>
 <?php ob_start(); ?>
 
 		<section>
 			<article class="box post">
 		 
 				<header>
-					<h2><a href="index.php?action=post&amp;id=<?= $post['id'] ?>"><?= $post['title'] ?></a></h2>
-					<h3>Par: <?= $author['author'] ?> le <?= $post['date_fr'] ?></h3>
+					<h2><a href="index.php?action=post&amp;id=<?= $post->id() ?>"><?= $post->title() ?></a></h2>
+					<h3>Par: <?= $author->name() ?> le <?= $post->dateFr() ?></h3>
 				</header>
-				<p><?= $post['content'] ?></p>
+				<p><?= $post->content() ?></p>
 			</article>
 			
-				<form class="comment-form" action="index.php?action=addComment&amp;id=<?= $post['id'] ?>" method="post">
+				<form class="comment-form" action="index.php?action=addComment&amp;id=<?= $post->id() ?>" method="post">
 				<h2>Ajouter un commentaire</h2>
 					<p>
 						<label for="author">Auteur</label><br />
@@ -32,11 +32,11 @@
 				<?php foreach($comments as $comment){ ?>
 				<div class="box in-box">
 					<div class="in-box-header">
-					Par: <?= $comment['author'] ?> le: <?= $comment['date_fr'] ?>
-					<a href="index.php?action=reportComment&amp;id=<?= $comment['id'] ?>">Signaler un contenu inapproprié</a>
+					Par: <?= $comment->author() ?> le: <?= $comment->dateFr() ?>
+					<a href="index.php?action=reportComment&amp;id=<?= $comment->id() ?>">Signaler un contenu inapproprié</a>
 					</div>
 					<div class="in-box-content">
-						<p><?= $comment['comment'] ?></p>
+						<p><?= $comment->content() ?></p>
 					</div>
 				</div>
 				<?php } ?>

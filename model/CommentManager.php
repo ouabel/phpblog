@@ -3,17 +3,20 @@ class CommentManager extends Manager
 {
 	private $commentsPerPage;
 	
-	public function commentsPerPage(){
+	public function commentsPerPage()
+	{
 		return $this->commentsPerPage;
 	}
 	
-	public function setCommentsPerPage($int){
+	public function setCommentsPerPage($int)
+	{
 		$int = (int) $int;
 		$this->commentsPerPage = $int;
 	}
 	
 	public function getComments($criteria)
 	{
+		$comments = [];
 		$db = $this->dbConnect();
 		$currentPage = $this->currentPage();
 		$commentsPerPage = $this->commentsPerPage;
@@ -35,9 +38,16 @@ class CommentManager extends Manager
 			break;
 		}
 		
-		$comments = $req->fetchAll();
 		
-		return $comments;
+		foreach ($req->fetchAll() as $data)
+		{
+			$comments[] = new Comment(['id'=>$data['id'],
+								'author'=>$data['author'],
+								'dateFr'=>$data['date_fr'],
+								'content'=>$data['comment']]);
+		}
+	
+        return $comments;
 	}
 	
 	public function countComments($criteria)
@@ -74,47 +84,55 @@ class CommentManager extends Manager
 		return $executeResult;
     }
 	
-	public function newComment($postId, $author, $content)
+	public function newComment(Comment $comment)
 	{
 		$db = $this->dbConnect();
         $req = $db->prepare('INSERT INTO comments(post_id, author, comment, comment_date) VALUES(?, ?, ?, NOW())');
-		$executeResult = $req->execute([$postId,$author,$content]);
+		$executeResult = $req->execute([$comment->postId(),$comment->author(),$comment->content()]);
 		return $executeResult;
 	}
 	
-	public function updateComment($commentId, $author, $content)
+	public function updateComment(Comment $comment)
     {
         $db = $this->dbConnect();
         $req = $db->prepare('UPDATE comments SET author = ?, comment = ? WHERE id = ?');
-		$executeResult = $req->execute([$author, $content, $commentId]);
+		$executeResult = $req->execute([$comment->author(), $comment->content(), $comment->id()]);
         
 		return $executeResult;
     }
 
-	public function deleteComment($commentId)
+	public function deleteComment(Comment $comment)
     {
         $db = $this->dbConnect();
         $req = $db->prepare('DELETE FROM comments WHERE id = ?');
 
-        $executeResult = $req->execute([$commentId]);
+        $executeResult = $req->execute([$comment->id()]);
         
 		return $executeResult;
     }
 	
 	public function getComment($commentId)
 	{
-		$db = $this->dbConnect();
-		$req = $db->prepare('SELECT id, author, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE id = ?');
-		$req->execute([$commentId]);
-		$post = $req->fetch();
-		return $post;
+        $db = $this->dbConnect();
+        $req = $db->prepare('SELECT id, post_id, author, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE id = ?');
+        $req->execute(array($commentId));
+		
+		$data = $req->fetch();
+		
+		$comment = new Comment(['id'=>$data['id'],
+								'postId'=>$data['post_id'],
+								'author'=>$data['author'],
+								'content'=>$data['comment'],
+								'dateFr'=>$data['date_fr']]);
+
+        return $comment;
 	}
 	
-	public function reportComment($commentId)
+	public function reportComment(Comment $comment)
 	{
 		$db = $this->dbConnect();
         $req = $db->prepare('UPDATE comments SET reports = reports+1 WHERE id = ?');
-        $executeResult = $req->execute([$commentId]);
+        $executeResult = $req->execute([$comment->id()]);
 		return $executeResult;
 	}
 

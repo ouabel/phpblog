@@ -6,11 +6,11 @@
 	<h2>Réglages du blog</h2>
 	<p>
 		<label for="title">Titre du blog</label>
-		<input type="text" name="title" value="<?= $settings['title'] ?>">
+		<input type="text" name="title" value="<?= $blog->title() ?>">
 	</p>
 	<p>
 		<label for="description">Description du blog</label>
-		<textarea type="text" name="description" rows="4"><?= $settings['description'] ?></textarea>
+		<textarea type="text" name="description" rows="4"><?= $blog->description() ?></textarea>
 	</p>
 	<button type="submit">Mettre à jour</button>
 </form>
@@ -19,15 +19,15 @@
 	<h2>Réglages d'auteur</h2>
 	<p>
 		<label for="author">Nom d'auteur</label>
-		<input type="text" name="author" value="<?= $author['author'] ?>">
+		<input type="text" name="author" value="<?= $author->name() ?>">
 	</p>
 	<p>
 		<label for="author_pseudo">Pseudo d'auteur</label>
-		<input type="text" name="author_pseudo" value="<?= $author['author_pseudo'] ?>">
+		<input type="text" name="author_pseudo" value="<?= $author->pseudo() ?>">
 	</p>
 	<p>
 		<label for="email">E-mail</label>
-		<input type="email" name="email" value="<?= $author['email'] ?>">
+		<input type="email" name="email" value="<?= $author->email() ?>">
 	</p>
 	<p>
 		<label for="pass">Mot de pass</label>

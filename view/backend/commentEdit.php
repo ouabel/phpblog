@@ -4,15 +4,15 @@
 
 <h1>Modifier le commentaire</h1>
 
-<form class="box" method="post" action="admin.php?action=updateComment&id=<?=$comment['id']; ?>">
+<form class="box" method="post" action="admin.php?action=updateComment&id=<?=$comment->id(); ?>">
 	
 	<p>
 		Auteur:
-		<input type="text" name="author" value="<?= $comment['author']; ?>"><br />
+		<input type="text" name="author" value="<?= $comment->author(); ?>"><br />
 	</p>
 	<p>
 		Commentaire:
-		<textarea name="comment" rows="8"><?= $comment['comment']; ?></textarea><br />
+		<textarea name="comment" rows="8"><?= $comment->content(); ?></textarea><br />
 	</p>
 	<button type="submit">Mettre à jour</button>
 </form>

@@ -8,7 +8,7 @@ class backend extends Controller
 		$blogManager = new BlogManager();
 		$postManager = new PostManager();
 		
-		$settings = $blogManager->getSettings();
+		$blog = $blogManager->getSettings();
 		$postManager->setPostsPerPage(20);
 		$posts = $postManager->getPosts();
 
@@ -28,7 +28,8 @@ class backend extends Controller
 	function insertPost($title, $content)
 	{
 		$postManager = new PostManager();
-		$lastInsertId = $postManager->insertPost($title, $content);
+		$post = new Post(['title'=>$title, 'content'=>$content]);
+		$lastInsertId = $postManager->insertPost($post);
 		
 		if ($lastInsertId === '0') {
 			throw new Exception('Impossible d\'ajouter le billet !');
@@ -48,7 +49,12 @@ class backend extends Controller
 	function updatePost($postId, $title, $content)
 	{
 		$postManager = new PostManager();
-		$executeResult = $postManager->updatePost($postId, $title, $content);
+		$post = $postManager->getPost($postId);
+		
+		$post->setTitle($title);
+		$post->setContent($content);
+
+		$executeResult = $postManager->updatePost($post);
 		
 		if ($executeResult === false) {
 			throw new Exception('Impossible de modifier le billet !');
@@ -62,8 +68,9 @@ class backend extends Controller
 	function deletePost($postId)
 	{
 		$postManager = new PostManager();
+		$post = $postManager->getPost($postId);
 
-		$executeResult = $postManager->deletePost($postId);
+		$executeResult = $postManager->deletePost($post);
 
 		if ($executeResult === false) {
 			throw new Exception('Impossible de supprimer le billet !');
@@ -91,7 +98,7 @@ class backend extends Controller
 			$post = $postManager->getPost($criteria);
 		}
 		
-		$settings = $blogManager->getSettings();
+		$blog = $blogManager->getSettings();
 		$commentManager->setCommentsPerPage(50);
 		$comments = $commentManager->getComments($criteria);
 		
@@ -117,16 +124,18 @@ class backend extends Controller
 		require('view/backend/commentEdit.php');
 	}
 
-	function updateComment($commentId,$author,$content)
+	function updateComment($id,$author,$content)
 	{
 		$commentManager = new CommentManager();
-		$executeResult = $commentManager->updateComment($commentId,$author,$content);
+		$comment = new Comment([$id,$author,$content]);
+		
+		$executeResult = $commentManager->updateComment($comment);
 
 		if ($executeResult === false) {
 			throw new Exception('Impossible de modifier le commentaire !');
 		}
 		else {
-			header('Location: admin.php?action=editComment&id='.$commentId);  // redirect back
+			header('Location: admin.php?action=editComment&id='.$comment->id());  // redirect back
 			//echo 'Commentaire modifié';
 		}
 	}
@@ -134,8 +143,9 @@ class backend extends Controller
 	function deleteComment($commentId)
 	{
 		$commentManager = new CommentManager();
+		$comment = $commentManager->getComment($commentId);
 		
-		$executeResult = $commentManager->deleteComment($commentId);
+		$executeResult = $commentManager->deleteComment($comment);
 		if ($executeResult === false) {
 			throw new Exception('Impossible de supprimer le commentaire !');
 		}
@@ -148,7 +158,7 @@ class backend extends Controller
 	{
 		$blogManager = new BlogManager();
 		$authorManager = new AuthorManager();
-		$settings = $blogManager->getSettings();
+		$blog = $blogManager->getSettings();
 		$author = $authorManager->getAuthor();
 		require('view/backend/settings.php');
 	}
@@ -157,7 +167,11 @@ class backend extends Controller
 	{
 
 		$blogManager = new BlogManager();
-		$executeResult = $blogManager->setSettings($title, $description);
+		$blog = $blogManager->getSettings();
+		$blog->setTitle($title);
+		$blog->setDescription($description);
+		
+		$executeResult = $blogManager->setSettings($blog);
 		
 		if ($executeResult === false) {
 			throw new Exception('Impossible de modifier les réglages !');
@@ -176,14 +190,16 @@ class backend extends Controller
 		else{
 			$authorManager = new AuthorManager();
 			$author = $authorManager->getAuthor();
-			
+			$author->setName($name);
+			$author->setPseudo($pseudo);
+			$author->setEmail($email);
+		
 			if(!empty($pass)){
 				$pass = password_hash($pass , PASSWORD_DEFAULT);
-			} else {
-				$pass = $author['pass'];
+				$author->setPass($pass);
 			}
-			
-			$executeResult = $authorManager->setAuthor($name, $pseudo, $email, $pass);
+
+			$executeResult = $authorManager->setAuthor($author);
 			if ($executeResult === false) {
 				throw new Exception('Impossible de modifier l\'autheur !');
 			}
