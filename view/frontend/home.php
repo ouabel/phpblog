@@ -2,7 +2,8 @@
 <?php ob_start(); ?>
 
 		<section>
-<?php foreach($posts as $post) {?>
+<?php if ($posts) {
+		foreach($posts as $post) {?>
 			<article class="box post">
 		 
 				<header>
@@ -15,11 +16,13 @@
 					<p><a href="index.php?action=post&amp;id=<?= $post['id'] ?>">Commentaires</a></p>
 				</footer>
 			</article>
-<?php }?>
+<?php	}
+		
+			require('pagination.php'); ?>
+<?php } else { ?>
+			<p class="box">Aucun article publié</p>
+<?php } ?>
 		</section>
-		
-		<?php require('pagination.php'); ?>
-		
 <?php $content = ob_get_clean(); ?>
 
 <?php require('template.php'); ?>

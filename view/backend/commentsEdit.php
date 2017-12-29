@@ -15,28 +15,33 @@ if(isset($_GET['reported'])){
 
 <table class="box">
 <?php
-foreach ($comments as $comment)
-{
-?>
-    <tr>
-	
-		<td>
+if($comments){
+	foreach ($comments as $comment)
+	{
+	?>
+		<tr>
+		
+			<td>
 
-			Par: <?= $comment['author'] ?>
-			le: <?= $comment['date_fr'] ?>
-			<p><?= $comment['comment'] ?></p>
+				Par: <?= $comment['author'] ?>
+				le: <?= $comment['date_fr'] ?>
+				<p><?= $comment['comment'] ?></p>
 
-			<a href="admin.php?action=editComment&amp;id=<?= $comment['id'] ?>">Modifier</a>
-			<a href="admin.php?action=deleteComment&amp;id=<?= $comment['id'] ?>">Supprimer</a>
-			<a href="index.php?action=post&amp;id=<?= $comment['id'] ?>">Article</a>
-			
-		</td>
+				<a href="admin.php?action=editComment&amp;id=<?= $comment['id'] ?>">Modifier</a>
+				<a href="admin.php?action=deleteComment&amp;id=<?= $comment['id'] ?>">Supprimer</a>
+				<a href="index.php?action=post&amp;id=<?= $comment['id'] ?>">Article</a>
+				
+			</td>
 
-	</tr>
-    
-<?php
-}
-?>
+		</tr>
+		
+	<?php
+	}
+} else {?>
+		<tr>
+			<td>Pas de commentaires à modérer</td>
+		</tr>
+<?php } ?>
 </table>
 <?php
 require('/../frontend/pagination.php');

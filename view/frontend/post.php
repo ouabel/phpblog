@@ -25,7 +25,8 @@
 						<button type="submit" />Envoyer</button>
 					</p>
 				</form>
-	
+				
+			<?php if($comments){ ?>
 				<h2>Commentaires</h2>
 				
 				<?php foreach($comments as $comment){ ?>
@@ -40,8 +41,10 @@
 				</div>
 				<?php } ?>
 				
-				<?php require('pagination.php'); ?>
-				
+				<?php require('pagination.php'); 
+			} else { ?>
+			
+			<?php } ?>
 		</section>
 
 <?php $content = ob_get_clean(); ?>
