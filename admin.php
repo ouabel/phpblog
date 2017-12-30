@@ -11,11 +11,11 @@ try
       switch ($action){
 
         case 'newPost':
-		  if(isset($_POST['submit']) && isset($_POST['title']) && isset($_POST['content'])){
+          if(isset($_POST['submit']) && isset($_POST['title']) && isset($_POST['content'])){
             $backend->insertPost($_POST['title'], $_POST['content']);
-		  } else {
-			$backend->newPost();
-		  }
+          } else {
+            $backend->newPost();
+          }
           break;
 
         case 'editPost':
@@ -73,17 +73,17 @@ try
         case 'deleteComment':
           if (isset($_GET['id']) && $_GET['id'] > 0) {
             $backend->deleteComment(intval($_GET['id']));
-			if(isset($_GET['redirect_to'])){
-				if($_GET['redirect_to'] === 'all'){
-					header('location:admin.php?action=editComments');
-				} elseif($_GET['redirect_to'] === 'reported'){
-					header('location:admin.php?action=editComments&reported=1');
-				} else{
-					header('location:index.php?action=post&id='.$_GET['redirect_to']);
-				}
-			} else {
-				header('location:index.php');
-			}
+            if(isset($_GET['redirect_to'])){
+              if($_GET['redirect_to'] === 'all'){
+                header('location:admin.php?action=editComments');
+              } elseif($_GET['redirect_to'] === 'reported'){
+                header('location:admin.php?action=editComments&reported=1');
+              } else{
+                header('location:admin.php?action=editComments&id='.$_GET['redirect_to']);
+              }
+            } else {
+              header('location:index.php');
+            }
           } else {
             throw new Exception('Aucun identifiant de commentaire envoyé');
           }

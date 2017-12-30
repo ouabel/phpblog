@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
 body {
 	background: #1a1a1a;
 	margin: 0;
@@ -6,7 +8,7 @@ body {
 
 #container {
 	background: #f5f5f5;
-	font-family: Arial;
+	font-family: 'Roboto', Arial;
 	color: #1a1a1a;
 	max-width: 1200px;
 	margin: 0 auto;
@@ -154,4 +156,15 @@ textarea, input[type="text"]{
 
 #error .in-box-header {
 	background-color: #db4437;
+}
+
+.return_message {
+    color: #595959;
+    line-height: 40px;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    padding: 0px 10px;
+    margin-top: 5px;
+    border-width: 1px;
+    border-style: solid;
 }

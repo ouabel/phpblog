@@ -49,14 +49,19 @@ class Frontend extends Controller
 	function addComment($postId, $author, $content)
 	{
 		$commentManager = new CommentManager();
-		$comment = new Comment(['postId'=>$postId, 'author'=>$author, 'content'=>$content]);
 
-		$executeResult = $commentManager->newComment($comment);
-		if($executeResult === false){
-			throw new Exception('Impossible d\'ajouter le commentaire !');
+		if(empty($author) || empty($content)){
+			$_SESSION['returnMessage'] = 'Tous les champs sont obligatoires';
 		} else {
-			header('Location: index.php?action=post&id=' . $postId);
+			$comment = new Comment(['postId'=>$postId, 'author'=>$author, 'content'=>$content]);
+			$executeResult = $commentManager->newComment($comment);
+			if($executeResult === false){
+				$_SESSION['returnMessage'] = 'Impossible d\'ajouter le commentaire !';
+			} else {
+				$_SESSION['returnMessage'] = 'Votre commentaire est publié';
+			}
 		}
+		header('Location: index.php?action=post&id=' . $postId);
 	}
 
 	function reportComment($commentId)

@@ -3,24 +3,6 @@ require_once('controller/controller.php');
 
 class backend extends Controller
 {
-	private $returnMessage =  0;
-
-	public function returnMessage()
-	{
-		if (isset($_SESSION['returnMessage'])){
-			$returnMessage = $_SESSION['returnMessage'];
-			unset($_SESSION['returnMessage']);
-			return $returnMessage;
-		} else {
-			return $this->returnMessage;
-		}
-	}
-
-	public function setReturnMessage($message)
-	{
-		$this->returnMessage = $message;
-	}
-
 	function editPosts()
 	{
 		$blogManager = new BlogManager();

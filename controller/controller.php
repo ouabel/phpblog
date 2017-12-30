@@ -15,6 +15,8 @@ require('model/CommentManager.php');
 
 class Controller
 {
+	private $returnMessage =  0;
+
 	function loggedIn()
 	{
 		if(isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
@@ -22,5 +24,21 @@ class Controller
 		} else {
 			return false;
 		}
+	}
+
+	public function returnMessage()
+	{
+		if (isset($_SESSION['returnMessage'])){
+			$returnMessage = $_SESSION['returnMessage'];
+			unset($_SESSION['returnMessage']);
+			return $returnMessage;
+		} else {
+			return $this->returnMessage;
+		}
+	}
+
+	public function setReturnMessage($message)
+	{
+		$this->returnMessage = $message;
 	}
 }

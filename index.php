@@ -21,7 +21,7 @@ $frontend = new Frontend();
 
 			case 'addComment':
 				if (isset($_GET['id']) && (int) $_GET['id'] > 0) {
-					if (!empty($_POST['author']) && !empty($_POST['comment'])) {
+					if (isset($_POST['author']) && isset($_POST['comment'])) {
 						$frontend->addComment(intval($_GET['id']), $_POST['author'], $_POST['comment']);
 					}
 					else {

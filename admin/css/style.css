@@ -95,14 +95,3 @@ tr {
 tr:hover {
 	background-color: #eee;
 }
-
-.return_message {
-    color: #595959;
-    line-height: 40px;
-    background-color: #fcf8e3;
-    border-color: #faebcc;
-    padding: 0px 10px;
-    margin-top: 5px;
-    border-width: 1px;
-    border-style: solid;
-}
