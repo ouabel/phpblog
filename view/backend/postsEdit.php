@@ -1,7 +1,7 @@
 <?php $title = $blog->title() ?>
+<?php $h1 = 'Modérer les articles'; ?>
 
 <?php ob_start(); ?>
-<h1>Modérer les articles</h1>
 <table class="box">
 <?php if($posts){
 		foreach ($posts as $post) { ?>
@@ -9,7 +9,8 @@
 	
 		<td>
 			<p><?= $post->title() ?></p>
-			Pblié le <?= $post->dateFR() ?>
+			Pblié le <?= $post->dateFr() ?>
+			Mis à jour le <?= $post->updateDateFr() ?>
 			<a href="index.php?action=post&amp;id=<?= $post->id() ?>">Afficher</a>
 			<a href="admin.php?action=editPost&amp;id=<?= $post->id() ?>">Modifier</a>
 			<a href="admin.php?action=deletePost&amp;id=<?= $post->id() ?>">Supprimer</a>
