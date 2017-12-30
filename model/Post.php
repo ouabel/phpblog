@@ -85,11 +85,11 @@ class Post
     }
   }
   
-  public function setUpdateDateFr($setUpdateDateFr)
+  public function setUpdateDateFr($updateDateFr)
   {
-    if (is_string($setUpdateDateFr))
+    if (is_string($updateDateFr))
     {
-      $this->setUpdateDateFr = $setUpdateDateFr;
+      $this->updateDateFr = $updateDateFr;
     }
   }
 }

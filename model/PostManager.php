@@ -33,7 +33,8 @@ class PostManager extends Manager
 		return $posts;		
 	}
 	
-	public function countPosts(){
+	public function countPosts()
+	{
         $db = $this->dbConnect();
 		$req = $db->prepare("SELECT count(*) FROM posts"); 
 		$req->execute(); 
@@ -52,7 +53,7 @@ class PostManager extends Manager
 		$post = new Post(['id'=>$data['id'],
 						'title'=>$data['title'],
 						'content'=>$data['content'],
-						'dateFr'=>$data['update_date_fr'],
+						'dateFr'=>$data['date_fr'],
 						'updateDateFr'=>$data['update_date_fr']]);
 
         return $post;
