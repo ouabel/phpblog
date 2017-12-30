@@ -63,12 +63,16 @@ class Frontend extends Controller
 	{
 		$commentManager = new CommentManager();
 		$comment = $commentManager->getComment($commentId);
-		$executeResult = $commentManager->reportComment($comment);
-		if($executeResult === false){
-			throw new Exception('Impossible de signaler le commentaire !');
+		if ($comment->reported()) {
+			throw new Exception('Vous avez déja signalé ce commentaire !');
 		} else {
-			$_SESSION["reportComment-".$comment->Id()] = "reported";
-			echo 'Commentaire signalé';
+			$executeResult = $commentManager->reportComment($comment);
+			if($executeResult === false){
+				throw new Exception('Impossible de signaler le commentaire !');
+			} else {
+				$_SESSION["reportComment-".$comment->id()] = "reported";
+				header('location:index.php?action=post&id='.$comment->postId());
+			}
 		}
 	}
 

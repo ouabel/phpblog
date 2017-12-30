@@ -36,12 +36,7 @@ $frontend = new Frontend();
 			
 			case 'reportComment':
 				if (isset($_GET['id']) && (int) $_GET['id'] > 0) {
-					if (!isset($_SESSION['reportComment-'.$_GET['id']])) {
-						$frontend->reportComment(intval($_GET['id']));
-					}
-					else {
-						throw new Exception('Vous avez déja signalé ce commentaire !');
-					}
+					$frontend->reportComment(intval($_GET['id']));
 				}
 				else {
 					throw new Exception('Aucun identifiant de commentaire envoyé');

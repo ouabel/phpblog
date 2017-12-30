@@ -7,6 +7,7 @@ class Comment
   private $author;
   private $content;
   private $dateFr;
+  private $reports;
 
   public function __construct(array $data)
   {
@@ -40,7 +41,7 @@ class Comment
   {
     return $this->id;
   }
-  
+
   public function postId()
   {
     return $this->postId;
@@ -55,10 +56,24 @@ class Comment
   {
     return $this->content;
   }
-  
+
   public function dateFr()
   {
     return $this->dateFr;
+  }
+
+  public function reports()
+  {
+    return $this->reports;
+  }
+
+  public function reported()
+  {
+    if (isset($_SESSION["reportComment-".$this->id])){
+      return true;
+	} else {
+	  return false;
+	}
   }
   
   public function setPostId($postId)
@@ -87,11 +102,17 @@ class Comment
     }
   }
   
-    public function setDateFr($dateFr)
+  public function setDateFr($dateFr)
   {
     if (is_string($dateFr))
     {
       $this->dateFr = $dateFr;
     }
+  }
+
+  public function setReports($reports)
+  {
+    (int) ($reports);
+      $this->reports = $reports;
   }
 }
