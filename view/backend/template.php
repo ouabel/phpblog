@@ -6,7 +6,7 @@
 	<link href="public/css/style.css" rel="stylesheet" /> 
 	<link href="admin/css/style.css" rel="stylesheet" /> 
 </head>
-	
+
 <body>
 <div id="container">
 
@@ -22,9 +22,17 @@
 			<li><a href="index.php?action=logout">Se déconnecter</a></li>
 		</ul>
 	</div>
-	
+
 	<div id="admin-area">
+
+		<h1><?= $h1 ?></h1>
+
+		<?php if($returnMessage = $this->returnMessage()){?>
+			<p class="return_message"><?= $returnMessage ?></p>
+		<?php } ?>
+
 		<?= $content ?>
+
 	</div>
 	
 </div>

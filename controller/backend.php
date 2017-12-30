@@ -3,6 +3,24 @@ require_once('controller/controller.php');
 
 class backend extends Controller
 {
+	private $returnMessage =  0;
+
+	public function returnMessage()
+	{
+		if (isset($_SESSION['returnMessage'])){
+			$returnMessage = $_SESSION['returnMessage'];
+			unset($_SESSION['returnMessage']);
+			return $returnMessage;
+		} else {
+			return $this->returnMessage;
+		}
+	}
+
+	public function setReturnMessage($message)
+	{
+		$this->returnMessage = $message;
+	}
+
 	function editPosts()
 	{
 		$blogManager = new BlogManager();
@@ -28,14 +46,27 @@ class backend extends Controller
 	function insertPost($title, $content)
 	{
 		$postManager = new PostManager();
-		$post = new Post(['title'=>$title, 'content'=>$content]);
-		$lastInsertId = $postManager->insertPost($post);
+		$error = false;
 		
-		if ($lastInsertId === '0') {
-			throw new Exception('Impossible d\'ajouter le billet !');
+		if (empty($title)){
+			$error = true;
+			$this->setReturnMessage('Le champ titre est obligatoire');
+		} else {
+			$post = new Post(['title'=>$title, 'content'=>$content]);
+			$lastInsertId = $postManager->insertPost($post);
+			//$lastInsertId = '0';
+			if($lastInsertId === '0'){
+				$error = true;
+				$this->setReturnMessage('Impossible d\'ajouter l\'article !');
+			}
+		}
+
+		if ($error) {
+			require('view/backend/postNew.php');
 		}
 		else {
-			header('Location: admin.php?action=editPost&id='.$lastInsertId);
+			$_SESSION['returnMessage'] = 'Article publié avec succès <a href="index.php?action=post&id='.$lastInsertId.'">Afficher</a>';
+			header('location:admin.php?action=editPost&id='.$lastInsertId);
 		}
 	}
 
@@ -57,35 +88,36 @@ class backend extends Controller
 		$executeResult = $postManager->updatePost($post);
 		
 		if ($executeResult === false) {
-			throw new Exception('Impossible de modifier le billet !');
+			$this->setReturnMessage('Impossible de modifier l\'article !');
 		}
 		else {
-			header('Location: admin.php?action=editPost&id='.$postId);
-			//echo 'Billet modifié';
+			$this->setReturnMessage('Article mis à jour avec succès <a href="index.php?action=post&id='.$postId.'">Afficher</a>');
 		}
+		$this->editPost($post->id());
 	}
 
 	function deletePost($postId)
 	{
 		$postManager = new PostManager();
 		$post = $postManager->getPost($postId);
-
 		$executeResult = $postManager->deletePost($post);
 
 		if ($executeResult === false) {
-			throw new Exception('Impossible de supprimer le billet !');
+			$_SESSION['returnMessage'] = 'Impossible de supprimer l\'article !';
 		}
 		else {
 			$commentManager = new commentManager();
 			$affectedRows = $commentManager->deletePostComments($postId);
 			if ($affectedRows === false) {
-				throw new Exception('Impossible de supprimer les commentaires du billet !');
+				$_SESSION['returnMessage'] = 'Impossible de supprimer les commentaires d\'article !';
 			}
 			else {
-				//header('Location: admin.php'); //redirect back
-				echo 'Billet supprimé';
+				$_SESSION['returnMessage'] = 'Article supprimé avec succès';
 			}
 		}
+
+		header('Location: admin.php');
+		//TODO: redirect home if deleted from frontend
 	}
 
 	function editComments($criteria)
@@ -97,7 +129,7 @@ class backend extends Controller
 			$postManager = new PostManager();
 			$post = $postManager->getPost($criteria);
 		}
-		
+
 		$blog = $blogManager->getSettings();
 		$commentManager->setCommentsPerPage(50);
 		$comments = $commentManager->getComments($criteria);
@@ -132,25 +164,24 @@ class backend extends Controller
 		$executeResult = $commentManager->updateComment($comment);
 
 		if ($executeResult === false) {
-			throw new Exception('Impossible de modifier le commentaire !');
+			$this->setReturnMessage('Impossible de modifier le commentaire !');
 		}
 		else {
-			header('Location: admin.php?action=editComment&id='.$comment->id());  // redirect back
-			//echo 'Commentaire modifié';
+			$this->setReturnMessage('Commentaire modifié avec succès');
 		}
+		$this->editComment($comment->id());
 	}
 
 	function deleteComment($commentId)
 	{
 		$commentManager = new CommentManager();
 		$comment = $commentManager->getComment($commentId);
-		
 		$executeResult = $commentManager->deleteComment($comment);
 		if ($executeResult === false) {
-			throw new Exception('Impossible de supprimer le commentaire !');
+			$_SESSION['returnMessage'] = 'Impossible de supprimer le commentaire !';
 		}
 		else {
-			echo 'Commentaire supprimé';
+			$_SESSION['returnMessage'] = 'Commentaire supprimé avec succès';
 		}
 	}
 
@@ -174,18 +205,18 @@ class backend extends Controller
 		$executeResult = $blogManager->setSettings($blog);
 		
 		if ($executeResult === false) {
-			throw new Exception('Impossible de modifier les réglages !');
+			$this->setReturnMessage('Impossible de modifier les réglages !');
 		}
 		else {
-			header('Location: admin.php?action=settings'); // TODO: show updated message
+			$this->setReturnMessage('Réglages mis à jour avec succès');
 		}
-
+		$this->editSettings();
 	}
 
 	function updateAuthor($name, $pseudo, $email, $pass, $pass2)
 	{
 		if((!empty($pass) || !empty($pass2)) && $pass !== $pass2){
-			throw new Exception('Les deux mots de passe ne correspondent pas !');
+			$this->setReturnMessage('Les deux mots de passe ne correspondent pas !');
 		}
 		else{
 			$authorManager = new AuthorManager();
@@ -193,7 +224,7 @@ class backend extends Controller
 			$author->setName($name);
 			$author->setPseudo($pseudo);
 			$author->setEmail($email);
-		
+
 			if(!empty($pass)){
 				$pass = password_hash($pass , PASSWORD_DEFAULT);
 				$author->setPass($pass);
@@ -201,11 +232,12 @@ class backend extends Controller
 
 			$executeResult = $authorManager->setAuthor($author);
 			if ($executeResult === false) {
-				throw new Exception('Impossible de modifier l\'autheur !');
+				$this->setReturnMessage('Impossible de modifier l\'autheur !');
 			}
 			else {
-				header('Location: admin.php?action=settings'); // TODO: show updated message
+				$this->setReturnMessage('Auteur mis à jour avec succès');
 			}
 		}
+		$this->editSettings();
 	}
 }

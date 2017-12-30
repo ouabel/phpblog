@@ -3,129 +3,125 @@
 require_once('controller/backend.php');
 try
 {
-	$backend = new Backend();
-	if($backend->loggedIn()){
-		if (isset($_GET['action']))
-		{
-			$action = $_GET['action'];
-			switch ($action){
-				case 'insertPost':
-					if (!empty($_POST['title']) && !empty($_POST['content'])) {
-						$backend->insertPost($_POST['title'], $_POST['content']);
-					} else {
-						throw new Exception('Tous les champs ne sont pas remplis !');
-					}
-				break;
-					
-				case 'newPost':
-					$backend->newPost();
-					break;
-					
-				case 'editPost':
-					if (isset($_GET['id']) && $_GET['id'] > 0) {
-						$backend->editPost(intval($_GET['id']));
-					} else {
-						throw new Exception('Aucun identifiant de billet envoyé');
-					}
-					break;
-					
-				case 'updatePost':
-					if (isset($_GET['id']) && $_GET['id'] > 0) {
-						if (!empty($_POST['title']) && !empty($_POST['content'])) {
-							$backend->updatePost(intval($_GET['id']), $_POST['title'], $_POST['content']);
-						} else {
-							throw new Exception('Tous les champs ne sont pas remplis !');
-						}
-					} else {
-						throw new Exception('Aucun identifiant de commentaire envoyé');
-					}
-					break;
-				
-				case 'deletePost':
-					if (isset($_GET['id']) && $_GET['id'] > 0) {
-							$backend->deletePost(intval($_GET['id']));
-					} else {
-						throw new Exception('Aucun identifiant de billet envoyé');
-					}
-					break;
-					
-				case 'editComments':
-					if (isset($_GET['id']) && $_GET['id'] > 0) {
-						$backend->editComments(intval($_GET['id']));
-					} else {
-						if (isset($_GET['reported']) && (int) $_GET['reported'] === 1){
-							$backend->editComments('reported');
-						} else {
-							$backend->editComments('all');
-						}
-					}
-					break;
-				
-				case 'editComment':
-					if (isset($_GET['id']) && $_GET['id'] > 0) {
-						$backend->editComment(intval($_GET['id']));
-					} else {
-						throw new Exception('Aucun identifiant de commentaire envoyé');
-					}
-					break;
-					
-				case 'updateComment':
-					if (isset($_GET['id']) && $_GET['id'] > 0) {
-						if (!empty($_POST['author']) && !empty($_POST['comment'])) {
-							$backend->updateComment(intval($_GET['id']), $_POST['author'], $_POST['comment']);
-						} else {
-							throw new Exception('Tous les champs ne sont pas remplis !');
-						}
-					} else {
-						throw new Exception('Aucun identifiant de commentaire envoyé');
-					}
-					break;
-					
-				case 'deleteComment':
-					if (isset($_GET['id']) && $_GET['id'] > 0) {
-						$backend->deleteComment(intval($_GET['id']));
-					} else {
-						throw new Exception('Aucun identifiant de commentaire envoyé');
-					}
-					break;
-					
-				case 'settings':
-						$backend->editSettings();
-					break;
-				
-				case 'updateSettings':
-					if (!empty($_POST['title']) && !empty($_POST['description'])) {
+  $backend = new Backend();
+  if($backend->loggedIn()){
+    if (isset($_GET['action']))
+    {
+      $action = $_GET['action'];
+      switch ($action){
 
-						$backend->updateSettings($_POST['title'], $_POST['description']);
-						
-					} else {
-						throw new Exception('Tous les champs ne sont pas remplis !');
-					}
-					break;
-				
-				case 'updateAuthor':
-					if (!empty($_POST['author']) && !empty($_POST['author_pseudo']) && !empty($_POST['email'])) {
+        case 'newPost':
+		  if(isset($_POST['submit']) && isset($_POST['title']) && isset($_POST['content'])){
+            $backend->insertPost($_POST['title'], $_POST['content']);
+		  } else {
+			$backend->newPost();
+		  }
+          break;
 
-						$backend->updateAuthor($_POST['author'], $_POST['author_pseudo'], $_POST['email'], $_POST['pass'], $_POST['pass2']);
-						
-					} else {
-						throw new Exception('Tous les champs ne sont pas remplis !');
-					}
-					break;
+        case 'editPost':
+          if (isset($_GET['id']) && $_GET['id'] > 0) {
+            if(isset($_POST['submit'])){
+              if (isset($_POST['title']) && isset($_POST['content'])) {
+                $backend->updatePost(intval($_GET['id']), $_POST['title'], $_POST['content']);
+              } else {
+                throw new Exception('Tous les champs ne sont pas remplis !');
+              }
+            } else {
+              $backend->editPost(intval($_GET['id']));
+            }
+          } else {
+            throw new Exception('Aucun identifiant d\'article envoyé');
+          }
+          break;
+
+        case 'deletePost':
+          if (isset($_GET['id']) && $_GET['id'] > 0) {
+              $backend->deletePost(intval($_GET['id']));
+          } else {
+            throw new Exception('Aucun identifiant d\'article envoyé');
+          }
+          break;
+
+        case 'editComments':
+          if (isset($_GET['id']) && $_GET['id'] > 0) {
+            $backend->editComments(intval($_GET['id']));
+          } else {
+            if (isset($_GET['reported']) && (int) $_GET['reported'] === 1){
+              $backend->editComments('reported');
+            } else {
+              $backend->editComments('all');
+            }
+          }
+          break;
+
+        case 'editComment':
+          if (isset($_GET['id']) && $_GET['id'] > 0) {
+            if(isset($_POST['submit'])){
+              if (isset($_POST['author']) && isset($_POST['comment'])) {
+                $backend->updateComment(intval($_GET['id']), $_POST['author'], $_POST['comment']);
+              } else {
+                throw new Exception('Tous les champs ne sont pas remplis !');
+              }
+            } else {
+              $backend->editComment(intval($_GET['id']));
+            }
+          } else {
+            throw new Exception('Aucun identifiant de commentaire envoyé');
+          }
+          break;
+
+        case 'deleteComment':
+          if (isset($_GET['id']) && $_GET['id'] > 0) {
+            $backend->deleteComment(intval($_GET['id']));
+			if(isset($_GET['redirect_to'])){
+				if($_GET['redirect_to'] === 'all'){
+					header('location:admin.php?action=editComments');
+				} elseif($_GET['redirect_to'] === 'reported'){
+					header('location:admin.php?action=editComments&reported=1');
+				} else{
+					header('location:index.php?action=post&id='.$_GET['redirect_to']);
+				}
+			} else {
+				header('location:index.php');
 			}
-		}
-		else
-		{
-			$backend->editPosts();
-		}
-	}
-	else
-	{
-		header('location:index.php?action=login');
-	}
+          } else {
+            throw new Exception('Aucun identifiant de commentaire envoyé');
+          }
+          break;
+
+        case 'settings':
+          if(isset($_POST['submit'])){
+            if($_POST['submit'] === 'blog'){
+              if (isset($_POST['title']) && isset($_POST['description'])) {
+                $backend->updateSettings($_POST['title'], $_POST['description']);
+              } else {
+                throw new Exception('Tous les champs ne sont pas remplis !');
+              }
+            } elseif($_POST['submit'] === 'author') {
+              if (isset($_POST['author']) && isset($_POST['author_pseudo']) && isset($_POST['email'])) {
+                $backend->updateAuthor($_POST['author'], $_POST['author_pseudo'], $_POST['email'], $_POST['pass'], $_POST['pass2']);
+              } else {
+                throw new Exception('Tous les champs ne sont pas remplis !');
+              }
+            }
+          } else {
+            $backend->editSettings();
+          }
+          break;
+      }
+    }
+    else
+    {
+      $backend->editPosts();
+    }
+  }
+  else
+  {
+    header('location:index.php?action=login');
+  }
 }
 catch (Exception $e)
 {
-	$error = $e->getMessage();
-	require('view/frontend/error.php');
+  $error = $e->getMessage();
+  require('view/frontend/error.php');
 }

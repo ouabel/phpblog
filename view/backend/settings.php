@@ -1,8 +1,9 @@
 <?php $title = 'Réglages'; ?>
+<?php $h1 = $title; ?>
 
 <?php ob_start(); ?>
-<h1>Réglages</h1>
-<form  class="box" method="post" action="admin.php?action=updateSettings">
+
+<form  class="box" method="post" action="admin.php?action=settings">
 	<h2>Réglages du blog</h2>
 	<p>
 		<label for="title">Titre du blog</label>
@@ -12,10 +13,11 @@
 		<label for="description">Description du blog</label>
 		<textarea type="text" name="description" rows="4"><?= $blog->description() ?></textarea>
 	</p>
+	<input type="hidden" name="submit" value="blog">
 	<button type="submit">Mettre à jour</button>
 </form>
 
-<form  class="box" method="post" action="admin.php?action=updateAuthor">
+<form  class="box" method="post" action="admin.php?action=settings">
 	<h2>Réglages d'auteur</h2>
 	<p>
 		<label for="author">Nom d'auteur</label>
@@ -37,6 +39,7 @@
 		<label for="pass2">Confirmer le mot de pass</label>
 		<input type="password" name="pass2">
 	</p>
+	<input type="hidden" name="submit" value="author">
 	<button type="submit">Mettre à jour</button>
 </form>
 

@@ -2,17 +2,17 @@
 
 if(isset($_GET['reported'])){
 	$h1 = "Modérer les comentaires signalés";
+	$redirectTo = 'reported';
 }elseif(isset($_GET['id'])) {
 	$h1 = "Modérer les comentaires sur " . $post->title();
+	$redirectTo = $_GET['id'];
 }	else {
 	$h1 = "Modérer les comentaires";
+	$redirectTo = 'all';
 }
 ?>
 
 <?php ob_start(); ?>
-
-<h1><?= $h1 ?></h1>
-
 <table class="box">
 <?php
 if($comments){
@@ -28,7 +28,7 @@ if($comments){
 				<p><?= $comment->content() ?></p>
 
 				<a href="admin.php?action=editComment&amp;id=<?= $comment->id() ?>">Modifier</a>
-				<a href="admin.php?action=deleteComment&amp;id=<?= $comment->id() ?>">Supprimer</a>
+				<a href="admin.php?action=deleteComment&amp;redirect_to=<?= $redirectTo ?>&amp;id=<?= $comment->id() ?>">Supprimer</a>
 				<a href="index.php?action=post&amp;id=<?= $comment->id() ?>">Article</a>
 				
 			</td>
