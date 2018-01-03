@@ -24,7 +24,7 @@
 				</div>
 				<?php } ?>
 
-				<?php require('/../pagination.php');
+				<?php require('view/frontend/pagination.php');
 			} else { ?>
 
 			<?php } ?>

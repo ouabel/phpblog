@@ -27,7 +27,7 @@
 <?php 	} ?>
 </table>
 
-<?php require('/../frontend/pagination.php'); ?>
+<?php require('view/frontend/pagination.php'); ?>
 
 <?php $content = ob_get_clean(); ?>
 

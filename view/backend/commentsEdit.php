@@ -44,7 +44,7 @@ if($comments){
 <?php } ?>
 </table>
 <?php
-require('/../frontend/pagination.php');
+require('view/frontend/pagination.php');
 
 $content = ob_get_clean();
 

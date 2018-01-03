@@ -8,6 +8,7 @@
 	<p>
 		<label for="title">Titre du blog</label>
 		<input type="text" name="title" value="<?= $blog->title() ?>">
+		<span><?= $titleIsEmpty ?></span>
 	</p>
 	<p>
 		<label for="description">Description du blog</label>

@@ -15,7 +15,7 @@
 						<?php } ?>
 					</h3>
 				</header>
-				<p><?= $post->content() ?>;</p>
+				<p><?= $post->content() ?></p>
 				
 				<footer>
 					<p><a href="index.php?action=post&amp;id=<?= $post->id() ?>">Commentaires</a></p>
@@ -23,7 +23,7 @@
 			</article>
 <?php	}
 		
-			require('pagination.php'); ?>
+			require('view/frontend/pagination.php'); ?>
 <?php } else { ?>
 			<p class="box">Aucun article publié</p>
 <?php } ?>
