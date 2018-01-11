@@ -1,13 +1,13 @@
-<?php $title = 'Modérer les comentaires';
+<?php $title = 'Modérer les commentaires';
 
 if(isset($_GET['reported'])){
-	$h1 = "Modérer les comentaires signalés";
+	$h1 = "Modérer les commentaires signalés";
 	$redirectTo = 'reported';
 }elseif(isset($_GET['id'])) {
-	$h1 = "Modérer les comentaires sur " . $post->title();
+	$h1 = "Modérer les commentaires sur " . $post->title();
 	$redirectTo = $_GET['id'];
 }	else {
-	$h1 = "Modérer les comentaires";
+	$h1 = "Modérer les commentaires";
 	$redirectTo = 'all';
 }
 ?>
