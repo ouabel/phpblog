@@ -4,7 +4,7 @@
 				<?php foreach($comments as $comment){ ?>
 				<div class="box in-box">
 					<div class="in-box-header">
-						Par: <?= $comment->author() ?> le: <?= $comment->dateFr() ?>
+						Par : <?= htmlspecialchars($comment->author()) ?> le : <?= $comment->dateFr() ?>
 						<?php if($this->loggedIn()){ ?>
 						( <a href="admin.php?action=editComment&amp;id=<?= $comment->id() ?>">Modifier</a> | <a href="admin.php?action=deleteComment&amp;redirect_to=<?= $post->id() ?>&amp;id=<?= $comment->id() ?>">Supprimer</a> )
 						<?php } else {
@@ -19,7 +19,7 @@
 
 					</div>
 					<div class="in-box-content">
-						<p><?= $comment->content() ?></p>
+						<p><?= htmlspecialchars($comment->content()) ?></p>
 					</div>
 				</div>
 				<?php } ?>

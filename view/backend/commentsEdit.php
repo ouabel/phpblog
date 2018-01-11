@@ -4,7 +4,7 @@ if(isset($_GET['reported'])){
 	$h1 = "Modérer les commentaires signalés";
 	$redirectTo = 'reported';
 }elseif(isset($_GET['id'])) {
-	$h1 = "Modérer les commentaires sur " . $post->title();
+	$h1 = "Modérer les commentaires sur " . htmlspecialchars($post->title());
 	$redirectTo = $_GET['id'];
 }	else {
 	$h1 = "Modérer les commentaires";
@@ -23,9 +23,9 @@ if($comments){
 		
 			<td>
 
-				Par: <?= $comment->author() ?>
-				le: <?= $comment->dateFr() ?>
-				<p><?= $comment->content() ?></p>
+				Par : <?= htmlspecialchars($comment->author()) ?>
+				le : <?= $comment->dateFr() ?>
+				<p><?= htmlspecialchars($comment->content()) ?></p>
 
 				<a href="admin.php?action=editComment&amp;id=<?= $comment->id() ?>">Modifier</a>
 				<a href="admin.php?action=deleteComment&amp;redirect_to=<?= $redirectTo ?>&amp;id=<?= $comment->id() ?>">Supprimer</a>

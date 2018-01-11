@@ -9,7 +9,7 @@
 
 	<div id="container">
 		<header class="blog-header">
-			<h1><a href="index.php"><?= $blog->title() ?></a></h1>
+			<h1><a href="index.php"><?= htmlspecialchars($blog->title()) ?></a></h1>
 		</header>
 		
 		<?= $content ?>

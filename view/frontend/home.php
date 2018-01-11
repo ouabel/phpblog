@@ -7,9 +7,9 @@
 			<article class="box post">
 		 
 				<header>
-					<h2><a href="index.php?action=post&amp;id=<?= $post->id() ?>"><?= $post->title() ?></a></h2>
+					<h2><a href="index.php?action=post&amp;id=<?= $post->id() ?>"><?= htmlspecialchars($post->title()) ?></a></h2>
 					<h3>
-						Par: <?= $author->name() ?> le <?= $post->dateFr() ?>
+						Par : <?= htmlspecialchars($author->name()) ?> le <?= $post->dateFr() ?>
 						<?php if($this->loggedIn()){ ?>
 						( <a href="admin.php?action=editPost&amp;id=<?= $post->id() ?>">Modifier</a> | <a href="admin.php?action=deletePost&amp;id=<?= $post->id() ?>">Supprimer</a> )
 						<?php } ?>

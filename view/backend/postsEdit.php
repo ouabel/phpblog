@@ -8,7 +8,7 @@
 	<tr>
 	
 		<td>
-			<p><?= $post->title() ?></p>
+			<p><?= htmlspecialchars($post->title()) ?></p>
 			Pblié le <?= $post->dateFr() ?>
 			Mis à jour le <?= $post->updateDateFr() ?>
 			<a href="index.php?action=post&amp;id=<?= $post->id() ?>">Afficher</a>
