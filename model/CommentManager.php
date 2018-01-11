@@ -119,15 +119,17 @@ class CommentManager extends Manager
         $req->execute(array($commentId));
 		
 		$data = $req->fetch();
-		
-		$comment = new Comment(['id'=>$data['id'],
-								'postId'=>$data['post_id'],
-								'author'=>$data['author'],
-								'content'=>$data['comment'],
-								'dateFr'=>$data['date_fr'],
-								'reports'=>$data['reports']]);
+		if($data){
+			$comment = new Comment(['id'=>$data['id'],
+									'postId'=>$data['post_id'],
+									'author'=>$data['author'],
+									'content'=>$data['comment'],
+									'dateFr'=>$data['date_fr'],
+									'reports'=>$data['reports']]);
 
-        return $comment;
+			return $comment;
+		}
+		return false;
 	}
 	
 	public function reportComment(Comment $comment)

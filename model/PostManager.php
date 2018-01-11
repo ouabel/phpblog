@@ -49,14 +49,15 @@ class PostManager extends Manager
         $req->execute([$postId]);
 
         $data = $req->fetch();
-		
-		$post = new Post(['id'=>$data['id'],
-						'title'=>$data['title'],
-						'content'=>$data['content'],
-						'dateFr'=>$data['date_fr'],
-						'updateDateFr'=>$data['update_date_fr']]);
-
-        return $post;
+		if($data){
+			$post = new Post(['id'=>$data['id'],
+							'title'=>$data['title'],
+							'content'=>$data['content'],
+							'dateFr'=>$data['date_fr'],
+							'updateDateFr'=>$data['update_date_fr']]);
+			return $post;
+		}
+        return false;
 	}
 	
 	public function insertPost(Post $post)

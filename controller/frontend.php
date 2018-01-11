@@ -10,20 +10,23 @@ class Frontend extends Controller
 		
 		$postManager = new PostManager();
 		$post = $postManager->getPost($postId);
-		
-		$authorManager = new AuthorManager();
-		$author = $authorManager->getAuthor();
-		
-		$commentManager = new CommentManager();
-		$commentManager->setCommentsPerPage(20);
-		$comments = $commentManager->getComments($postId);
-		
-		$pagination['page'] = $commentManager->currentPage();
-		$pagination['items'] = $commentManager->countComments($postId);
-		$pagination['itemsPerPage'] = $commentManager->commentsPerPage();
-		$pagination['path'] = "index.php?action=post&id=$postId&page=";
-		
-		require_once('view/frontend/post.php');
+		if($post){
+			$authorManager = new AuthorManager();
+			$author = $authorManager->getAuthor();
+			
+			$commentManager = new CommentManager();
+			$commentManager->setCommentsPerPage(20);
+			$comments = $commentManager->getComments($postId);
+			
+			$pagination['page'] = $commentManager->currentPage();
+			$pagination['items'] = $commentManager->countComments($postId);
+			$pagination['itemsPerPage'] = $commentManager->commentsPerPage();
+			$pagination['path'] = "index.php?action=post&id=$postId&page=";
+			
+			require_once('view/frontend/post.php');
+		} else {
+			throw new Exception('Identifiant d\'article introuvable');
+		}
 	}
 
 	function listPosts()
@@ -68,16 +71,20 @@ class Frontend extends Controller
 	{
 		$commentManager = new CommentManager();
 		$comment = $commentManager->getComment($commentId);
-		if ($comment->reported()) {
-			throw new Exception('Vous avez déja signalé ce commentaire !');
-		} else {
-			$executeResult = $commentManager->reportComment($comment);
-			if($executeResult === false){
-				throw new Exception('Impossible de signaler le commentaire !');
+		if ($comment){
+			if ($comment->reported()) {
+				throw new Exception('Vous avez déja signalé ce commentaire !');
 			} else {
-				$_SESSION["reportComment-".$comment->id()] = "reported";
-				header('location:index.php?action=post&id='.$comment->postId());
+				$executeResult = $commentManager->reportComment($comment);
+				if($executeResult === false){
+					throw new Exception('Impossible de signaler le commentaire !');
+				} else {
+					$_SESSION["reportComment-".$comment->id()] = "reported";
+					header('location:index.php?action=post&id='.$comment->postId());
+				}
 			}
+		} else {
+			throw new Exception('Identifiant de commentaire introuvable');
 		}
 	}
 

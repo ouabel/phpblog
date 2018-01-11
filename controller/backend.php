@@ -36,7 +36,7 @@ class backend extends Controller
 		} else {
 			$post = new Post(['title'=>$title, 'content'=>$content]);
 			$lastInsertId = $postManager->insertPost($post);
-			//$lastInsertId = '0';
+
 			if($lastInsertId === '0'){
 				$error = true;
 				$this->setReturnMessage('Impossible d\'ajouter l\'article !');
@@ -56,7 +56,11 @@ class backend extends Controller
 	{
 		$postManager = new PostManager();
 		$post = $postManager->getPost($postId);
-		require('view/backend/postEdit.php');
+		if($post){
+			require('view/backend/postEdit.php');
+		} else {
+			throw new Exception('Identifiant d\'article introuvable');
+		}
 	}
 
 	function updatePost($postId, $title, $content)
@@ -134,8 +138,11 @@ class backend extends Controller
 	{
 		$commentManager = new CommentManager();
 		$comment = $commentManager->getComment($commentId);
-
-		require('view/backend/commentEdit.php');
+		if ($comment) {
+			require('view/backend/commentEdit.php');
+		} else {
+			throw new Exception('Identifiant de commentaire introuvable');
+		}
 	}
 
 	function updateComment($commentId,$author,$content)
@@ -158,12 +165,16 @@ class backend extends Controller
 	{
 		$commentManager = new CommentManager();
 		$comment = $commentManager->getComment($commentId);
-		$executeResult = $commentManager->deleteComment($comment);
-		if ($executeResult === false) {
-			$_SESSION['returnMessage'] = 'Impossible de supprimer le commentaire !';
-		}
-		else {
-			$_SESSION['returnMessage'] = 'Commentaire supprimé avec succès';
+		if ($comment){
+			$executeResult = $commentManager->deleteComment($comment);
+			if ($executeResult === false) {
+				$_SESSION['returnMessage'] = 'Impossible de supprimer le commentaire !';
+			}
+			else {
+				$_SESSION['returnMessage'] = 'Commentaire supprimé avec succès';
+			}
+		} else {
+			throw new Exception('Identifiant de commentaire introuvable');
 		}
 	}
 
@@ -197,6 +208,7 @@ class backend extends Controller
 
 	function updateAuthor($name, $pseudo, $email, $pass, $pass2)
 	{
+
 		if((!empty($pass) || !empty($pass2)) && $pass !== $pass2){
 			$this->setReturnMessage('Les deux mots de passe ne correspondent pas !');
 		}
@@ -220,6 +232,7 @@ class backend extends Controller
 				$this->setReturnMessage('Auteur mis à jour avec succès');
 			}
 		}
+
 		$this->editSettings();
 	}
 }
