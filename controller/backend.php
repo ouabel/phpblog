@@ -86,23 +86,26 @@ class backend extends Controller
 	{
 		$postManager = new PostManager();
 		$post = $postManager->getPost($postId);
-		$executeResult = $postManager->deletePost($post);
+		if($post){
+			$executeResult = $postManager->deletePost($post);
 
-		if ($executeResult === false) {
-			$_SESSION['returnMessage'] = 'Impossible de supprimer l\'article !';
-		}
-		else {
-			$commentManager = new commentManager();
-			$affectedRows = $commentManager->deletePostComments($postId);
-			if ($affectedRows === false) {
-				$_SESSION['returnMessage'] = 'Impossible de supprimer les commentaires d\'article !';
+			if ($executeResult === false) {
+				$_SESSION['returnMessage'] = 'Impossible de supprimer l\'article !';
 			}
 			else {
-				$_SESSION['returnMessage'] = 'Article supprimé avec succès';
+				$commentManager = new commentManager();
+				$affectedRows = $commentManager->deletePostComments($postId);
+				if ($affectedRows === false) {
+					$_SESSION['returnMessage'] = 'Impossible de supprimer les commentaires d\'article !';
+				}
+				else {
+					$_SESSION['returnMessage'] = 'Article supprimé avec succès';
+				}
 			}
+			header('Location: admin.php');
+		} else {
+			throw new Exception('Identifiant d\'article introuvable');
 		}
-
-		header('Location: admin.php');
 		//TODO: redirect home if deleted from frontend
 	}
 
@@ -114,6 +117,9 @@ class backend extends Controller
 		if (is_int($criteria)){
 			$postManager = new PostManager();
 			$post = $postManager->getPost($criteria);
+			if (!$post){
+				throw new Exception('Identifiant d\'article introuvable');
+			}
 		}
 
 		$blog = $blogManager->getSettings();
