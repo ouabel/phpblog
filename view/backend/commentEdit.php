@@ -2,18 +2,17 @@
 <?php $h1 = $title; ?>
 
 <?php ob_start(); ?>
-<form class="box" method="post" action="admin.php?action=editComment&id=<?=$comment->id(); ?>">
-	
-	<p>
-		Auteur:
-		<input type="text" name="author" value="<?= $comment->author(); ?>"><br />
-	</p>
-	<p>
-		Commentaire:
-		<textarea name="comment" rows="8"><?= $comment->content(); ?></textarea><br />
-	</p>
-	<input type="hidden" name="submit" value="comment">
-	<button type="submit">Mettre à jour</button>
+<form method="post" action="admin.php?action=editComment&id=<?=$comment->id(); ?>">
+  <p>
+    Auteur:
+    <input type="text" name="author" class="form-control" value="<?= $comment->author(); ?>"><br />
+  </p>
+  <p>
+    Commentaire:
+    <textarea name="comment" rows="8" class="form-control"><?= $comment->content(); ?></textarea><br />
+  </p>
+  <input type="hidden" name="submit" value="comment">
+  <button type="submit" class="btn btn-primary">Mettre à jour</button>
 </form>
 <?php $content = ob_get_clean(); ?>
 

@@ -5,10 +5,10 @@
 
 <?php ob_start(); ?>
 <form method="post" action="admin.php?action=newPost">
-	<input type="text" name="title" <?php if(isset($post)){echo 'value="'.$post->title().'"';} ?>placeholder="Titre de l'article">
-	<p><textarea name="content" rows="15"><?php if(isset($post)){echo $post->content();} ?></textarea></p>
-	<input type="hidden" name="submit" value="post">
-	<button type="submit">Publier</button>
+  <p><input type="text" name="title"  class="form-control" <?php if(isset($post)){echo 'value="'.$post->title().'"';} ?>placeholder="Titre de l'article"></p>
+  <p><textarea name="content" class="form-control" rows="15"><?php if(isset($post)){echo $post->content();} ?></textarea></p>
+  <input type="hidden" name="submit" value="post">
+  <button type="submit" class="btn btn-primary">Publier</button>
 </form>
 
 <?php $content = ob_get_clean(); ?>
