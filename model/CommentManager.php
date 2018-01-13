@@ -23,17 +23,17 @@ class CommentManager extends Manager
 		
 		switch($criteria) {
 			case 'all':
-				$req = $db->prepare('SELECT id, author, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments ORDER BY comment_date DESC LIMIT ?, ?');
+				$req = $db->prepare('SELECT id, author, post_id, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments ORDER BY comment_date DESC LIMIT ?, ?');
 				$req->execute([($currentPage-1)*$commentsPerPage, $commentsPerPage]);
 			break;
 			
 			case 'reported':
-				$req = $db->prepare('SELECT id, author, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE reports > 0 ORDER BY comment_date DESC LIMIT ?, ?');
+				$req = $db->prepare('SELECT id, author, post_id, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE reports > 0 ORDER BY comment_date DESC LIMIT ?, ?');
 				$req->execute([($currentPage-1)*$commentsPerPage, $commentsPerPage]);
 			break;
 			
 			default:
-				$req = $db->prepare('SELECT id, author, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE post_id = ? ORDER BY comment_date DESC LIMIT ?, ?');
+				$req = $db->prepare('SELECT id, author, post_id, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE post_id = ? ORDER BY comment_date DESC LIMIT ?, ?');
 				$req->execute([$criteria, ($currentPage-1)*$commentsPerPage, $commentsPerPage]);
 			break;
 		}
@@ -43,6 +43,7 @@ class CommentManager extends Manager
 		{
 			$comments[] = new Comment(['id'=>$data['id'],
 								'author'=>$data['author'],
+								'postId'=>$data['post_id'],
 								'dateFr'=>$data['date_fr'],
 								'reports'=>$data['reports'],
 								'content'=>$data['comment']]);

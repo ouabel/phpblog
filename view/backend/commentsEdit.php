@@ -30,7 +30,7 @@ if($comments){
     <div class="panel-footer">
     <a class="btn btn-sm btn-primary" href="admin.php?action=editComment&amp;id=<?= $comment->id() ?>"><span class="glyphicon glyphicon-edit"></span> Modifier</a>
     <a class="btn btn-sm btn-danger" href="admin.php?action=deleteComment&amp;redirect_to=<?= $redirectTo ?>&amp;id=<?= $comment->id() ?>"><span class="glyphicon glyphicon-trash"></span> Supprimer</a>
-    <a class="btn btn-sm btn-default" href="index.php?action=post&amp;id=<?= $comment->id() ?>"><span class="glyphicon glyphicon-align-left"></span> Article</a>
+    <a class="btn btn-sm btn-default" href="index.php?action=post&amp;id=<?= $comment->postId() ?>"><span class="glyphicon glyphicon-align-left"></span> Article</a>
     </div>
   </div>
   <?php
