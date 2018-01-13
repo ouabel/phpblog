@@ -91,21 +91,25 @@ try
 
         case 'settings':
           if(isset($_POST['submit'])){
-            if($_POST['submit'] === 'blog'){
               if (isset($_POST['title']) && isset($_POST['description'])) {
                 $backend->updateSettings($_POST['title'], $_POST['description']);
               } else {
                 throw new Exception('Tous les champs ne sont pas remplis !');
               }
-            } elseif($_POST['submit'] === 'author') {
-              if (isset($_POST['author']) && isset($_POST['author_pseudo']) && isset($_POST['email'])) {
-                $backend->updateAuthor($_POST['author'], $_POST['author_pseudo'], $_POST['email'], $_POST['pass'], $_POST['pass2']);
-              } else {
-                throw new Exception('Tous les champs ne sont pas remplis !');
-              }
-            }
           } else {
             $backend->editSettings();
+          }
+          break;
+
+        case 'author':
+          if(isset($_POST['submit'])){
+            if (isset($_POST['author']) && isset($_POST['author_pseudo']) && isset($_POST['email'])) {
+              $backend->updateAuthor($_POST['author'], $_POST['author_pseudo'], $_POST['email'], $_POST['pass'], $_POST['pass2']);
+            } else {
+              throw new Exception('Tous les champs ne sont pas remplis !');
+            }
+          } else {
+            $backend->editAuthor();
           }
           break;
       }

@@ -21,6 +21,7 @@
       <li><a href="admin.php?action=newPost">Nouvel article</a></li>
       <li><a href="admin.php?action=editComments">Commentaires</a></li>
       <li><a href="admin.php?action=editComments&reported=1">Commentaires signalés</a></li>
+      <li><a href="admin.php?action=author">Auteur</a></li>
       <li><a href="admin.php?action=settings">Réglages</a></li>
       <li><a href="index.php?action=logout">Se déconnecter</a></li>
     </ul>

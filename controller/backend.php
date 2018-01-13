@@ -187,10 +187,15 @@ class backend extends Controller
 	function editSettings()
 	{
 		$blogManager = new BlogManager();
-		$authorManager = new AuthorManager();
 		$blog = $blogManager->getSettings();
-		$author = $authorManager->getAuthor();
 		require('view/backend/settings.php');
+	}
+
+	function editAuthor()
+	{
+		$authorManager = new AuthorManager();
+		$author = $authorManager->getAuthor();
+		require('view/backend/author.php');
 	}
 
 	function updateSettings($title, $description)
@@ -239,6 +244,6 @@ class backend extends Controller
 			}
 		}
 
-		$this->editSettings();
+		$this->editAuthor();
 	}
 }
