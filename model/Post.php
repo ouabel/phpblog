@@ -61,6 +61,27 @@ class Post
     return $this->updateDateFr;
   }
   
+  public function link($criteria = null)
+  {
+    switch ($criteria) {
+      case 'edit':
+        return "admin.php?action=editPost&amp;id=" . $this->id;
+        break;
+
+      case 'delete':
+        return "admin.php?action=deletePost&amp;id=" . $this->id;
+        break;
+
+      case 'editComments':
+        return "admin.php?action=editComments&amp;id=" . $this->id;
+        break;
+
+      default:
+        return "index.php?action=post&amp;id=" . $this->id;
+        break;
+    }
+  }
+
   public function setTitle($title)
   {
     if (is_string($title))

@@ -7,13 +7,13 @@
     <article>
 
       <header>
-        <h2><a href="index.php?action=post&amp;id=<?= $post->id() ?>"><?= htmlspecialchars($post->title()) ?></a></h2>
+        <h2><a href="<?= $post->link() ?>"><?= htmlspecialchars($post->title()) ?></a></h2>
         <p class="well well-sm">
           <span class="glyphicon glyphicon-user"></span> Par : <?= htmlspecialchars($author->name()) ?> | <span class="glyphicon glyphicon-calendar"></span> Le : <?= $post->dateFr() ?>
-          | <span class="glyphicon glyphicon-comment"></span> <a href="index.php?action=post&amp;id=<?= $post->id() ?>">Commentaires</a> <span class="badge">42</span>
+          | <span class="glyphicon glyphicon-comment"></span> <a href="<?= $post->link() ?>">Commentaires</a> <span class="badge"><?= $post->commentsNumber() ?></span>
           <?php if($this->loggedIn()){ ?>
-            | <a class="btn btn-xs btn-primary" href="admin.php?action=editPost&amp;id=<?= $post->id() ?>">Modifier</a>
-            <a class="btn btn-xs btn-danger" href="admin.php?action=deletePost&amp;id=<?= $post->id() ?>">Supprimer</a>
+            | <a class="btn btn-xs btn-primary" href="<?= $post->link('edit') ?>">Modifier</a>
+            <a class="btn btn-xs btn-danger" href="<?= $post->link('delete') ?>">Supprimer</a>
           <?php } ?>
         </p>
       </header>

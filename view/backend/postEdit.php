@@ -4,7 +4,7 @@
 <?php $h1 = $title; ?>
 
 <?php ob_start(); ?>
-<form method="post" action="admin.php?action=editPost&id=<?= $post->id(); ?>">
+<form method="post" action="<?= $post->link('edit'); ?>">
   <p><input type="text" name="title" placeholder="Titre de l'article" class="form-control" value="<?= $post->title() ?>"></p>
   <p><textarea name="content" class="form-control" rows="15"><?= $post->content() ?></textarea></p>
   <input type="hidden" name="submit" value="post">
