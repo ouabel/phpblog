@@ -1,5 +1,5 @@
 <?php if($comments){ ?>
-  <h2>Commentaires</h2>
+  <h3>Commentaires</h3>
   <div class="panel-group">
   <?php foreach($comments as $comment){ ?>
     <div class="panel panel-primary">

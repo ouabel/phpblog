@@ -1,8 +1,5 @@
-<form class="panel panel-default" action="index.php?action=addComment&amp;id=<?= $post->id() ?>" method="post">
-  <div class="panel-heading">
-    <h2 class="panel-title">Ajouter un commentaire</h3>
-  </div>
-  <div class="panel-body">
+<h3>Ajouter un commentaire</h3>
+<form class="well" action="index.php?action=addComment&amp;id=<?= $post->id() ?>" method="post">
     <?php if($returnMessage = $this->returnMessage()){?>
     <p class="alert alert-info"><?= $returnMessage ?></p>
     <?php } ?>
@@ -17,5 +14,4 @@
     <p>
       <button type="submit" class="btn btn-primary"/>Envoyer</button>
     </p>
-  </div>
 </form>

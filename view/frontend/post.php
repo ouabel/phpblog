@@ -4,17 +4,21 @@
 <section>
   <article>
 
-    <header>
-      <h2><a href="index.php?action=post&amp;id=<?= $post->id() ?>"><?= htmlspecialchars($post->title()) ?></a></h2>
-      <h3>
-        Par : <?= htmlspecialchars($author->name()) ?> le <?= $post->dateFr() ?>
+      <header>
+        <h2><?= htmlspecialchars($post->title()) ?></h2>
+      </header>
+    <div><?= $post->content() ?></div>
+
+    <footer>
+      <p class="well well-sm">
+        <span class="glyphicon glyphicon-user"></span> Par : <?= htmlspecialchars($author->name()) ?> | <span class="glyphicon glyphicon-calendar"></span> Le : <?= $post->dateFr() ?>
+        | <span class="glyphicon glyphicon-comment"></span> <a href="index.php?action=post&amp;id=<?= $post->id() ?>">Commentaires</a> <span class="badge">42</span>
         <?php if($this->loggedIn()){ ?>
-        <a class="btn btn-xs btn-primary" href="admin.php?action=editPost&amp;id=<?= $post->id() ?>">Modifier</a>
-        <a class="btn btn-xs btn-danger" href="admin.php?action=deletePost&amp;id=<?= $post->id() ?>">Supprimer</a>
+          | <a class="btn btn-xs btn-primary" href="admin.php?action=editPost&amp;id=<?= $post->id() ?>">Modifier</a>
+          <a class="btn btn-xs btn-danger" href="admin.php?action=deletePost&amp;id=<?= $post->id() ?>">Supprimer</a>
         <?php } ?>
-      </h3>
-    </header>
-    <p><?= $post->content() ?></p>
+      </p>
+    </footer>
   </article>
 
 <?php require('post/commentForm.php'); ?>
