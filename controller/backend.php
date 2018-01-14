@@ -177,6 +177,8 @@ class backend extends Controller
 				$_SESSION['returnMessage'] = 'Impossible de supprimer le commentaire !';
 			}
 			else {
+				$postManager = new PostManager();
+				$postManager->deleteComment($comment->postId());
 				$_SESSION['returnMessage'] = 'Commentaire supprimé avec succès';
 			}
 		} else {

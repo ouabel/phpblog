@@ -61,6 +61,8 @@ class Frontend extends Controller
 			if($executeResult === false){
 				$_SESSION['returnMessage'] = 'Impossible d\'ajouter le commentaire !';
 			} else {
+				$postManager = new PostManager();
+				$postManager->addComment($postId);
 				$_SESSION['returnMessage'] = 'Votre commentaire est publié';
 			}
 		}
