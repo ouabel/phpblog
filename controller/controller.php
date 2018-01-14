@@ -3,6 +3,7 @@
 //session_start();
 
 require('model/Blog.php');
+require('model/Content.php');
 require('model/Post.php');
 require('model/Author.php');
 require('model/Comment.php');
