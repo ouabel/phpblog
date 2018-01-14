@@ -7,11 +7,11 @@ require('model/Post.php');
 require('model/Author.php');
 require('model/Comment.php');
 
-require('model/Manager.php');
-require('model/BlogManager.php');
-require('model/PostManager.php');
-require('model/AuthorManager.php');
-require('model/CommentManager.php');
+require('model/Manager/Manager.php');
+require('model/Manager/Blog.php');
+require('model/Manager/Post.php');
+require('model/Manager/Author.php');
+require('model/Manager/Comment.php');
 
 class Controller
 {
