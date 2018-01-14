@@ -12,7 +12,14 @@
 <body>
   <div id="container" class="container">
     <header class="page-header">
-      <h1><a href="index.php"><?= htmlspecialchars($blog->title()) ?></a></h1>
+      <div class="header-background">
+        <a href="index.php">
+          <div class="blog-header">
+            <h1><?= htmlspecialchars($blog->title()) ?></h1>
+            <p><?= htmlspecialchars($blog->description()) ?></p>
+          </div>
+        </a>
+      </div>
     </header>
 
     <?= $content ?>

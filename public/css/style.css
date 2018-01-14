@@ -1,7 +1,22 @@
+.header-background {
+  background: url(../images/bg.jpg) no-repeat center center;
+  background-size: cover;
+  text-align: center;
+  padding: 100px 0;
+}
+
+.blog-header {
+  background: rgba(0, 0, 0, .5);
+  padding: 0 10px 10px;
+  display: inline-block;
+  color: #fff;
+  border-radius: 6px;
+}
+
 .post-content {
-	line-height: 25px;
-	padding: 0 10px;
-	text-align: justify;
+  line-height: 25px;
+  padding: 0 10px;
+  text-align: justify;
 }
 
 #login, #error {
@@ -10,6 +25,6 @@
 }
 
 #admin-nav {
-	margin: 10px 0;
-	white-space: nowrap;
+  margin: 10px 0;
+  white-space: nowrap;
 }
