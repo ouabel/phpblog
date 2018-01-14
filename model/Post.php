@@ -5,6 +5,20 @@ class Post extends Content
   private $updateDateFr;
   private $commentsNumber;
 
+  public function excerpt($readMore, $linkClass, $length = 450)
+  {
+    $excerpt = $this->content();
+    if(strlen($excerpt) <= $length) {
+      return $excerpt;
+    } else {
+      $excerpt = substr($excerpt, 0, $length);
+      $excerpt = rtrim($excerpt);
+      $excerpt .= '... <a href="' . $this->link() . '" class="' . $linkClass . '">' . $readMore . '</a>';
+    }
+
+    return $excerpt;
+  }
+
   public function updateDateFr()
   {
     return $this->updateDateFr;

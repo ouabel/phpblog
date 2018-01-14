@@ -18,7 +18,7 @@
         </p>
       </header>
 
-      <div><?= $post->content() ?></div>
+      <div><?= $post->excerpt('Lire la suite', 'btn btn-default btn-sm') ?></div>
     </article>
     <hr>
 <?php }
