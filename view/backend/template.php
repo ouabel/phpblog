@@ -12,28 +12,25 @@
 <body>
 <div id="container" class="container-fluid">
   <div class="row">
-    <div id="admin-nav" class="col-xs-2 sidebar-nav navbar-collapse">
-    <nav class="navbar-default sidebar">
-    <ul class="nav in">
-      <li class="active"><a>Tableau de bord</a></li>
-      <li><a href="index.php">Afficher le blog</a></li>
-      <li><a href="admin.php">Articles</a></li>
-      <li><a href="admin.php?action=newPost">Nouvel article</a></li>
-      <li><a href="admin.php?action=editComments">Commentaires</a></li>
-      <li><a href="admin.php?action=editComments&reported=1">Commentaires signalés</a></li>
-      <li><a href="admin.php?action=author">Auteur</a></li>
-      <li><a href="admin.php?action=settings">Réglages</a></li>
-      <li><a href="index.php?action=logout">Se déconnecter</a></li>
-    </ul>
-    </nav>
+    <div id="admin-nav" class="col-xs-2">
+      <div class="list-group">
+        <a class="list-group-item active">Tableau de bord</a>
+        <a class="list-group-item" href="index.php"><i class="glyphicon glyphicon-home"></i> Afficher le blog</a>
+        <a class="list-group-item" href="admin.php"><i class="glyphicon glyphicon-list"></i> Articles</a>
+        <a class="list-group-item" href="admin.php?action=newPost"><i class="glyphicon glyphicon-file"></i> Nouvel article</a>
+        <a class="list-group-item" href="admin.php?action=editComments"><i class="glyphicon glyphicon-comment"></i> Commentaires</a>
+        <a class="list-group-item" href="admin.php?action=editComments&reported=1"><i class="glyphicon glyphicon-comment"></i> Commentaires signalés</a>
+        <a class="list-group-item" href="admin.php?action=author"><i class="glyphicon glyphicon-user"></i> Auteur</a>
+        <a class="list-group-item" href="admin.php?action=settings"><i class="glyphicon glyphicon-cog"></i> Réglages</a>
+        <a class="list-group-item" href="index.php?action=logout"><i class="glyphicon glyphicon-log-out"></i> Se déconnecter</a>
+      </div>
     </div>
-
     <div id="admin-area" class="col-xs-10">
-    <h1><?= $h1 ?></h1>
-    <?php if($returnMessage = $this->returnMessage()){?>
-      <p class="alert alert-info"><?= $returnMessage ?></p>
-    <?php } ?>
-    <?= $content ?>
+      <h1><?= $h1 ?></h1>
+      <?php if($returnMessage = $this->returnMessage()){?>
+        <p class="alert alert-info"><?= $returnMessage ?></p>
+      <?php } ?>
+      <?= $content ?>
     </div>
   </div>
 </div>

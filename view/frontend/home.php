@@ -4,7 +4,7 @@
 <section>
 <?php if ($posts) {
   foreach($posts as $post) {?>
-    <article>
+    <article class="post" id="post-<?= $post->id() ?>">
 
       <header>
         <h2><a href="<?= $post->link() ?>"><?= htmlspecialchars($post->title()) ?></a></h2>
@@ -18,7 +18,7 @@
         </p>
       </header>
 
-      <div><?= $post->excerpt('Lire la suite', 'btn btn-default btn-sm') ?></div>
+      <div class="post-content"><?= $post->excerpt('Lire la suite', 'btn btn-default btn-sm') ?></div>
     </article>
     <hr>
 <?php }

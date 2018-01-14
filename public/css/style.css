@@ -1,4 +1,15 @@
+.post-content {
+	line-height: 25px;
+	padding: 0 10px;
+	text-align: justify;
+}
+
 #login, #error {
   max-width: 330px;
   margin: 100px auto 0;
+}
+
+#admin-nav {
+	margin: 10px 0;
+	white-space: nowrap;
 }

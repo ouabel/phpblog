@@ -2,12 +2,13 @@
 <?php ob_start(); ?>
 
 <section>
-  <article>
+  <article class="post" id="post-<?= $post->id() ?>">
 
       <header>
         <h2><?= htmlspecialchars($post->title()) ?></h2>
       </header>
-    <div><?= $post->content() ?></div>
+
+      <div class="post-content"><?= $post->content() ?></div>
 
     <footer>
       <p class="well well-sm">
