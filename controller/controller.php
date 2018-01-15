@@ -10,6 +10,7 @@ require('model/Comment.php');
 
 require('model/Manager/Manager.php');
 require('model/Manager/Blog.php');
+require('model/Manager/Content.php');
 require('model/Manager/Post.php');
 require('model/Manager/Author.php');
 require('model/Manager/Comment.php');

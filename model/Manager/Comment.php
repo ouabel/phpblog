@@ -1,40 +1,28 @@
 <?php
-class CommentManager extends Manager
+class CommentManager extends ContentManager
 {
-	private $commentsPerPage;
 	
-	public function commentsPerPage()
-	{
-		return $this->commentsPerPage;
-	}
-	
-	public function setCommentsPerPage($int)
-	{
-		$int = (int) $int;
-		$this->commentsPerPage = $int;
-	}
-	
-	public function getComments($criteria)
+  public function getComments($criteria)
 	{
 		$comments = [];
 		$db = $this->dbConnect();
 		$currentPage = $this->currentPage();
-		$commentsPerPage = $this->commentsPerPage;
+		$itemsPerPage = $this->itemsPerPage();
 		
 		switch($criteria) {
 			case 'all':
 				$req = $db->prepare('SELECT id, author, post_id, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments ORDER BY comment_date DESC LIMIT ?, ?');
-				$req->execute([($currentPage-1)*$commentsPerPage, $commentsPerPage]);
+				$req->execute([($currentPage-1)*$itemsPerPage, $itemsPerPage]);
 			break;
 			
 			case 'reported':
 				$req = $db->prepare('SELECT id, author, post_id, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE reports > 0 ORDER BY comment_date DESC LIMIT ?, ?');
-				$req->execute([($currentPage-1)*$commentsPerPage, $commentsPerPage]);
+				$req->execute([($currentPage-1)*$itemsPerPage, $itemsPerPage]);
 			break;
 			
 			default:
 				$req = $db->prepare('SELECT id, author, post_id, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE post_id = ? ORDER BY comment_date DESC LIMIT ?, ?');
-				$req->execute([$criteria, ($currentPage-1)*$commentsPerPage, $commentsPerPage]);
+				$req->execute([$criteria, ($currentPage-1)*$itemsPerPage, $itemsPerPage]);
 			break;
 		}
 		
@@ -103,16 +91,6 @@ class CommentManager extends Manager
 		return $executeResult;
     }
 
-	public function deleteComment(Comment $comment)
-    {
-        $db = $this->dbConnect();
-        $req = $db->prepare('DELETE FROM comments WHERE id = ?');
-
-        $executeResult = $req->execute([$comment->id()]);
-        
-		return $executeResult;
-    }
-	
 	public function getComment($commentId)
 	{
         $db = $this->dbConnect();
@@ -141,16 +119,4 @@ class CommentManager extends Manager
 		return $executeResult;
 	}
 
-	public function currentPage()
-	{
-		if(isset($_GET['page'])){
-			$page = intval($_GET['page']);
-			if($page <= 1){
-				$page = 1;
-			}
-		} else {
-			$page = 1;
-		}
-		return $page;
-	}
 }

@@ -1,26 +1,16 @@
 <?php
-class PostManager extends Manager
+class PostManager extends ContentManager
 {
-	private $postsPerPage;
-	
-	public function postsPerPage(){
-		return $this->postsPerPage;
-	}
-	
-	public function setPostsPerPage($int){
-		$int = (int) $int;
-		$this->postsPerPage = $int;
-	}
-	
-	public function getPosts()
+
+  public function getPosts()
 	{
 		$posts = [];
 		$db = $this->dbConnect();
 		$currentPage = $this->currentPage();
-		$postsPerPage = $this->postsPerPage;
+		$itemsPerPage = $this->itemsPerPage();
 		
 		$req = $db->prepare('SELECT id, title, content, comments_number, DATE_FORMAT(creation_date, \'%d/%m/%Y à %H:%i\') AS date_fr, DATE_FORMAT(update_date, \'%d/%m/%Y à %H:%i\') AS update_date_fr FROM posts ORDER BY creation_date DESC LIMIT ?, ?');
-		$req->execute([($currentPage-1)*$postsPerPage, $postsPerPage]);
+		$req->execute([($currentPage-1)*$itemsPerPage, $itemsPerPage]);
 		
 		foreach ($req->fetchAll() as $data)
 		{
@@ -99,26 +89,5 @@ class PostManager extends Manager
 
 		return $lastInsertId;
 	}
-	
-	public function deletePost(Post $post)
-	{
-		$db = $this->dbConnect();
-		$req = $db->prepare('DELETE FROM posts WHERE id = ?');
-		$executeResult = $req->execute([$post->id()]);
-		
-		return $executeResult;
-	}
 
-	public function currentPage()
-	{
-		if(isset($_GET['page'])){
-			$page = intval($_GET['page']);
-			if($page <= 1){
-				$page = 1;
-			}
-		} else {
-			$page = 1;
-		}
-		return $page;
-	}
 }

@@ -6,15 +6,15 @@ class backend extends Controller
 	function editPosts()
 	{
 		$blogManager = new BlogManager();
-		$postManager = new PostManager();
+		$postManager = new PostManager('posts');
 		
 		$blog = $blogManager->getSettings();
-		$postManager->setPostsPerPage(20);
+		$postManager->setItemsPerPage(20);
 		$posts = $postManager->getPosts();
 
 		$pagination['page'] = $postManager->currentPage();
 		$pagination['items'] = $postManager->countPosts();
-		$pagination['itemsPerPage'] = $postManager->postsPerPage();
+		$pagination['itemsPerPage'] = $postManager->itemsPerPage();
 		$pagination['path'] = "admin.php?page=";
 		
 		require('view/backend/postsEdit.php');
@@ -27,7 +27,7 @@ class backend extends Controller
 
 	function insertPost($title, $content)
 	{
-		$postManager = new PostManager();
+		$postManager = new PostManager('posts');
 		$error = false;
 		
 		if (empty($title)){
@@ -54,7 +54,7 @@ class backend extends Controller
 
 	function editPost($postId)
 	{
-		$postManager = new PostManager();
+		$postManager = new PostManager('posts');
 		$post = $postManager->getPost($postId);
 		if($post){
 			require('view/backend/postEdit.php');
@@ -65,7 +65,7 @@ class backend extends Controller
 
 	function updatePost($postId, $title, $content)
 	{
-		$postManager = new PostManager();
+		$postManager = new PostManager('posts');
 		$post = $postManager->getPost($postId);
 		
 		$post->setTitle($title);
@@ -84,10 +84,10 @@ class backend extends Controller
 
 	function deletePost($postId)
 	{
-		$postManager = new PostManager();
+		$postManager = new PostManager('posts');
 		$post = $postManager->getPost($postId);
 		if($post){
-			$executeResult = $postManager->deletePost($post);
+			$executeResult = $postManager->deleteContent($post);
 
 			if ($executeResult === false) {
 				$_SESSION['returnMessage'] = 'Impossible de supprimer l\'article !';
@@ -112,10 +112,10 @@ class backend extends Controller
 	function editComments($criteria)
 	{
 		$blogManager = new BlogManager();
-		$commentManager = new CommentManager();
+		$commentManager = new CommentManager('comments');
 		
 		if (is_int($criteria)){
-			$postManager = new PostManager();
+			$postManager = new PostManager('posts');
 			$post = $postManager->getPost($criteria);
 			if (!$post){
 				throw new Exception('Identifiant d\'article introuvable');
@@ -123,12 +123,12 @@ class backend extends Controller
 		}
 
 		$blog = $blogManager->getSettings();
-		$commentManager->setCommentsPerPage(50);
+		$commentManager->setItemsPerPage(50);
 		$comments = $commentManager->getComments($criteria);
 		
 		$pagination['page'] = $commentManager->currentPage();
 		$pagination['items'] = $commentManager->countComments($criteria);
-		$pagination['itemsPerPage'] = $commentManager->commentsPerPage();
+		$pagination['itemsPerPage'] = $commentManager->itemsPerPage();
 		if ($criteria === 'all') {
 			$pagination['path'] = "admin.php?action=editComments&page=";
 		} else if ($criteria === 'reported'){
@@ -142,7 +142,7 @@ class backend extends Controller
 
 	function editComment($commentId)
 	{
-		$commentManager = new CommentManager();
+		$commentManager = new CommentManager('comments');
 		$comment = $commentManager->getComment($commentId);
 		if ($comment) {
 			require('view/backend/commentEdit.php');
@@ -153,7 +153,7 @@ class backend extends Controller
 
 	function updateComment($commentId,$author,$content)
 	{
-		$commentManager = new CommentManager();
+		$commentManager = new CommentManager('comments');
 		$comment = new Comment(['id'=>$commentId, 'author'=>$author, 'content'=>$content]);
 		
 		$executeResult = $commentManager->updateComment($comment);
@@ -169,15 +169,15 @@ class backend extends Controller
 
 	function deleteComment($commentId)
 	{
-		$commentManager = new CommentManager();
+		$commentManager = new CommentManager('comments');
 		$comment = $commentManager->getComment($commentId);
 		if ($comment){
-			$executeResult = $commentManager->deleteComment($comment);
+			$executeResult = $commentManager->deleteContent($comment);
 			if ($executeResult === false) {
 				$_SESSION['returnMessage'] = 'Impossible de supprimer le commentaire !';
 			}
 			else {
-				$postManager = new PostManager();
+				$postManager = new PostManager('posts');
 				$postManager->deleteComment($comment->postId());
 				$_SESSION['returnMessage'] = 'Commentaire supprimé avec succès';
 			}

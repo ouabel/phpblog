@@ -8,19 +8,19 @@ class Frontend extends Controller
 		$blogManager = new BlogManager();
 		$blog = $blogManager->getSettings();
 		
-		$postManager = new PostManager();
+		$postManager = new PostManager('posts');
 		$post = $postManager->getPost($postId);
 		if($post){
 			$authorManager = new AuthorManager();
 			$author = $authorManager->getAuthor();
 			
-			$commentManager = new CommentManager();
-			$commentManager->setCommentsPerPage(20);
+			$commentManager = new CommentManager('comments');
+			$commentManager->setItemsPerPage(20);
 			$comments = $commentManager->getComments($postId);
 			
 			$pagination['page'] = $commentManager->currentPage();
 			$pagination['items'] = $commentManager->countComments($postId);
-			$pagination['itemsPerPage'] = $commentManager->commentsPerPage();
+			$pagination['itemsPerPage'] = $commentManager->itemsPerPage();
 			$pagination['path'] = "index.php?action=post&id=$postId&page=";
 			
 			require_once('view/frontend/post.php');
@@ -34,13 +34,13 @@ class Frontend extends Controller
 		$blogManager = new BlogManager();
 		$blog = $blogManager->getSettings();
 		
-		$postManager = new PostManager();
-		$postManager->setPostsPerPage(10);
+		$postManager = new PostManager('posts');
+		$postManager->setItemsPerPage(10);
 		$posts = $postManager->getPosts();
 		
 		$pagination['page'] = $postManager->currentPage();
 		$pagination['items'] = $postManager->countPosts();
-		$pagination['itemsPerPage'] = $postManager->postsPerPage();
+		$pagination['itemsPerPage'] = $postManager->itemsPerPage();
 		$pagination['path'] = "index.php?page=";
 		
 		$authorManager = new AuthorManager();
@@ -51,7 +51,7 @@ class Frontend extends Controller
 
 	function addComment($postId, $author, $content)
 	{
-		$commentManager = new CommentManager();
+		$commentManager = new CommentManager('comments');
 
 		if(empty($author) || empty($content)){
 			$_SESSION['returnMessage'] = 'Tous les champs sont obligatoires';
@@ -61,7 +61,7 @@ class Frontend extends Controller
 			if($executeResult === false){
 				$_SESSION['returnMessage'] = 'Impossible d\'ajouter le commentaire !';
 			} else {
-				$postManager = new PostManager();
+				$postManager = new PostManager('posts');
 				$postManager->addComment($postId);
 				$_SESSION['returnMessage'] = 'Votre commentaire est publié';
 			}
@@ -71,7 +71,7 @@ class Frontend extends Controller
 
 	function reportComment($commentId)
 	{
-		$commentManager = new CommentManager();
+		$commentManager = new CommentManager('comments');
 		$comment = $commentManager->getComment($commentId);
 		if ($comment){
 			if ($comment->reported()) {
