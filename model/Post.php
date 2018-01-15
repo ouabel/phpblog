@@ -5,18 +5,36 @@ class Post extends Content
   private $updateDateFr;
   private $commentsNumber;
 
-  public function excerpt($readMore, $linkClass, $length = 450)
+  public function excerpt($readMore, $linkClass, $length = 400)
   {
-    $excerpt = $this->content();
-    if(strlen($excerpt) <= $length) {
-      return $excerpt;
-    } else {
-      $excerpt = substr($excerpt, 0, $length);
-      $excerpt = rtrim($excerpt);
-      $excerpt .= '... <a href="' . $this->link() . '" class="' . $linkClass . '">' . $readMore . '</a>';
+    $string = $this->content();
+
+    if (strlen(strip_tags($string)) < $length){
+      return $string;
     }
 
-    return $excerpt;
+    $i = 0;
+    $tags = [];
+
+    preg_match_all('/<[^>]+>([^<]*)/', $string, $tagMatches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+    foreach($tagMatches as $tagMatch) {
+      if ($tagMatch[0][1] - $i >= $length) {
+        break;
+      }
+
+      $tag = substr(strtok($tagMatch[0][0], " \t\n\r\0\x0B>"), 1);
+      if ($tag[0] != '/') {
+        $tags[] = $tag;
+      }
+      elseif (end($tags) == substr($tag, 1)) {
+        array_pop($tags);
+      }
+
+      $i += $tagMatch[1][1] - $tagMatch[0][1];
+    }
+
+    return substr($string, 0, $length = min(strlen($string), $length + $i)) . (count($tags = array_reverse($tags)) ? '</' . implode('></', $tags) . '>' : '') . '... <a href="' . $this->link() . '" class="' . $linkClass . '">' . $readMore . '</a>';
+
   }
 
   public function updateDateFr()
