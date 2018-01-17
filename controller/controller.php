@@ -17,30 +17,30 @@ require('model/Manager/Comment.php');
 
 class Controller
 {
-	private $returnMessage =  0;
+  private $returnMessage =  0;
 
-	function loggedIn()
-	{
-		if(isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
-			return true;
-		} else {
-			return false;
-		}
-	}
+  function loggedIn()
+  {
+    if(isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-	public function returnMessage()
-	{
-		if (isset($_SESSION['returnMessage'])){
-			$returnMessage = $_SESSION['returnMessage'];
-			unset($_SESSION['returnMessage']);
-			return $returnMessage;
-		} else {
-			return $this->returnMessage;
-		}
-	}
+  public function returnMessage()
+  {
+    if (isset($_SESSION['returnMessage'])){
+      $returnMessage = $_SESSION['returnMessage'];
+      unset($_SESSION['returnMessage']);
+      return $returnMessage;
+    } else {
+      return $this->returnMessage;
+    }
+  }
 
-	public function setReturnMessage($message)
-	{
-		$this->returnMessage = $message;
-	}
+  public function setReturnMessage($message)
+  {
+    $this->returnMessage = $message;
+  }
 }

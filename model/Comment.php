@@ -25,9 +25,9 @@ class Comment extends Content
   {
     if (isset($_SESSION["reportComment-".$this->id()])){
       return true;
-	} else {
-	  return false;
-	}
+    } else {
+      return false;
+    }
   }
 
   public function setPostId($postId)
