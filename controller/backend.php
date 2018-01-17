@@ -5,10 +5,9 @@ class backend extends Controller
 {
   function editPosts()
   {
-    $blogManager = new BlogManager();
+    $blog = $this->getSettings();
     $postManager = new PostManager('posts');
 
-    $blog = $blogManager->getSettings();
     $postManager->setItemsPerPage(20);
     $posts = $postManager->getPosts();
 
@@ -68,7 +67,6 @@ class backend extends Controller
       $title = 'Modifier l\'article';
       $action = $post->link('edit');
       $submit = 'Mettre à jour';
-      //
       require('view/backend/postEdit.php');
     } else {
       throw new Exception('Identifiant d\'article introuvable');
@@ -123,7 +121,7 @@ class backend extends Controller
 
   function editComments($criteria)
   {
-    $blogManager = new BlogManager();
+    $blog = $this->getSettings();
     $commentManager = new CommentManager('comments');
 
     if (is_int($criteria)){
@@ -134,7 +132,6 @@ class backend extends Controller
       }
     }
 
-    $blog = $blogManager->getSettings();
     $commentManager->setItemsPerPage(50);
     $comments = $commentManager->getComments($criteria);
 
@@ -199,8 +196,7 @@ class backend extends Controller
 
   function editSettings()
   {
-    $blogManager = new BlogManager();
-    $blog = $blogManager->getSettings();
+    $blog = $this->getSettings();
     require('view/backend/settings.php');
   }
 

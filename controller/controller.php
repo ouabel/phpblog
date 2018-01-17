@@ -17,7 +17,13 @@ class Controller
 {
   protected $formError = false;
 
-  function loggedIn()
+  public function getSettings()
+  {
+    $blogManager = new BlogManager();
+    return $blogManager->getSettings();
+  }
+
+  public function loggedIn()
   {
     if(isset($_SESSION['id']) && isset($_SESSION['pseudo'])){
       return true;

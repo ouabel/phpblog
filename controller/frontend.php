@@ -5,8 +5,7 @@ class Frontend extends Controller
 {
   function post($postId)
   {
-    $blogManager = new BlogManager();
-    $blog = $blogManager->getSettings();
+    $blog = $this->getSettings();
 
     $postManager = new PostManager('posts');
     $post = $postManager->getPost($postId);
@@ -32,8 +31,7 @@ class Frontend extends Controller
 
   function listPosts()
   {
-    $blogManager = new BlogManager();
-    $blog = $blogManager->getSettings();
+    $blog = $this->getSettings();
 
     $postManager = new PostManager('posts');
     $postManager->setItemsPerPage(10);
