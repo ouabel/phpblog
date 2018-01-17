@@ -19,7 +19,14 @@ class backend extends Controller
 
   function newPost()
   {
-    require('view/backend/postNew.php');
+    $title = 'Nouvel article';
+    $action = 'admin.php?action=newPost';
+    $submit = 'Publier';
+    if (isset($_SESSION['post'])){
+      $post = $_SESSION['post'];
+      unset($_SESSION['post']);
+    }
+    require('view/backend/postEdit.php');
   }
 
   function insertPost($title, $content)
@@ -44,7 +51,8 @@ class backend extends Controller
     }
 
     if ($error) {
-      require('view/backend/postNew.php');
+      $_SESSION['post'] = $post;
+      $this->newPost();
     }
     else {
       $this->setReturnMessage('success', 'Article publié avec succès <a href="index.php?action=post&id='.$lastInsertId.'">Afficher</a>');
@@ -57,6 +65,10 @@ class backend extends Controller
     $postManager = new PostManager('posts');
     $post = $postManager->getPost($postId);
     if($post){
+      $title = 'Modifier l\'article';
+      $action = $post->link('edit');
+      $submit = 'Mettre à jour';
+      //
       require('view/backend/postEdit.php');
     } else {
       throw new Exception('Identifiant d\'article introuvable');
