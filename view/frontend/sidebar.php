@@ -5,7 +5,7 @@
     <div class="panel-heading">A propos de l'auteur</div>
     <div class="panel-body">
       <p>
-        <?php echo ($this->getAuthor()->about());?>
+        <?= $this->getAuthor()->about() ?>
       </p>
     </div>
   </div>

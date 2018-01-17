@@ -17,7 +17,7 @@
         <?php require('sidebar.php'); ?>
       </div>
     </div>
-    <footer>
+    <footer class="page-footer">
       <a class="btn" href="admin.php"><span class="glyphicon glyphicon-dashboard"></span> Tableau de bord</a>
       <?php if($this->loggedIn()){ ?>
         | <a class="btn" href="index.php?action=logout"><span class="glyphicon glyphicon-log-out"></span> Se déconnecter</a></li>
