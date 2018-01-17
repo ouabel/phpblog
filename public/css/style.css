@@ -2,7 +2,7 @@
   background: url(../images/bg.jpg) no-repeat center center;
   background-size: cover;
   text-align: center;
-  padding: 100px 0;
+  padding: 100px 0 10px;
 }
 
 .blog-header {
@@ -17,6 +17,10 @@
   line-height: 25px;
   padding: 0 10px;
   text-align: justify;
+}
+
+#about_author p{
+  text-indent: 20px;
 }
 
 #login, #error {

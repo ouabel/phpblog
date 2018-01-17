@@ -11,8 +11,7 @@ class Frontend extends Controller
     $postManager = new PostManager('posts');
     $post = $postManager->getPost($postId);
     if($post){
-      $authorManager = new AuthorManager();
-      $author = $authorManager->getAuthor();
+      $author = $this->getAuthor();
 
       if (isset($_SESSION['comment'])){
         $comment = $_SESSION['comment'];
@@ -48,8 +47,7 @@ class Frontend extends Controller
     $pagination['itemsPerPage'] = $postManager->itemsPerPage();
     $pagination['path'] = "index.php?page=";
 
-    $authorManager = new AuthorManager();
-    $author = $authorManager->getAuthor();
+    $author = $this->getAuthor();
 
     require_once('view/frontend/home.php');
   }
@@ -108,8 +106,7 @@ class Frontend extends Controller
   function login($pseudo,$pass)
   {
     $pseudo = strtolower($pseudo);
-    $authorManager = new AuthorManager();
-    $author = $authorManager->getAuthor();
+    $author = $this->getAuthor();
     $error = false;
 
     if ($pseudo === $author->pseudo()){
@@ -130,6 +127,24 @@ class Frontend extends Controller
     if($error){
       require('view/frontend/login.php');
     }
+  }
+
+  function getAuthor(){
+    $authorManager = new AuthorManager();
+    $author = $authorManager->getAuthor();
+    return $author;
+  }
+
+  function getRecentComments(){
+    $commentManager = new CommentManager('comments');
+    $recentComments = $commentManager->getComments('all', 1, 5);
+    return $recentComments;
+  }
+
+  function getRecentPosts(){
+    $postManager = new PostManager('posts');
+    $recentPosts = $postManager->getPosts(1, 5);
+    return $recentPosts;
   }
 
   function getLoginForm()

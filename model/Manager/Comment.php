@@ -2,12 +2,16 @@
 class CommentManager extends ContentManager
 {
 
-  public function getComments($criteria)
+  public function getComments($criteria, $currentPage = 0, $itemsPerPage = 0)
   {
     $comments = [];
     $db = $this->dbConnect();
-    $currentPage = $this->currentPage();
-    $itemsPerPage = $this->itemsPerPage();
+    if($currentPage === 0){
+      $currentPage = $this->currentPage();
+    }
+    if($itemsPerPage === 0){
+      $itemsPerPage = $this->itemsPerPage();
+    }
 
     switch($criteria) {
       case 'all':

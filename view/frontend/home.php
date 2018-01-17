@@ -1,7 +1,5 @@
 <?php $title = $blog->title() ?>
 <?php ob_start(); ?>
-<div class="row">
-  <div class="col-sm-8">
     <section>
     <?php if ($posts) {
       foreach($posts as $post) {?>
@@ -28,11 +26,6 @@
       <p>Aucun article publié</p>
     <?php } ?>
     </section>
-  </div>
-  <div class="col-sm-4">
-    <?php require('sidebar.php'); ?>
-  </div>
-</div>
 <?php $content = ob_get_clean(); ?>
 
 <?php require('template.php'); ?>

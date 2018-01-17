@@ -9,9 +9,14 @@
         </a>
       </div>
     </header>
-
-    <?= $content ?>
-
+    <div class="row">
+      <div class="col-sm-8">
+        <?= $content ?>
+      </div>
+      <div class="col-sm-4">
+        <?php require('sidebar.php'); ?>
+      </div>
+    </div>
     <footer>
       <a class="btn" href="admin.php"><span class="glyphicon glyphicon-dashboard"></span> Tableau de bord</a>
       <?php if($this->loggedIn()){ ?>

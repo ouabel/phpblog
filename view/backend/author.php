@@ -14,6 +14,15 @@
     ?>
   </p>
   <p>
+    <label for="about_author">A propos de l'auteur</label>
+    <textarea type="text" name="about_author" class="form-control" rows="3"><?= $author->about() ?></textarea>
+    <?php
+    if($error = $this->formError('about_author')){
+      echo $error;
+    }
+    ?>
+  </p>
+  <p>
     <label for="author_pseudo">Pseudo d'auteur</label>
     <input type="text" name="author_pseudo" class="form-control" value="<?= $author->pseudo() ?>">
     <?php

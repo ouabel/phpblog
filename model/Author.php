@@ -7,6 +7,7 @@ class Author
   private $pseudo;
   private $email;
   private $pass;
+  private $about;
 
   public function __construct(array $data)
   {
@@ -60,6 +61,11 @@ class Author
   {
     return $this->pass;
   }
+
+  public function about()
+  {
+    return $this->about;
+  }
   
   public function setName($name)
   {
@@ -84,12 +90,20 @@ class Author
       $this->email = $email;
     }
   }
-  
+
   public function setPass($pass)
   {
     if (is_string($pass))
     {
       $this->pass = $pass;
+    }
+  }
+
+  public function setAbout($about)
+  {
+    if (is_string($about))
+    {
+      $this->about = $about;
     }
   }
 }

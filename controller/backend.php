@@ -227,13 +227,14 @@ class backend extends Controller
     $this->editSettings();
   }
 
-  function updateAuthor($name, $pseudo, $email, $pass, $pass2)
+  function updateAuthor($name, $pseudo, $email, $about, $pass, $pass2)
   {
     $authorManager = new AuthorManager();
     $author = $authorManager->getAuthor();
     $author->setName($name);
     $author->setPseudo(strtolower($pseudo));
     $author->setEmail($email);
+    $author->setAbout($about);
 
     if(!ctype_alnum($pseudo)){
       $this->setFormError('author_pseudo', 'Le pseudo ne doit contenir que des lettres non accentuées et chiffres.');
@@ -245,7 +246,7 @@ class backend extends Controller
 
     if((!empty($pass) || !empty($pass2)) && $pass !== $pass2){
       $this->setFormError('pass', 'Les deux mots de passe ne correspondent pas !');
-    } else {
+    } elseif(!empty($pass)) {
       $pass = password_hash($pass , PASSWORD_DEFAULT);
       $author->setPass($pass);
     }

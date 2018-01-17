@@ -4,7 +4,7 @@ class AuthorManager extends Manager
   public function getAuthor()
   {
     $db = $this->dbConnect();
-    $req = $db->prepare("SELECT id, author, author_pseudo, email, pass FROM settings");
+    $req = $db->prepare("SELECT id, author, author_pseudo, email, pass, about_author FROM settings");
     $req->execute();
     $data = $req->fetch();
 
@@ -13,6 +13,7 @@ class AuthorManager extends Manager
     $author->setPseudo($data['author_pseudo']);
     $author->setEmail($data['email']);
     $author->setPass($data['pass']);
+    $author->setAbout($data['about_author']);
 
     return $author;
   }
@@ -20,8 +21,8 @@ class AuthorManager extends Manager
   public function setAuthor(Author $author)
   {
     $db = $this->dbConnect();
-    $req = $db->prepare('UPDATE settings SET author = ?, author_pseudo = ?, email = ?, pass = ? WHERE id = 1');
-    $executeResult = $req->execute([$author->name(), $author->pseudo(), $author->email(), $author->pass()]);
+    $req = $db->prepare('UPDATE settings SET author = ?, author_pseudo = ?, email = ?, pass = ?, about_author = ? WHERE id = 1');
+    $executeResult = $req->execute([$author->name(), $author->pseudo(), $author->email(), $author->pass(), $author->about()]);
 
     return $executeResult;
   }

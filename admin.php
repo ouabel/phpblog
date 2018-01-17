@@ -104,7 +104,7 @@ try
         case 'author':
           if(isset($_POST['submit'])){
             if (isset($_POST['author']) && isset($_POST['author_pseudo']) && isset($_POST['email'])) {
-              $backend->updateAuthor(trim($_POST['author']), trim($_POST['author_pseudo']), trim($_POST['email']), $_POST['pass'], $_POST['pass2']);
+              $backend->updateAuthor(trim($_POST['author']), trim($_POST['author_pseudo']), trim($_POST['email']),trim($_POST['about_author']), $_POST['pass'], $_POST['pass2']);
             } else {
               throw new Exception('Tous les champs ne sont pas remplis !');
             }

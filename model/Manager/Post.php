@@ -2,12 +2,16 @@
 class PostManager extends ContentManager
 {
 
-  public function getPosts()
+  public function getPosts($currentPage = 0, $itemsPerPage = 0)
   {
     $posts = [];
     $db = $this->dbConnect();
-    $currentPage = $this->currentPage();
-    $itemsPerPage = $this->itemsPerPage();
+    if($currentPage === 0){
+      $currentPage = $this->currentPage();
+    }
+    if($itemsPerPage === 0){
+      $itemsPerPage = $this->itemsPerPage();
+    }
 
     $req = $db->prepare('SELECT id, title, content, comments_number, DATE_FORMAT(creation_date, \'%d/%m/%Y à %H:%i\') AS date_fr, DATE_FORMAT(update_date, \'%d/%m/%Y à %H:%i\') AS update_date_fr FROM posts ORDER BY creation_date DESC LIMIT ?, ?');
     $req->execute([($currentPage-1)*$itemsPerPage, $itemsPerPage]);

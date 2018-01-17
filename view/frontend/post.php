@@ -1,8 +1,6 @@
 <?php $title = htmlspecialchars($post->title()) ?>
 <?php ob_start(); ?>
 
-<div class="row">
-  <div class="col-sm-8">
     <section>
       <article class="post" id="post-<?= $post->id() ?>">
 
@@ -27,10 +25,5 @@
     <?php require('post/comments.php'); ?>
 
     </section>
-  </div>
-  <div class="col-sm-4">
-    <?php require('sidebar.php'); ?>
-  </div>
-</div>
 <?php $content = ob_get_clean(); ?>
 <?php require('template.php'); ?>
