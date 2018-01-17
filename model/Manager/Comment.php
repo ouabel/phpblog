@@ -5,6 +5,7 @@ class CommentManager extends ContentManager
   public function getComments($criteria, $currentPage = 0, $itemsPerPage = 0)
   {
     $comments = [];
+    $this->countComments($criteria);
     $db = $this->dbConnect();
     if($currentPage === 0){
       $currentPage = $this->currentPage();
@@ -66,7 +67,7 @@ class CommentManager extends ContentManager
     }
 
     $commentsNumber = $req->fetchColumn();
-    return $commentsNumber;
+    $this->setCountItems($commentsNumber);
   }
 
   public function deletePostComments($postId)

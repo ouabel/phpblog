@@ -42,7 +42,7 @@ if($comments){
 <?php } ?>
 </div>
 <?php
-require('view/frontend/pagination.php');
+if ($pagination){ echo $pagination; };
 
 $content = ob_get_clean();
 

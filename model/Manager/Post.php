@@ -5,6 +5,7 @@ class PostManager extends ContentManager
   public function getPosts($currentPage = 0, $itemsPerPage = 0)
   {
     $posts = [];
+    $this->countPosts();
     $db = $this->dbConnect();
     if($currentPage === 0){
       $currentPage = $this->currentPage();
@@ -34,7 +35,7 @@ class PostManager extends ContentManager
     $req = $db->prepare("SELECT count(*) FROM posts");
     $req->execute();
     $postsNumber = $req->fetchColumn();
-    return $postsNumber;
+    $this->setCountItems($postsNumber);
   }
 
   public function getPost($postId)

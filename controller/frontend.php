@@ -22,10 +22,7 @@ class Frontend extends Controller
       $commentManager->setItemsPerPage(20);
       $comments = $commentManager->getComments($postId);
 
-      $pagination['page'] = $commentManager->currentPage();
-      $pagination['items'] = $commentManager->countComments($postId);
-      $pagination['itemsPerPage'] = $commentManager->itemsPerPage();
-      $pagination['path'] = "index.php?action=post&id=$postId&page=";
+      $pagination = $commentManager->pagination("index.php?action=post&id=$postId&");
 
       require_once('view/frontend/post.php');
     } else {
@@ -42,10 +39,7 @@ class Frontend extends Controller
     $postManager->setItemsPerPage(10);
     $posts = $postManager->getPosts();
 
-    $pagination['page'] = $postManager->currentPage();
-    $pagination['items'] = $postManager->countPosts();
-    $pagination['itemsPerPage'] = $postManager->itemsPerPage();
-    $pagination['path'] = "index.php?page=";
+    $pagination = $postManager->pagination("index.php?");
 
     $author = $this->getAuthor();
 

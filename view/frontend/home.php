@@ -21,7 +21,7 @@
         </article>
         <hr>
     <?php }
-      require('view/frontend/pagination.php'); ?>
+      if ($pagination){ echo $pagination; }; ?>
     <?php } else { ?>
       <p>Aucun article publié</p>
     <?php } ?>

@@ -12,10 +12,7 @@ class backend extends Controller
     $postManager->setItemsPerPage(20);
     $posts = $postManager->getPosts();
 
-    $pagination['page'] = $postManager->currentPage();
-    $pagination['items'] = $postManager->countPosts();
-    $pagination['itemsPerPage'] = $postManager->itemsPerPage();
-    $pagination['path'] = "admin.php?page=";
+    $pagination = $postManager->pagination("admin.php?");
 
     require('view/backend/postsEdit.php');
   }
@@ -129,15 +126,14 @@ class backend extends Controller
     $commentManager->setItemsPerPage(50);
     $comments = $commentManager->getComments($criteria);
 
-    $pagination['page'] = $commentManager->currentPage();
-    $pagination['items'] = $commentManager->countComments($criteria);
-    $pagination['itemsPerPage'] = $commentManager->itemsPerPage();
+    $pagination = $commentManager->pagination("admin.php?");
+
     if ($criteria === 'all') {
-      $pagination['path'] = "admin.php?action=editComments&page=";
+      $pagination = $commentManager->pagination("admin.php?action=editComments&");
     } else if ($criteria === 'reported'){
-      $pagination['path'] = "admin.php?action=editComments&reported=1&page=";
+      $pagination = $commentManager->pagination("admin.php?action=editComments&reported=1&");
     } else {
-      $pagination['path'] = "admin.php?action=editComments&id=$criteria&page=";
+      $pagination = $commentManager->pagination("admin.php?action=editComments&id=$criteria&page=");
     }
 
     require('view/backend/commentsEdit.php');

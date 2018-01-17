@@ -25,7 +25,7 @@
 <?php   } ?>
 </div>
 
-<?php require('view/frontend/pagination.php'); ?>
+<?php if ($pagination){ echo $pagination; }; ?>
 
 <?php $content = ob_get_clean(); ?>
 

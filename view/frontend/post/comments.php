@@ -17,7 +17,7 @@
       </div>
     </div>
   <?php } ?>
-  <?php require('view/frontend/pagination.php');
+  <?php if ($pagination){ echo $pagination; };
 } else { ?>
 
 <?php } ?>
