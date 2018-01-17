@@ -7,7 +7,7 @@ class Frontend extends Controller
   {
     $blog = $this->getSettings();
 
-    $postManager = new PostManager('posts');
+    $postManager = new PostManager();
     $post = $postManager->getPost($postId);
     if($post){
       $author = $this->getAuthor();
@@ -17,7 +17,7 @@ class Frontend extends Controller
         unset($_SESSION['comment']);
       }
 
-      $commentManager = new CommentManager('comments');
+      $commentManager = new CommentManager();
       $commentManager->setItemsPerPage(20);
       $comments = $commentManager->getComments($postId);
 
@@ -33,7 +33,7 @@ class Frontend extends Controller
   {
     $blog = $this->getSettings();
 
-    $postManager = new PostManager('posts');
+    $postManager = new PostManager();
     $postManager->setItemsPerPage(10);
     $posts = $postManager->getPosts();
 
@@ -46,7 +46,7 @@ class Frontend extends Controller
 
   function addComment($postId, $author, $content)
   {
-    $commentManager = new CommentManager('comments');
+    $commentManager = new CommentManager();
 
     $comment = new Comment(['postId'=>$postId, 'author'=>$author, 'content'=>$content]);
 
@@ -66,7 +66,7 @@ class Frontend extends Controller
       if($executeResult === false){
         $this->setReturnMessage('danger', 'Impossible d\'ajouter le commentaire !');
       } else {
-        $postManager = new PostManager('posts');
+        $postManager = new PostManager();
         $postManager->addComment($postId);
         $this->setReturnMessage('success', 'Votre commentaire est publié');
       }
@@ -76,7 +76,7 @@ class Frontend extends Controller
 
   function reportComment($commentId)
   {
-    $commentManager = new CommentManager('comments');
+    $commentManager = new CommentManager();
     $comment = $commentManager->getComment($commentId);
     if ($comment){
       if ($comment->reported()) {
@@ -128,13 +128,13 @@ class Frontend extends Controller
   }
 
   function getRecentComments(){
-    $commentManager = new CommentManager('comments');
+    $commentManager = new CommentManager();
     $recentComments = $commentManager->getComments('all', 1, 5);
     return $recentComments;
   }
 
   function getRecentPosts(){
-    $postManager = new PostManager('posts');
+    $postManager = new PostManager();
     $recentPosts = $postManager->getPosts(1, 5);
     return $recentPosts;
   }

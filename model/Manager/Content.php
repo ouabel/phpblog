@@ -5,13 +5,6 @@ class ContentManager extends Manager
   protected $table;
   protected $countItems;
 
-  public function __construct($table)
-  {
-    if(is_string($table)){
-      $this->table = $table;
-    }
-  }
-
   public function itemsPerPage(){
     return $this->itemsPerPage;
   }

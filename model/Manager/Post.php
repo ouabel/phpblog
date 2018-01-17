@@ -1,6 +1,7 @@
 <?php
 class PostManager extends ContentManager
 {
+  protected $table = 'posts';
 
   public function getPosts($currentPage = 0, $itemsPerPage = 0)
   {

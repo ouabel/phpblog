@@ -1,6 +1,7 @@
 <?php
 class CommentManager extends ContentManager
 {
+  protected $table = 'comments';
 
   public function getComments($criteria, $currentPage = 0, $itemsPerPage = 0)
   {

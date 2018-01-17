@@ -6,7 +6,7 @@ class backend extends Controller
   function editPosts()
   {
     $blog = $this->getSettings();
-    $postManager = new PostManager('posts');
+    $postManager = new PostManager();
 
     $postManager->setItemsPerPage(20);
     $posts = $postManager->getPosts();
@@ -30,7 +30,7 @@ class backend extends Controller
 
   function insertPost($title, $content)
   {
-    $postManager = new PostManager('posts');
+    $postManager = new PostManager();
     $post = new Post(['title'=>$title, 'content'=>$content]);
     $error = false;
 
@@ -61,7 +61,7 @@ class backend extends Controller
 
   function editPost($postId)
   {
-    $postManager = new PostManager('posts');
+    $postManager = new PostManager();
     $post = $postManager->getPost($postId);
     if($post){
       $title = 'Modifier l\'article';
@@ -75,7 +75,7 @@ class backend extends Controller
 
   function updatePost($postId, $title, $content)
   {
-    $postManager = new PostManager('posts');
+    $postManager = new PostManager();
     $post = $postManager->getPost($postId);
 
     $post->setTitle($title);
@@ -94,7 +94,7 @@ class backend extends Controller
 
   function deletePost($postId)
   {
-    $postManager = new PostManager('posts');
+    $postManager = new PostManager();
     $post = $postManager->getPost($postId);
     if($post){
       $executeResult = $postManager->deleteContent($post);
@@ -122,10 +122,10 @@ class backend extends Controller
   function editComments($criteria)
   {
     $blog = $this->getSettings();
-    $commentManager = new CommentManager('comments');
+    $commentManager = new CommentManager();
 
     if (is_int($criteria)){
-      $postManager = new PostManager('posts');
+      $postManager = new PostManager();
       $post = $postManager->getPost($criteria);
       if (!$post){
         throw new Exception('Identifiant d\'article introuvable');
@@ -150,7 +150,7 @@ class backend extends Controller
 
   function editComment($commentId)
   {
-    $commentManager = new CommentManager('comments');
+    $commentManager = new CommentManager();
     $comment = $commentManager->getComment($commentId);
     if ($comment) {
       require('view/backend/commentEdit.php');
@@ -161,7 +161,7 @@ class backend extends Controller
 
   function updateComment($commentId,$author,$content)
   {
-    $commentManager = new CommentManager('comments');
+    $commentManager = new CommentManager();
     $comment = new Comment(['id'=>$commentId, 'author'=>$author, 'content'=>$content]);
 
     $executeResult = $commentManager->updateComment($comment);
@@ -177,7 +177,7 @@ class backend extends Controller
 
   function deleteComment($commentId)
   {
-    $commentManager = new CommentManager('comments');
+    $commentManager = new CommentManager();
     $comment = $commentManager->getComment($commentId);
     if ($comment){
       $executeResult = $commentManager->deleteContent($comment);
@@ -185,7 +185,7 @@ class backend extends Controller
         $this->setReturnMessage('danger', 'Impossible de supprimer le commentaire !');
       }
       else {
-        $postManager = new PostManager('posts');
+        $postManager = new PostManager();
         $postManager->deleteComment($comment->postId());
         $this->setReturnMessage('success', 'Commentaire supprimé avec succès');
       }
