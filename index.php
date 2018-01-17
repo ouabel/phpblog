@@ -22,7 +22,7 @@ $frontend = new Frontend();
       case 'addComment':
         if (isset($_GET['id']) && (int) $_GET['id'] > 0) {
           if (isset($_POST['author']) && isset($_POST['comment'])) {
-            $frontend->addComment(intval($_GET['id']), $_POST['author'], $_POST['comment']);
+            $frontend->addComment(intval($_GET['id']), trim($_POST['author']), trim($_POST['comment']));
           }
           else {
             throw new Exception('Tous les champs ne sont pas remplis !');

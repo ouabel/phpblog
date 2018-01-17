@@ -5,6 +5,9 @@ require('header.php');
   <div class="panel panel-primary" id="login">
     <div class="panel-heading">Se connecter</div>
     <div class="panel-body">
+      <?php if($returnMessage = $this->returnMessage()){?>
+        <p class="alert alert-<?= $returnMessage['type'] ?>"><?= $returnMessage['message'] ?></p>
+      <?php } ?>
       <form method="post" action="index.php?action=login">
         <p>
           <label for="pseudo">Pseudo:</label><br />

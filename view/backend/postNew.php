@@ -5,8 +5,20 @@
 
 <?php ob_start(); ?>
 <form method="post" action="admin.php?action=newPost">
-  <p><input type="text" name="title"  class="form-control" <?php if(isset($post)){echo 'value="'.$post->title().'"';} ?>placeholder="Titre de l'article"></p>
-  <p><textarea name="content" class="form-control" rows="15"><?php if(isset($post)){echo $post->content();} ?></textarea></p>
+  <p><input type="text" name="title"  class="form-control" <?php if(isset($post)){echo 'value="'.$post->title().'"';} ?>placeholder="Titre de l'article">
+  <?php
+    if($error = $this->formError('title')){
+      echo $error;
+    }
+  ?>
+  </p>
+  <p><textarea name="content" class="form-control" rows="15"><?php if(isset($post)){echo $post->content();} ?></textarea>
+    <?php
+    if($error = $this->formError('content')){
+      echo $error;
+    }
+    ?>
+  </p>
   <input type="hidden" name="submit" value="post">
   <button type="submit" class="btn btn-primary">Publier</button>
 </form>

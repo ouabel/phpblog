@@ -1,7 +1,5 @@
 <?php
 
-//session_start();
-
 require('model/Blog.php');
 require('model/Content.php');
 require('model/Post.php');
@@ -17,7 +15,7 @@ require('model/Manager/Comment.php');
 
 class Controller
 {
-  private $returnMessage =  0;
+  protected $formError = false;
 
   function loggedIn()
   {
@@ -28,6 +26,12 @@ class Controller
     }
   }
 
+  public function setReturnMessage($type,$message)
+  {
+    $_SESSION['returnMessage'] = ['type' => $type, 'message' => $message];
+    $this->returnMessage = true;
+  }
+
   public function returnMessage()
   {
     if (isset($_SESSION['returnMessage'])){
@@ -35,12 +39,28 @@ class Controller
       unset($_SESSION['returnMessage']);
       return $returnMessage;
     } else {
-      return $this->returnMessage;
+      return false;
     }
   }
 
-  public function setReturnMessage($message)
+  public function setFormError($field, $error)
   {
-    $this->returnMessage = $message;
+    $_SESSION['formError'][$field][] = $error;
+    $this->formError = true;
+  }
+
+  public function formError($field){
+    if (isset($_SESSION['formError'][$field])){
+      $formError = $_SESSION['formError'][$field];
+      unset($_SESSION['formError'][$field]);
+      $return = '<ul class="text-danger">';
+      foreach($formError as $error){
+        $return .= "<li>$error</li>";
+      }
+      $return .= '</ul>';
+      return $return;
+    } else {
+      return false;
+    }
   }
 }

@@ -12,7 +12,7 @@
 <body>
 <div id="container" class="container-fluid">
   <div class="row">
-    <div id="admin-nav" class="col-xs-2">
+    <div id="admin-nav" class="col-md-2">
       <div class="list-group">
         <a class="list-group-item active">Tableau de bord</a>
         <a class="list-group-item" href="index.php"><i class="glyphicon glyphicon-home"></i> Afficher le blog</a>
@@ -25,10 +25,10 @@
         <a class="list-group-item" href="index.php?action=logout"><i class="glyphicon glyphicon-log-out"></i> Se déconnecter</a>
       </div>
     </div>
-    <div id="admin-area" class="col-xs-10">
+    <div id="admin-area" class="col-md-10">
       <h1><?= $h1 ?></h1>
       <?php if($returnMessage = $this->returnMessage()){?>
-        <p class="alert alert-info"><?= $returnMessage ?></p>
+        <p class="alert alert-<?= $returnMessage['type'] ?>"><?= $returnMessage['message'] ?></p>
       <?php } ?>
       <?= $content ?>
     </div>

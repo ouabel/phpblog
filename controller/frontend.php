@@ -14,6 +14,11 @@ class Frontend extends Controller
       $authorManager = new AuthorManager();
       $author = $authorManager->getAuthor();
 
+      if (isset($_SESSION['comment'])){
+        $comment = $_SESSION['comment'];
+        unset($_SESSION['comment']);
+      }
+
       $commentManager = new CommentManager('comments');
       $commentManager->setItemsPerPage(20);
       $comments = $commentManager->getComments($postId);
@@ -53,20 +58,30 @@ class Frontend extends Controller
   {
     $commentManager = new CommentManager('comments');
 
-    if(empty($author) || empty($content)){
-      $_SESSION['returnMessage'] = 'Tous les champs sont obligatoires';
+    $comment = new Comment(['postId'=>$postId, 'author'=>$author, 'content'=>$content]);
+
+    if(!ctype_alnum(str_replace(' ','',$author))){
+      $this->setFormError('author','Vous avez entré un nom incorrect');
+    }
+
+    if(empty($content)){
+      $this->setFormError('comment','Le champ de commentaire est obligatoire');
+    }
+
+    if($this->formError){
+      $this->setReturnMessage('danger', 'Veuillez corriger les erreurs');
+      $_SESSION['comment'] = $comment;
     } else {
-      $comment = new Comment(['postId'=>$postId, 'author'=>$author, 'content'=>$content]);
       $executeResult = $commentManager->newComment($comment);
       if($executeResult === false){
-        $_SESSION['returnMessage'] = 'Impossible d\'ajouter le commentaire !';
+        $this->setReturnMessage('danger', 'Impossible d\'ajouter le commentaire !');
       } else {
         $postManager = new PostManager('posts');
         $postManager->addComment($postId);
-        $_SESSION['returnMessage'] = 'Votre commentaire est publié';
+        $this->setReturnMessage('success', 'Votre commentaire est publié');
       }
     }
-    header('Location: index.php?action=post&id=' . $postId);
+    header('Location: index.php?action=post&id=' . $postId . '#add_comment');
   }
 
   function reportComment($commentId)
@@ -92,8 +107,10 @@ class Frontend extends Controller
 
   function login($pseudo,$pass)
   {
+    $pseudo = strtolower($pseudo);
     $authorManager = new AuthorManager();
     $author = $authorManager->getAuthor();
+    $error = false;
 
     if ($pseudo === $author->pseudo()){
       $pv = password_verify($pass, $author->pass());
@@ -103,10 +120,15 @@ class Frontend extends Controller
         $_SESSION['pseudo'] = $pseudo;
         header('location:admin.php');
       }else{
-        throw new Exception('Mot de passe erroné !');
+        $this->setReturnMessage('danger', 'Mot de passe erroné !');
+        $error = true;
       }
     }else{
-      throw new Exception('Utilisateur non trouvé !');
+      $this->setReturnMessage('danger', 'Utilisateur non trouvé !');
+      $error = true;
+    }
+    if($error){
+      require('view/frontend/login.php');
     }
   }
 

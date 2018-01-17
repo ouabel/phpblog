@@ -28,18 +28,21 @@ class backend extends Controller
   function insertPost($title, $content)
   {
     $postManager = new PostManager('posts');
+    $post = new Post(['title'=>$title, 'content'=>$content]);
     $error = false;
 
-    if (empty($title)){
-      $error = true;
-      $this->setReturnMessage('Le champ titre est obligatoire');
-    } else {
-      $post = new Post(['title'=>$title, 'content'=>$content]);
-      $lastInsertId = $postManager->insertPost($post);
+    if(empty($title)){
+      $this->setFormError('title','Le champ de titre est obligatoire');
+    }
 
+    if($this->formError){
+      $error = true;
+      $this->setReturnMessage('danger', 'Veuillez corriger les erreurs');
+    } else {
+      $lastInsertId = $postManager->insertPost($post);
       if($lastInsertId === '0'){
         $error = true;
-        $this->setReturnMessage('Impossible d\'ajouter l\'article !');
+        $this->setReturnMessage('danger', 'Impossible d\'ajouter l\'article !');
       }
     }
 
@@ -47,7 +50,7 @@ class backend extends Controller
       require('view/backend/postNew.php');
     }
     else {
-      $_SESSION['returnMessage'] = 'Article publié avec succès <a href="index.php?action=post&id='.$lastInsertId.'">Afficher</a>';
+      $this->setReturnMessage('success', 'Article publié avec succès <a href="index.php?action=post&id='.$lastInsertId.'">Afficher</a>');
       header('location:admin.php?action=editPost&id='.$lastInsertId);
     }
   }
@@ -74,10 +77,10 @@ class backend extends Controller
     $executeResult = $postManager->updatePost($post);
 
     if ($executeResult === false) {
-      $this->setReturnMessage('Impossible de modifier l\'article !');
+      $this->setReturnMessage('danger', 'Impossible de modifier l\'article !');
     }
     else {
-      $this->setReturnMessage('Article mis à jour avec succès <a href="index.php?action=post&id='.$postId.'">Afficher</a>');
+      $this->setReturnMessage('success', 'Article mis à jour avec succès <a href="index.php?action=post&id='.$postId.'">Afficher</a>');
     }
     $this->editPost($post->id());
   }
@@ -90,16 +93,16 @@ class backend extends Controller
       $executeResult = $postManager->deleteContent($post);
 
       if ($executeResult === false) {
-        $_SESSION['returnMessage'] = 'Impossible de supprimer l\'article !';
+        $this->setReturnMessage('danger', 'Impossible de supprimer l\'article !');
       }
       else {
         $commentManager = new commentManager();
         $affectedRows = $commentManager->deletePostComments($postId);
         if ($affectedRows === false) {
-          $_SESSION['returnMessage'] = 'Impossible de supprimer les commentaires d\'article !';
+          $this->setReturnMessage('danger', 'Impossible de supprimer les commentaires d\'article !');
         }
         else {
-          $_SESSION['returnMessage'] = 'Article supprimé avec succès';
+          $this->setReturnMessage('success', 'Article supprimé avec succès');
         }
       }
       header('Location: admin.php');
@@ -159,10 +162,10 @@ class backend extends Controller
     $executeResult = $commentManager->updateComment($comment);
 
     if ($executeResult === false) {
-      $this->setReturnMessage('Impossible de modifier le commentaire !');
+      $this->setReturnMessage('danger', 'Impossible de modifier le commentaire !');
     }
     else {
-      $this->setReturnMessage('Commentaire modifié avec succès');
+      $this->setReturnMessage('success', 'Commentaire modifié avec succès');
     }
     $this->editComment($comment->id());
   }
@@ -174,12 +177,12 @@ class backend extends Controller
     if ($comment){
       $executeResult = $commentManager->deleteContent($comment);
       if ($executeResult === false) {
-        $_SESSION['returnMessage'] = 'Impossible de supprimer le commentaire !';
+        $this->setReturnMessage('danger', 'Impossible de supprimer le commentaire !');
       }
       else {
         $postManager = new PostManager('posts');
         $postManager->deleteComment($comment->postId());
-        $_SESSION['returnMessage'] = 'Commentaire supprimé avec succès';
+        $this->setReturnMessage('success', 'Commentaire supprimé avec succès');
       }
     } else {
       throw new Exception('Identifiant de commentaire introuvable');
@@ -195,8 +198,13 @@ class backend extends Controller
 
   function editAuthor()
   {
-    $authorManager = new AuthorManager();
-    $author = $authorManager->getAuthor();
+    if(isset($_SESSION['author'])){
+      $author = $_SESSION['author'];
+      unset($_SESSION['author']);
+    } else {
+      $authorManager = new AuthorManager();
+      $author = $authorManager->getAuthor();
+    }
     require('view/backend/author.php');
   }
 
@@ -211,38 +219,48 @@ class backend extends Controller
     $executeResult = $blogManager->setSettings($blog);
 
     if ($executeResult === false) {
-      $this->setReturnMessage('Impossible de modifier les réglages !');
+      $this->setReturnMessage('danger', 'Impossible de modifier les réglages !');
     }
     else {
-      $this->setReturnMessage('Réglages mis à jour avec succès');
+      $this->setReturnMessage('success', 'Réglages mis à jour avec succès');
     }
     $this->editSettings();
   }
 
   function updateAuthor($name, $pseudo, $email, $pass, $pass2)
   {
+    $authorManager = new AuthorManager();
+    $author = $authorManager->getAuthor();
+    $author->setName($name);
+    $author->setPseudo(strtolower($pseudo));
+    $author->setEmail($email);
+
+    if(!ctype_alnum($pseudo)){
+      $this->setFormError('author_pseudo', 'Le pseudo ne doit contenir que des lettres non accentuées et chiffres.');
+    }
+
+    if(mb_strlen($pseudo) < 4){
+      $this->setFormError('author_pseudo', 'Le pseudo doit contenir 4 caractères au minimum.');
+    }
 
     if((!empty($pass) || !empty($pass2)) && $pass !== $pass2){
-      $this->setReturnMessage('Les deux mots de passe ne correspondent pas !');
+      $this->setFormError('pass', 'Les deux mots de passe ne correspondent pas !');
+    } else {
+      $pass = password_hash($pass , PASSWORD_DEFAULT);
+      $author->setPass($pass);
     }
-    else{
-      $authorManager = new AuthorManager();
-      $author = $authorManager->getAuthor();
-      $author->setName($name);
-      $author->setPseudo($pseudo);
-      $author->setEmail($email);
 
-      if(!empty($pass)){
-        $pass = password_hash($pass , PASSWORD_DEFAULT);
-        $author->setPass($pass);
-      }
+    if($this->formError){
+      $this->setReturnMessage('danger', 'Veuillez corriger les erreurs');
+      $_SESSION['author'] = $author;
+    }else{
 
       $executeResult = $authorManager->setAuthor($author);
       if ($executeResult === false) {
-        $this->setReturnMessage('Impossible de modifier l\'autheur !');
+        $this->setReturnMessage('danger', 'Impossible de modifier l\'autheur !');
       }
       else {
-        $this->setReturnMessage('Auteur mis à jour avec succès');
+        $this->setReturnMessage('success', 'Auteur mis à jour avec succès');
       }
     }
 

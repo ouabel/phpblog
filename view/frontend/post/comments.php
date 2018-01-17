@@ -1,5 +1,5 @@
 <?php if($comments){ ?>
-  <h3>Commentaires</h3>
+  <h3 id="comments">Commentaires</h3>
   <?php foreach($comments as $comment){ ?>
     <div class="panel panel-default" id="comment-<?= $comment->id() ?>">
       <div class="panel-heading">
