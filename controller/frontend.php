@@ -18,7 +18,7 @@ class Frontend extends Controller
       }
 
       $commentManager = new CommentManager();
-      $commentManager->setItemsPerPage(20);
+      $commentManager->setItemsPerPage($blog->itemsPerPage('cpp'));
       $comments = $commentManager->getComments($postId);
 
       $pagination = $commentManager->pagination("index.php?action=post&id=$postId&");
@@ -34,7 +34,7 @@ class Frontend extends Controller
     $blog = $this->getSettings();
 
     $postManager = new PostManager();
-    $postManager->setItemsPerPage(10);
+    $postManager->setItemsPerPage($blog->itemsPerPage('ppp'));
     $posts = $postManager->getPosts();
 
     $pagination = $postManager->pagination("index.php?");

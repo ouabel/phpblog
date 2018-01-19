@@ -92,7 +92,8 @@ try
         case 'settings':
           if(isset($_POST['submit'])){
               if (isset($_POST['title']) && isset($_POST['description'])) {
-                $backend->updateSettings(trim($_POST['title']), trim($_POST['description']));
+                $itemsPerPage = "{$_POST['ppp']},{$_POST['cpp']},{$_POST['pppa']},{$_POST['cppa']}";
+                $backend->updateSettings(trim($_POST['title']), trim($_POST['description']), $itemsPerPage);
               } else {
                 throw new Exception('Tous les champs ne sont pas remplis !');
               }

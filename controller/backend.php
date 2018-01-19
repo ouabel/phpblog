@@ -8,7 +8,7 @@ class backend extends Controller
     $blog = $this->getSettings();
     $postManager = new PostManager();
 
-    $postManager->setItemsPerPage(20);
+    $postManager->setItemsPerPage($blog->itemsPerPage('pppa'));
     $posts = $postManager->getPosts();
 
     $pagination = $postManager->pagination("admin.php?");
@@ -132,7 +132,7 @@ class backend extends Controller
       }
     }
 
-    $commentManager->setItemsPerPage(50);
+    $commentManager->setItemsPerPage($blog->itemsPerPage('cppa'));
     $comments = $commentManager->getComments($criteria);
 
     $pagination = $commentManager->pagination("admin.php?");
@@ -212,13 +212,14 @@ class backend extends Controller
     require('view/backend/author.php');
   }
 
-  function updateSettings($title, $description)
+  function updateSettings($title, $description, $itemsPerPage)
   {
 
     $blogManager = new BlogManager();
     $blog = $blogManager->getSettings();
     $blog->setTitle($title);
     $blog->setDescription($description);
+    $blog->setItemsPerPage($itemsPerPage);
 
     $executeResult = $blogManager->setSettings($blog);
 

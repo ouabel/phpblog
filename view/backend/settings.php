@@ -12,8 +12,26 @@
     <label for="description">Description du blog</label>
     <textarea type="text" name="description" class="form-control" rows="4"><?= $blog->description() ?></textarea>
   </p>
-  <input type="hidden" name="submit" value="blog">
-  <button type="submit" class="btn btn-primary">Mettre à jour</button>
+
+    <div class="col">
+      <div class="row">
+        <div class="col-sm-3">
+          <p>Afficher <input name="ppp" type="number" class="form-control number" value="<?= $blog->itemsPerPage('ppp') ?>"> articles par page</p>
+        </div>
+        <div class="col-sm-3">
+          <p>Afficher <input name="cpp" type="number" class="form-control number" value="<?= $blog->itemsPerPage('cpp') ?>"> commentaires par page</p>
+        </div>
+        <div class="col-sm-3">
+          <p>Modérer <input name="pppa" type="number" class="form-control number" value="<?= $blog->itemsPerPage('pppa') ?>"> articles par page</p>
+        </div>
+        <div class="col-sm-3">
+          <p>Modérer <input name="cppa" type="number" class="form-control number" value="<?= $blog->itemsPerPage('cppa') ?>"> commentaires par page</p>
+        </div>
+      </div>
+    </div>
+  <br>
+    <input type="hidden" name="submit" value="blog">
+    <button type="submit" class="btn btn-primary">Mettre à jour</button>
 </form>
 
 <?php $content = ob_get_clean(); ?>
