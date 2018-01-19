@@ -1,26 +1,17 @@
-<?php $title = 'Modérer les commentaires';
-
-if(isset($_GET['reported'])){
-  $h1 = "Modérer les commentaires signalés";
-  $redirectTo = 'reported';
-}elseif(isset($_GET['id'])) {
-  $h1 = "Modérer les commentaires sur " . htmlspecialchars($post->title());
-  $redirectTo = $_GET['id'];
-}  else {
-  $h1 = "Modérer les commentaires";
-  $redirectTo = 'all';
-}
-?>
+<?php $title = 'Modérer les commentaires'; ?>
 
 <?php ob_start(); ?>
 <div class="panel-group">
-<?php
-if($comments){
-  foreach ($comments as $comment)
-  {
-  ?>
+<?php if($comments){ ?>
+<form method="post" action="admin.php?action=multipleDelete&amp;redirect_to=<?= $redirectTo ?>">
+<input type="hidden" name="type" value="comment"></input>
+<p>
+  <button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer tout sélectionné</button>
+</p>
+<?php foreach ($comments as $comment) {?>
   <div class="panel panel-default <?php if($comment->reports()){?><?= 'panel-danger'; } ?>">
     <div class="panel-heading">
+      <input type="checkbox" class="form-check-inline" name="multipleDelete[]" value="<?= $comment->id() ?>"></input>
       Par : <?= htmlspecialchars($comment->author()) ?>
       le : <?= $comment->dateFr() ?>
     </div>
@@ -33,9 +24,11 @@ if($comments){
       <a class="btn btn-sm btn-default" href="index.php?action=post&amp;id=<?= $comment->postId() ?>"><span class="glyphicon glyphicon-align-left"></span> Article</a>
     </div>
   </div>
-  <?php
-  }
-} else {?>
+  <?php } ?>
+  <br>
+  <button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer tout sélectionné</button>
+</form>
+<?php } else {?>
   <div class="panel panel-default panel-body">
     <p>Pas de commentaires à modérer</p>
   </div>

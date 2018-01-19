@@ -3,11 +3,18 @@
 
 <?php ob_start(); ?>
 <div class="panel-group">
-<?php if($posts){
-    foreach ($posts as $post) { ?>
+<?php if($posts){ ?>
+<form method="post" action="admin.php?action=multipleDelete">
+<input type="hidden" name="type" value="post"></input>
+<p>
+  <button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer tout sélectionné</button>
+</p>
+<?php foreach ($posts as $post) { ?>
   <div class="panel panel-default">
-
-    <div class="panel-heading">Pblié le <?= $post->dateFr() ?> Mis à jour le <?= $post->updateDateFr() ?> <a href="<?= $post->link() ?>"><span class="glyphicon glyphicon-eye-open"></span> Afficher</a></div>
+    <div class="panel-heading">
+      <input type="checkbox" class="form-check-inline" name="multipleDelete[]" value="<?= $post->id() ?>"></input>
+      Publié le <?= $post->dateFr() ?> Mis à jour le <?= $post->updateDateFr() ?> <a href="<?= $post->link() ?>"><span class="glyphicon glyphicon-eye-open"></span> Afficher</a>
+    </div>
     <div class="panel-body"><?= htmlspecialchars($post->title()) ?></div>
     <div class="panel-footer">
       <a class="btn btn-sm btn-primary" href="<?= $post->link('edit') ?>"><span class="glyphicon glyphicon-edit"></span> Modifier</a>
@@ -17,14 +24,16 @@
 
   </div>
     
-<?php   }
-  } else { ?>
+<?php } ?>
+</form>
+<br>
+<button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer tout sélectionné</button>
+<?php } else { ?>
   <div class="panel panel-default panel-body">
     <p>Aucun article publié</p>
   </div>
-<?php   } ?>
+<?php } ?>
 </div>
-
 <?php if ($pagination){ echo $pagination; }; ?>
 
 <?php $content = ob_get_clean(); ?>

@@ -89,6 +89,28 @@ try
           }
           break;
 
+        case 'multipleDelete':
+          if (isset($_POST['type'])) {
+            if(!isset($_POST['multipleDelete'])){
+              $_POST['multipleDelete'] = 0;
+            }
+            if($_POST['type'] == 'post'){
+              $backend->deletePosts($_POST['multipleDelete']);
+            }elseif($_POST['type'] == 'comment'){
+              $backend->deleteComments($_POST['multipleDelete']);
+              if($_GET['redirect_to'] === 'all'){
+                header('location:admin.php?action=editComments');
+              } elseif($_GET['redirect_to'] === 'reported'){
+                header('location:admin.php?action=editComments&reported=1');
+              } else {
+                header('location:admin.php?action=editComments&id='.$_GET['redirect_to']);
+              }
+            }
+          } else {
+            throw new Exception('Une erreur est survenue !');
+          }
+          break;
+
         case 'settings':
           if(isset($_POST['submit'])){
               if (isset($_POST['title']) && isset($_POST['description'])) {

@@ -119,30 +119,44 @@ class backend extends Controller
     //TODO: redirect home if deleted from frontend
   }
 
+  function deletePosts($listIds){
+    if(is_array($listIds)){
+      foreach($listIds as $postId){
+        $this->deletePost($postId);
+      }
+      $this->setReturnMessage('success', count($listIds) . ' article(s) supprimé(s) avec succès');
+    }else{
+      $this->setReturnMessage('danger', 'Aucun article n\'est sélectionné');
+    }
+    header('location:admin.php');
+  }
+
   function editComments($criteria)
   {
     $blog = $this->getSettings();
     $commentManager = new CommentManager();
+    $commentManager->setItemsPerPage($blog->itemsPerPage('cppa'));
+    $comments = $commentManager->getComments($criteria);
 
     if (is_int($criteria)){
       $postManager = new PostManager();
       $post = $postManager->getPost($criteria);
+      $h1 = "Modérer les commentaires sur " . htmlspecialchars($post->title());
+      $redirectTo = $post->id();
+      $pagination = $commentManager->pagination("admin.php?action=editComments&id=$criteria&page=");
       if (!$post){
         throw new Exception('Identifiant d\'article introuvable');
       }
     }
 
-    $commentManager->setItemsPerPage($blog->itemsPerPage('cppa'));
-    $comments = $commentManager->getComments($criteria);
-
-    $pagination = $commentManager->pagination("admin.php?");
-
     if ($criteria === 'all') {
+      $h1 = "Modérer les commentaires";
+      $redirectTo = 'all';
       $pagination = $commentManager->pagination("admin.php?action=editComments&");
     } else if ($criteria === 'reported'){
+      $h1 = "Modérer les commentaires signalés";
+      $redirectTo = 'reported';
       $pagination = $commentManager->pagination("admin.php?action=editComments&reported=1&");
-    } else {
-      $pagination = $commentManager->pagination("admin.php?action=editComments&id=$criteria&page=");
     }
 
     require('view/backend/commentsEdit.php');
@@ -191,6 +205,17 @@ class backend extends Controller
       }
     } else {
       throw new Exception('Identifiant de commentaire introuvable');
+    }
+  }
+
+  function deleteComments($listIds){
+    if(is_array($listIds)){
+      foreach($listIds as $commentId){
+        $this->deleteComment($commentId);
+      }
+      $this->setReturnMessage('success', count($listIds) . ' commentaire(s) supprimé(s) avec succès');
+    }else{
+      $this->setReturnMessage('danger', 'Aucun commentaire n\'est sélectionné');
     }
   }
 
