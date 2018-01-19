@@ -65,6 +65,9 @@ $frontend = new Frontend();
   {
     $frontend->listPosts();
   }
+  if($frontend->redirection() !== false){
+    header('location: ' . $frontend->redirection());
+  }
 }
 catch (Exception $e)
 {

@@ -15,6 +15,7 @@ require('model/Manager/Comment.php');
 
 class Controller
 {
+  protected $redirection = false;
   protected $formError = false;
 
   public function getSettings()
@@ -30,6 +31,16 @@ class Controller
     } else {
       return false;
     }
+  }
+
+  public function setRedirection($redirection)
+  {
+    $this->redirection = $redirection;
+  }
+
+  public function redirection()
+  {
+    return $this->redirection;
   }
 
   public function setReturnMessage($type,$message)

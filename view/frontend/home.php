@@ -12,7 +12,7 @@
               | <span class="glyphicon glyphicon-comment"></span> <a href="<?= $post->link() .'#comments' ?>">Commentaires</a> <span class="badge"><?= $post->commentsNumber() ?></span>
               <?php if($this->loggedIn()){ ?>
                 | <a class="btn btn-xs btn-primary" href="<?= $post->link('edit') ?>">Modifier</a>
-                <a class="btn btn-xs btn-danger" href="<?= $post->link('delete') ?>">Supprimer</a>
+                <a class="btn btn-xs btn-danger" href="<?= $post->link('delete') ?>&amp;redirect_to=home">Supprimer</a>
               <?php } ?>
             </p>
           </header>

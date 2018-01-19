@@ -55,7 +55,7 @@ class backend extends Controller
     }
     else {
       $this->setReturnMessage('success', 'Article publié avec succès <a href="index.php?action=post&id='.$lastInsertId.'">Afficher</a>');
-      header('location:admin.php?action=editPost&id='.$lastInsertId);
+      $this->setRedirection('admin.php?action=editPost&id=' . $lastInsertId);
     }
   }
 
@@ -112,11 +112,9 @@ class backend extends Controller
           $this->setReturnMessage('success', 'Article supprimé avec succès');
         }
       }
-      header('Location: admin.php');
     } else {
       throw new Exception('Identifiant d\'article introuvable');
     }
-    //TODO: redirect home if deleted from frontend
   }
 
   function deletePosts($listIds){
@@ -128,7 +126,7 @@ class backend extends Controller
     }else{
       $this->setReturnMessage('danger', 'Aucun article n\'est sélectionné');
     }
-    header('location:admin.php');
+    $this->setRedirection('admin.php');
   }
 
   function editComments($criteria)

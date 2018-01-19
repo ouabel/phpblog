@@ -71,7 +71,7 @@ class Frontend extends Controller
         $this->setReturnMessage('success', 'Votre commentaire est publié');
       }
     }
-    header('Location: index.php?action=post&id=' . $postId . '#add_comment');
+    $this->setRedirection('index.php?action=post&id=' . $postId . '#add_comment');
   }
 
   function reportComment($commentId)
@@ -87,7 +87,7 @@ class Frontend extends Controller
           throw new Exception('Impossible de signaler le commentaire !');
         } else {
           $_SESSION["reportComment-".$comment->id()] = "reported";
-          header('location:index.php?action=post&id='.$comment->postId());
+          $this->setRedirection('index.php?action=post&id='.$comment->postId());
         }
       }
     } else {
@@ -107,7 +107,7 @@ class Frontend extends Controller
       if($pv){
         $_SESSION['id'] = $author->id();
         $_SESSION['pseudo'] = $pseudo;
-        header('location:admin.php');
+        $this->setRedirection('admin.php');
       }else{
         $this->setReturnMessage('danger', 'Mot de passe erroné !');
         $error = true;
@@ -147,6 +147,6 @@ class Frontend extends Controller
   function logout()
   {
     session_destroy();
-    header('location:index.php');
+    $this->setRedirection('index.php');
   }
 }

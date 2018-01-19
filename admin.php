@@ -37,6 +37,12 @@ try
         case 'deletePost':
           if (isset($_GET['id']) && $_GET['id'] > 0) {
               $backend->deletePost(intval($_GET['id']));
+              if(isset($_GET['redirect_to']) && $_GET['redirect_to'] == 'home'){
+                $backend->returnMessage();
+                $backend->setRedirection('index.php');
+              } else {
+                $backend->setRedirection('admin.php');
+              }
           } else {
             throw new Exception('Aucun identifiant d\'article envoyé');
           }
@@ -75,14 +81,14 @@ try
             $backend->deleteComment(intval($_GET['id']));
             if(isset($_GET['redirect_to'])){
               if($_GET['redirect_to'] === 'all'){
-                header('location:admin.php?action=editComments');
+                $backend->setRedirection('admin.php?action=editComments');
               } elseif($_GET['redirect_to'] === 'reported'){
-                header('location:admin.php?action=editComments&reported=1');
+                $backend->setRedirection('admin.php?action=editComments&reported=1');
               } else{
-                header('location:admin.php?action=editComments&id='.$_GET['redirect_to']);
+                $backend->setRedirection('admin.php?action=editComments&id='.$_GET['redirect_to']);
               }
             } else {
-              header('location:index.php');
+              $backend->setRedirection('index.php');
             }
           } else {
             throw new Exception('Aucun identifiant de commentaire envoyé');
@@ -99,11 +105,11 @@ try
             }elseif($_POST['type'] == 'comment'){
               $backend->deleteComments($_POST['multipleDelete']);
               if($_GET['redirect_to'] === 'all'){
-                header('location:admin.php?action=editComments');
+                $backend->setRedirection('admin.php?action=editComments');
               } elseif($_GET['redirect_to'] === 'reported'){
-                header('location:admin.php?action=editComments&reported=1');
+                $backend->setRedirection('admin.php?action=editComments&reported=1');
               } else {
-                header('location:admin.php?action=editComments&id='.$_GET['redirect_to']);
+                $backend->setRedirection('admin.php?action=editComments&id='.$_GET['redirect_to']);
               }
             }
           } else {
@@ -144,7 +150,10 @@ try
   }
   else
   {
-    header('location:index.php?action=login');
+    $backend->setRedirection('index.php?action=login');
+  }
+  if($backend->redirection() !== false){
+    header('location: ' . $backend->redirection());
   }
 }
 catch (Exception $e)

@@ -15,7 +15,7 @@
             <span class="glyphicon glyphicon-user"></span> Par : <?= htmlspecialchars($author->name()) ?> | <span class="glyphicon glyphicon-calendar"></span> Le : <?= $post->dateFr() ?>
             <?php if($this->loggedIn()){ ?>
               | <a class="btn btn-xs btn-primary" href="<?= $post->link('edit') ?>">Modifier</a>
-              <a class="btn btn-xs btn-danger" href="<?= $post->link('delete') ?>">Supprimer</a>
+              <a class="btn btn-xs btn-danger" href="<?= $post->link('delete') ?>&amp;redirect_to=home">Supprimer</a>
             <?php } ?>
           </p>
         </footer>
