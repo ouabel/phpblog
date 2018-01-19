@@ -2,7 +2,12 @@
 ?>
 <div id="sidebar">
   <div id="about_author" class="panel panel-primary">
-    <div class="panel-heading">A propos de l'auteur</div>
+    <div class="panel-heading">
+      A propos de l'auteur
+      <?php if($this->loggedIn()){ ?>
+        <a class="btn btn-xs btn-default" href="admin.php?action=author">Modifier</a>
+      <?php } ?>
+    </div>
     <div class="panel-body">
       <p>
         <?= $this->getAuthor()->about() ?>
