@@ -1,12 +1,36 @@
 <?php
 class ContentManager extends Manager
 {
-  private $itemsPerPage;
   protected $table;
   protected $countItems;
+  protected $end;
 
-  public function itemsPerPage(){
-    return $this->itemsPerPage;
+  public function __construct($end = 'back'){
+    $this->end = $end;
+  }
+
+  public function itemsPerPage($end = null){
+    if(!isset($end)){
+      $end = $this->end;
+    }
+    $db = $this->dbConnect();
+    $req = $db->query('SELECT items_per_page FROM settings WHERE id = 1');
+    $data = $req->fetch();
+    $itemsPerPage = explode(',', $data['items_per_page']);
+
+    if ($this->table() == 'posts'){
+      if($end == 'front'){
+        return $itemsPerPage[0];
+      }elseif($end == 'back'){
+        return $itemsPerPage[2];
+      }
+    } elseif ($this->table() == 'comments'){
+      if($end == 'front'){
+        return $itemsPerPage[1];
+      }elseif($end == 'back'){
+        return $itemsPerPage[3];
+      }
+    }
   }
 
   public function table(){

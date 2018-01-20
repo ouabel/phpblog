@@ -53,25 +53,22 @@ class Blog
 
   public function itemsPerPage($criteria = null)
   {
+    $itemsPerPage = explode(',', $this->itemsPerPage);
     switch ($criteria)
     {
       case 'ppp':
-        $itemsPerPage = explode(',', $this->itemsPerPage);
           return $itemsPerPage[0];
         break;
 
       case 'cpp':
-        $itemsPerPage = explode(',', $this->itemsPerPage);
           return $itemsPerPage[1];
           break;
 
       case 'pppa':
-        $itemsPerPage = explode(',', $this->itemsPerPage);
           return $itemsPerPage[2];
         break;
 
       case 'cppa':
-        $itemsPerPage = explode(',', $this->itemsPerPage);
           return $itemsPerPage[3];
         break;
 

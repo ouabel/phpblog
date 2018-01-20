@@ -3,12 +3,24 @@
 class Comment extends Content
 {
   private $postId;
+  private $commentOrder;
+  private $link;
   private $author;
   private $reports;
 
   public function postId()
   {
     return $this->postId;
+  }
+
+  public function commentOrder()
+  {
+    return $this->commentOrder;
+  }
+
+  public function link()
+  {
+    return $this->link;
   }
 
   public function author()
@@ -37,6 +49,26 @@ class Comment extends Content
     if ($postId > 0)
     {
       $this->postId = $postId;
+    }
+  }
+
+  public function setCommentOrder($commentOrder)
+  {
+    $commentOrder = (int) $commentOrder;
+
+    if ($commentOrder > 0)
+    {
+      $this->commentOrder = $commentOrder;
+    }
+  }
+
+  public function setLink($page)
+  {
+    $page = (int) $page;
+
+    if ($page > 0)
+    {
+      $this->link = 'index.php?action=post&id=' . $this->postId() . '&page=' . $page. '#comment-' . $this->id();
     }
   }
 

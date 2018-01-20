@@ -8,7 +8,6 @@ class backend extends Controller
     $blog = $this->getSettings();
     $postManager = new PostManager();
 
-    $postManager->setItemsPerPage($blog->itemsPerPage('pppa'));
     $posts = $postManager->getPosts();
 
     $pagination = $postManager->pagination("admin.php?");
@@ -131,9 +130,7 @@ class backend extends Controller
 
   function editComments($criteria)
   {
-    $blog = $this->getSettings();
     $commentManager = new CommentManager();
-    $commentManager->setItemsPerPage($blog->itemsPerPage('cppa'));
     $comments = $commentManager->getComments($criteria);
 
     if (is_int($criteria)){
@@ -141,7 +138,7 @@ class backend extends Controller
       $post = $postManager->getPost($criteria);
       $h1 = "Modérer les commentaires sur " . htmlspecialchars($post->title());
       $redirectTo = $post->id();
-      $pagination = $commentManager->pagination("admin.php?action=editComments&id=$criteria&page=");
+      $pagination = $commentManager->pagination("admin.php?action=editComments&id=$criteria&");
       if (!$post){
         throw new Exception('Identifiant d\'article introuvable');
       }

@@ -3,7 +3,7 @@
   <?php foreach($comments as $comment){ ?>
     <div class="panel panel-default" id="comment-<?= $comment->id() ?>">
       <div class="panel-heading">
-        Par : <?= htmlspecialchars($comment->author()) ?> le : <?= $comment->dateFr() ?>
+        Par : <?= htmlspecialchars($comment->author()) ?> le : <a href="<?= $comment->link() ?>"><?= $comment->dateFr() ?></a>
         <?php if($this->loggedIn()){ ?>
           <a class="btn btn-xs btn-primary" href="admin.php?action=editComment&amp;id=<?= $comment->id() ?>">Modifier</a> <a class="btn btn-xs btn-danger" href="admin.php?action=deleteComment&amp;redirect_to=<?= $post->id() ?>&amp;id=<?= $comment->id() ?>">Supprimer</a>
         <?php } elseif ($comment->reported()) {?>

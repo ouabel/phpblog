@@ -14,7 +14,7 @@
     <div class="panel-heading">
       <input type="checkbox" class="form-check-inline" name="multipleDelete[]" value="<?= $comment->id() ?>"></input>
       Par : <?= htmlspecialchars($comment->author()) ?>
-      le : <?= $comment->dateFr() ?>
+      le : <a href="<?= $comment->link() ?>"><?= $comment->dateFr() ?></a>
     </div>
     <div class="panel-body">
       <p><?= htmlspecialchars($comment->content()) ?></p>

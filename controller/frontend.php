@@ -7,7 +7,7 @@ class Frontend extends Controller
   {
     $blog = $this->getSettings();
 
-    $postManager = new PostManager();
+    $postManager = new PostManager('front');
     $post = $postManager->getPost($postId);
     if($post){
       $author = $this->getAuthor();
@@ -17,8 +17,8 @@ class Frontend extends Controller
         unset($_SESSION['comment']);
       }
 
-      $commentManager = new CommentManager();
-      $commentManager->setItemsPerPage($blog->itemsPerPage('cpp'));
+      $commentManager = new CommentManager('front');
+
       $comments = $commentManager->getComments($postId);
 
       $pagination = $commentManager->pagination("index.php?action=post&id=$postId&");
@@ -33,8 +33,7 @@ class Frontend extends Controller
   {
     $blog = $this->getSettings();
 
-    $postManager = new PostManager();
-    $postManager->setItemsPerPage($blog->itemsPerPage('ppp'));
+    $postManager = new PostManager('front');
     $posts = $postManager->getPosts();
 
     $pagination = $postManager->pagination("index.php?");
@@ -46,9 +45,14 @@ class Frontend extends Controller
 
   function addComment($postId, $author, $content)
   {
-    $commentManager = new CommentManager();
+    $commentManager = new CommentManager('front');
+    $postMananger = new PostManager('front');
+    $post = $postMananger->getPost($postId);
+    $commentOrder = $post->commentsNumber()+1;
 
-    $comment = new Comment(['postId'=>$postId, 'author'=>$author, 'content'=>$content]);
+    $comment = new Comment(['postId'=>$postId, 'commentOrder'=>$commentOrder, 'author'=>$author, 'content'=>$content]);
+
+    $this->setRedirection('index.php?action=post&id=' . $postId . '#add_comment');
 
     if(!ctype_alnum(str_replace(' ','',$author))){
       $this->setFormError('author','Vous avez entré un nom incorrect');
@@ -62,21 +66,22 @@ class Frontend extends Controller
       $this->setReturnMessage('danger', 'Veuillez corriger les erreurs');
       $_SESSION['comment'] = $comment;
     } else {
-      $executeResult = $commentManager->newComment($comment);
-      if($executeResult === false){
+      $lastInsertId = $commentManager->newComment($comment);
+      if($lastInsertId === '0'){
         $this->setReturnMessage('danger', 'Impossible d\'ajouter le commentaire !');
       } else {
-        $postManager = new PostManager();
+        $postManager = new PostManager('front');
         $postManager->addComment($postId);
+        $comment = $commentManager->getComment($lastInsertId);
         $this->setReturnMessage('success', 'Votre commentaire est publié');
+        $this->setRedirection($comment->link());
       }
     }
-    $this->setRedirection('index.php?action=post&id=' . $postId . '#add_comment');
   }
 
   function reportComment($commentId)
   {
-    $commentManager = new CommentManager();
+    $commentManager = new CommentManager('front');
     $comment = $commentManager->getComment($commentId);
     if ($comment){
       if ($comment->reported()) {
@@ -128,13 +133,13 @@ class Frontend extends Controller
   }
 
   function getRecentComments(){
-    $commentManager = new CommentManager();
+    $commentManager = new CommentManager('front');
     $recentComments = $commentManager->getComments('all', 1, 5);
     return $recentComments;
   }
 
   function getRecentPosts(){
-    $postManager = new PostManager();
+    $postManager = new PostManager('front');
     $recentPosts = $postManager->getPosts(1, 5);
     return $recentPosts;
   }

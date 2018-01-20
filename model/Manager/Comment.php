@@ -17,17 +17,17 @@ class CommentManager extends ContentManager
 
     switch($criteria) {
       case 'all':
-        $req = $db->prepare('SELECT id, author, post_id, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments ORDER BY comment_date DESC LIMIT ?, ?');
+        $req = $db->prepare('SELECT id, author, post_id, comment_order, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments ORDER BY comment_date ASC LIMIT ?, ?');
         $req->execute([($currentPage-1)*$itemsPerPage, $itemsPerPage]);
       break;
 
       case 'reported':
-        $req = $db->prepare('SELECT id, author, post_id, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE reports > 0 ORDER BY comment_date DESC LIMIT ?, ?');
+        $req = $db->prepare('SELECT id, author, post_id, comment_order, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE reports > 0 ORDER BY comment_date ASC LIMIT ?, ?');
         $req->execute([($currentPage-1)*$itemsPerPage, $itemsPerPage]);
       break;
 
       default:
-        $req = $db->prepare('SELECT id, author, post_id, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE post_id = ? ORDER BY comment_date DESC LIMIT ?, ?');
+        $req = $db->prepare('SELECT id, author, post_id, comment_order, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE post_id = ? ORDER BY comment_date ASC LIMIT ?, ?');
         $req->execute([$criteria, ($currentPage-1)*$itemsPerPage, $itemsPerPage]);
       break;
     }
@@ -38,6 +38,8 @@ class CommentManager extends ContentManager
       $comments[] = new Comment(['id'=>$data['id'],
                 'author'=>$data['author'],
                 'postId'=>$data['post_id'],
+                'commentOrder'=>$data['comment_order'],
+                'link'=>ceil($data['comment_order']/$this->itemsPerPage('front')),
                 'dateFr'=>$data['date_fr'],
                 'reports'=>$data['reports'],
                 'content'=>$data['comment']]);
@@ -83,9 +85,10 @@ class CommentManager extends ContentManager
   public function newComment(Comment $comment)
   {
     $db = $this->dbConnect();
-        $req = $db->prepare('INSERT INTO comments(post_id, author, comment, comment_date) VALUES(?, ?, ?, NOW())');
-    $executeResult = $req->execute([$comment->postId(),$comment->author(),$comment->content()]);
-    return $executeResult;
+        $req = $db->prepare('INSERT INTO comments(post_id, comment_order, author, comment, comment_date) VALUES(?, ?, ?, ?, NOW())');
+    $executeResult = $req->execute([$comment->postId(),$comment->commentOrder(),$comment->author(),$comment->content()]);
+    $lastInsertId = $db->lastInsertId();
+    return $lastInsertId;
   }
 
   public function updateComment(Comment $comment)
@@ -100,13 +103,16 @@ class CommentManager extends ContentManager
   public function getComment($commentId)
   {
         $db = $this->dbConnect();
-        $req = $db->prepare('SELECT id, post_id, author, comment, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE id = ?');
+        $req = $db->prepare('SELECT id, post_id, author, comment, comment_order, reports, DATE_FORMAT(comment_date, \'%d/%m/%Y à %H:%i\') AS date_fr FROM comments WHERE id = ?');
         $req->execute(array($commentId));
 
     $data = $req->fetch();
     if($data){
+
       $comment = new Comment(['id'=>$data['id'],
                   'postId'=>$data['post_id'],
+                  'commentOrder'=>$data['comment_order'],
+                  'link'=>ceil($data['comment_order']/$this->itemsPerPage('front')),
                   'author'=>$data['author'],
                   'content'=>$data['comment'],
                   'dateFr'=>$data['date_fr'],
