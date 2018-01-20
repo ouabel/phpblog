@@ -7,6 +7,7 @@
 <input type="hidden" name="type" value="comment"></input>
 <p>
   <button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer tout sélectionné</button>
+  <input type="checkbox" onclick="toggle(this);" id="selectAll" name="selectAll"> <label for="selectAll">Sélectionner tout</label>
 </p>
 <?php foreach ($comments as $comment) {?>
   <div class="panel panel-default <?php if($comment->reports()){?><?= 'panel-danger'; } ?>">

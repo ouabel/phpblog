@@ -8,6 +8,7 @@
 <input type="hidden" name="type" value="post"></input>
 <p>
   <button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer tout sélectionné</button>
+  <input type="checkbox" onclick="toggle(this);" id="selectAll" name="selectAll"> <label for="selectAll">Sélectionner tout</label>
 </p>
 <?php foreach ($posts as $post) { ?>
   <div class="panel panel-default">
@@ -19,7 +20,7 @@
     <div class="panel-footer">
       <a class="btn btn-sm btn-primary" href="<?= $post->link('edit') ?>"><span class="glyphicon glyphicon-edit"></span> Modifier</a>
       <a class="btn btn-sm btn-danger" href="<?= $post->link('delete') ?>"><span class="glyphicon glyphicon-trash"></span> Supprimer</a>
-      <a class="btn btn-sm btn-default" href="<?= $post->link('editComments') ?>"><span class="glyphicon glyphicon-comment"></span> Commentaires</a>
+      <a class="btn btn-sm btn-default <?php if(!$post->commentsNumber()){ echo 'disabled';} ?>" href="<?= $post->link('editComments') ?>"><span class="glyphicon glyphicon-comment"></span> Commentaires</a>
     </div>
 
   </div>
