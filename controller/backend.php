@@ -5,7 +5,7 @@ class backend extends Controller
 {
   function editPosts()
   {
-    $blog = $this->getSettings();
+    $blog = $this->getBlog();
     $postManager = new PostManager();
 
     $posts = $postManager->getPosts();
@@ -219,7 +219,7 @@ class backend extends Controller
 
   function editSettings()
   {
-    $blog = $this->getSettings();
+    $blog = $this->getBlog();
     require('view/backend/settings.php');
   }
 

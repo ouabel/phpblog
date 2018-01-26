@@ -18,7 +18,7 @@ class Controller
   protected $redirection = false;
   protected $formError = false;
 
-  public function getSettings()
+  public function getBlog()
   {
     $blogManager = new BlogManager();
     return $blogManager->getSettings();
