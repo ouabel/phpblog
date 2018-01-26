@@ -16,16 +16,16 @@
     <div class="col">
       <div class="row">
         <div class="col-sm-3">
-          <p>Afficher <input name="ppp" type="number" class="form-control number" value="<?= $blog->itemsPerPage('ppp') ?>"> articles par page</p>
+          <p>Afficher <input name="ppp" type="number" min="1" max="99" class="form-control number" value="<?= $blog->itemsPerPage('ppp') ?>"> articles par page</p>
         </div>
         <div class="col-sm-3">
-          <p>Afficher <input name="cpp" type="number" class="form-control number" value="<?= $blog->itemsPerPage('cpp') ?>"> commentaires par page</p>
+          <p>Afficher <input name="cpp" type="number" min="1" max="99" class="form-control number" value="<?= $blog->itemsPerPage('cpp') ?>"> commentaires par page</p>
         </div>
         <div class="col-sm-3">
-          <p>Modérer <input name="pppa" type="number" class="form-control number" value="<?= $blog->itemsPerPage('pppa') ?>"> articles par page</p>
+          <p>Modérer <input name="pppa" type="number" min="1" max="99" class="form-control number" value="<?= $blog->itemsPerPage('pppa') ?>"> articles par page</p>
         </div>
         <div class="col-sm-3">
-          <p>Modérer <input name="cppa" type="number" class="form-control number" value="<?= $blog->itemsPerPage('cppa') ?>"> commentaires par page</p>
+          <p>Modérer <input name="cppa" type="number" min="1" max="99" class="form-control number" value="<?= $blog->itemsPerPage('cppa') ?>"> commentaires par page</p>
         </div>
       </div>
     </div>

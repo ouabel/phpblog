@@ -2,7 +2,6 @@
 <?php $h1 = 'Modérer les articles'; ?>
 
 <?php ob_start(); ?>
-<div class="panel-group">
 <?php if($posts){ ?>
 <form method="post" action="admin.php?action=multipleDelete">
 <input type="hidden" name="type" value="post"></input>
@@ -20,21 +19,19 @@
     <div class="panel-footer">
       <a class="btn btn-sm btn-primary" href="<?= $post->link('edit') ?>"><span class="glyphicon glyphicon-edit"></span> Modifier</a>
       <a class="btn btn-sm btn-danger" href="<?= $post->link('delete') ?>"><span class="glyphicon glyphicon-trash"></span> Supprimer</a>
-      <a class="btn btn-sm btn-default <?php if(!$post->commentsNumber()){ echo 'disabled';} ?>" href="<?= $post->link('editComments') ?>"><span class="glyphicon glyphicon-comment"></span> Commentaires</a>
+      <a class="btn btn-sm btn-default <?php if(!$post->commentsNumber()){ echo 'disabled';} ?>" href="<?= $post->link('editComments') ?>"><span class="glyphicon glyphicon-comment"></span> Commentaires <?php if($post->commentsNumber()){ echo '<span class="badge">' . $post->commentsNumber() . '</span>';} ?></a>
     </div>
 
   </div>
     
 <?php } ?>
 </form>
-<br>
-<button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer tout sélectionné</button>
+<p><button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer tout sélectionné</button></p>
 <?php } else { ?>
   <div class="panel panel-default panel-body">
     <p>Aucun article publié</p>
   </div>
 <?php } ?>
-</div>
 <?php if ($pagination){ echo $pagination; }; ?>
 
 <?php $content = ob_get_clean(); ?>

@@ -1,7 +1,6 @@
 <?php $title = 'Modérer les commentaires'; ?>
 
 <?php ob_start(); ?>
-<div class="panel-group">
 <?php if($comments){ ?>
 <form method="post" action="admin.php?action=multipleDelete&amp;redirect_to=<?= $redirectTo ?>">
 <input type="hidden" name="type" value="comment"></input>
@@ -15,6 +14,7 @@
       <input type="checkbox" class="form-check-inline" name="multipleDelete[]" value="<?= $comment->id() ?>"></input>
       Par : <?= htmlspecialchars($comment->author()) ?>
       le : <a href="<?= $comment->link() ?>"><?= $comment->dateFr() ?></a>
+      <?php if($comment->reports()){?><?= '<span class="label label-danger"><span class="glyphicon glyphicon-alert"></span> '.$comment->reports().'</span>'; } ?>
     </div>
     <div class="panel-body">
       <p><?= htmlspecialchars($comment->content()) ?></p>
@@ -26,15 +26,15 @@
     </div>
   </div>
   <?php } ?>
-  <br>
-  <button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer tout sélectionné</button>
+  <p>
+    <button type="submit" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer tout sélectionné</button>
+  </p>
 </form>
 <?php } else {?>
   <div class="panel panel-default panel-body">
     <p>Pas de commentaires à modérer</p>
   </div>
 <?php } ?>
-</div>
 <?php
 if ($pagination){ echo $pagination; };
 
