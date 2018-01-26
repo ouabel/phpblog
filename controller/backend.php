@@ -116,7 +116,8 @@ class backend extends Controller
     }
   }
 
-  function deletePosts($listIds){
+  function deletePosts($listIds)
+  {
     if(is_array($listIds)){
       foreach($listIds as $postId){
         $this->deletePost($postId);
@@ -136,10 +137,11 @@ class backend extends Controller
     if (is_int($criteria)){
       $postManager = new PostManager();
       $post = $postManager->getPost($criteria);
-      $h1 = "Modérer les commentaires sur " . htmlspecialchars($post->title());
-      $redirectTo = $post->id();
-      $pagination = $commentManager->pagination("admin.php?action=editComments&id=$criteria&");
-      if (!$post){
+      if ($post){
+        $h1 = "Modérer les commentaires sur " . htmlspecialchars($post->title());
+        $redirectTo = $post->id();
+        $pagination = $commentManager->pagination("admin.php?action=editComments&id=$criteria&");
+      } else {
         throw new Exception('Identifiant d\'article introuvable');
       }
     }
@@ -203,7 +205,8 @@ class backend extends Controller
     }
   }
 
-  function deleteComments($listIds){
+  function deleteComments($listIds)
+  {
     if(is_array($listIds)){
       foreach($listIds as $commentId){
         $this->deleteComment($commentId);
@@ -269,18 +272,23 @@ class backend extends Controller
       $this->setFormError('author_pseudo', 'Le pseudo doit contenir 4 caractères au minimum.');
     }
 
-    if((!empty($pass) || !empty($pass2)) && $pass !== $pass2){
-      $this->setFormError('pass', 'Les deux mots de passe ne correspondent pas !');
-    } elseif(!empty($pass)) {
-      $pass = password_hash($pass , PASSWORD_DEFAULT);
-      $author->setPass($pass);
+    if((!empty($pass) || !empty($pass2))){
+      if((!empty($pass) || !empty($pass2)) && $pass !== $pass2){
+        $this->setFormError('pass', 'Les deux mots de passe ne correspondent pas !');
+      }
+      if(mb_strlen($pass) < 6 || (mb_strlen($pass2) < 6)){
+        $this->setFormError('pass', 'Le mot de pass doit contenir 6 caractères au minimum.');
+      }
     }
 
     if($this->formError){
       $this->setReturnMessage('danger', 'Veuillez corriger les erreurs');
       $_SESSION['author'] = $author;
     }else{
-
+      if(!empty($pass) && !empty($pass2) && $pass === $pass2) {
+        $pass = password_hash($pass , PASSWORD_DEFAULT);
+        $author->setPass($pass);
+      }
       $executeResult = $authorManager->setAuthor($author);
       if ($executeResult === false) {
         $this->setReturnMessage('danger', 'Impossible de modifier l\'autheur !');
@@ -291,5 +299,13 @@ class backend extends Controller
     }
 
     $this->editAuthor();
+  }
+
+  function reportedComments()
+  {
+    $commentManager = new CommentManager();
+    $commentManager->countComments('reported');
+    $commentsNumber = $commentManager->countItems();
+    return $commentsNumber;
   }
 }

@@ -20,7 +20,7 @@
         <a class="list-group-item" href="admin.php"><i class="glyphicon glyphicon-list"></i> Articles</a>
         <a class="list-group-item" href="admin.php?action=newPost"><i class="glyphicon glyphicon-file"></i> Nouvel article</a>
         <a class="list-group-item" href="admin.php?action=editComments"><i class="glyphicon glyphicon-comment"></i> Commentaires</a>
-        <a class="list-group-item" href="admin.php?action=editComments&reported=1"><i class="glyphicon glyphicon-comment"></i> Commentaires signalés</a>
+        <a class="list-group-item <?php if(!$this->reportedComments()){ echo 'disabled';}else{echo '" href="admin.php?action=editComments&reported=1';} ?>"><i class="glyphicon glyphicon-comment"></i> Signalisations <?php if($this->reportedComments()){ echo '<span class="badge">' . $this->reportedComments() . '</span>';} ?></a>
         <a class="list-group-item" href="admin.php?action=author"><i class="glyphicon glyphicon-user"></i> Auteur</a>
         <a class="list-group-item" href="admin.php?action=settings"><i class="glyphicon glyphicon-cog"></i> Réglages</a>
         <a class="list-group-item" href="index.php?action=logout"><i class="glyphicon glyphicon-log-out"></i> Se déconnecter</a>
