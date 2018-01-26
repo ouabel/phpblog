@@ -92,10 +92,16 @@ class ContentManager extends Manager
 
         for ($i = 1; $i <= $pages; $i++){
 
+          if($i > $page){
+
+          }
+
           if($i === $page){
             $pagination .= '<li class="active"><a>' . $i . '</a></li>';
-          } else {
+          } elseif (($i > $page-2 && $i < $page+2) || $i < 2 || $i > $pages-1 ) {
             $pagination .= '<li><a href="' . $path . $i . '">' . $i . '</a></li>';
+          } elseif ($i == 2  || $i == $pages-1){
+            $pagination .= '<li><a>...</a></li>';
           }
 
         }
