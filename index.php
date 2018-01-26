@@ -1,9 +1,9 @@
 <?php
 
 require_once('controller/frontend.php');
+$frontend = new Frontend();
 try
 {
-$frontend = new Frontend();
   if (isset($_GET['action']))
   {
     $action = $_GET['action'];
@@ -45,11 +45,16 @@ $frontend = new Frontend();
 
       case 'login':
         if($frontend->loggedIn()){
-          header('location:admin.php');
+            $frontend->setRedirection('admin.php');
           }
         else{
           if (isset($_POST['pseudo']) && isset($_POST['pass'])) {
-            $frontend->login($_POST['pseudo'], $_POST['pass']);
+            if (isset($_POST['redirect_to'])){
+              $redirectTo = $_POST['redirect_to'];
+            } else {
+              $redirectTo = 'admin.php';
+            }
+            $frontend->login($_POST['pseudo'], $_POST['pass'], $redirectTo);
           }else{
             $frontend->getLoginForm();
           }

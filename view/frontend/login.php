@@ -9,6 +9,9 @@ require('header.php');
         <p class="alert alert-<?= $returnMessage['type'] ?>"><?= $returnMessage['message'] ?></p>
       <?php } ?>
       <form method="post" action="index.php?action=login">
+        <?php if (isset($_GET['redirect_to'])){ ?>
+          <input type="hidden" name="redirect_to" value="<?= htmlspecialchars($_GET['redirect_to']) ?>"></input>
+        <?php } ?>
         <p>
           <label for="pseudo">Pseudo:</label><br />
           <input type="text" class="form-control" name="pseudo" placeholder="Pseudo">

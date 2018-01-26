@@ -32,6 +32,7 @@ class Frontend extends Controller
   function listPosts()
   {
     $blog = $this->getSettings();
+    $title = $blog->title();
 
     $postManager = new PostManager('front');
     $posts = $postManager->getPosts();
@@ -100,7 +101,7 @@ class Frontend extends Controller
     }
   }
 
-  function login($pseudo,$pass)
+  function login($pseudo, $pass, $redirectTo)
   {
     $pseudo = strtolower($pseudo);
     $author = $this->getAuthor();
@@ -112,7 +113,7 @@ class Frontend extends Controller
       if($pv){
         $_SESSION['id'] = $author->id();
         $_SESSION['pseudo'] = $pseudo;
-        $this->setRedirection('admin.php');
+        $this->setRedirection(urldecode($redirectTo));
       }else{
         $this->setReturnMessage('danger', 'Mot de passe erroné !');
         $error = true;
@@ -122,23 +123,26 @@ class Frontend extends Controller
       $error = true;
     }
     if($error){
-      require('view/frontend/login.php');
+      $this->getLoginForm();
     }
   }
 
-  function getAuthor(){
+  function getAuthor()
+  {
     $authorManager = new AuthorManager();
     $author = $authorManager->getAuthor();
     return $author;
   }
 
-  function getRecentComments(){
+  function getRecentComments()
+  {
     $commentManager = new CommentManager('front');
     $recentComments = $commentManager->getComments('all', 1, 5);
     return $recentComments;
   }
 
-  function getRecentPosts(){
+  function getRecentPosts()
+  {
     $postManager = new PostManager('front');
     $recentPosts = $postManager->getPosts(1, 5);
     return $recentPosts;

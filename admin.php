@@ -150,7 +150,7 @@ try
   }
   else
   {
-    $backend->setRedirection('index.php?action=login');
+    $backend->setRedirection('index.php?action=login&redirect_to='.urlencode($_SERVER[REQUEST_URI]));
   }
   if($backend->redirection() !== false){
     header('location: ' . $backend->redirection());
