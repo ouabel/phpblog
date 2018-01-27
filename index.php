@@ -1,6 +1,6 @@
 <?php
 
-require_once('controller/frontend.php');
+require_once('Controller/Frontend.php');
 $frontend = new Frontend();
 try
 {

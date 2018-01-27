@@ -1,5 +1,5 @@
 <?php
-require_once('controller/controller.php');
+require_once('Controller/Controller.php');
 
 class Frontend extends Controller
 {

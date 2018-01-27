@@ -1,17 +1,17 @@
 <?php
 
-require('model/Blog.php');
-require('model/Content.php');
-require('model/Post.php');
-require('model/Author.php');
-require('model/Comment.php');
+require('Model/Blog.php');
+require('Model/Content.php');
+require('Model/Post.php');
+require('Model/Author.php');
+require('Model/Comment.php');
 
-require('model/Manager/Manager.php');
-require('model/Manager/Blog.php');
-require('model/Manager/Content.php');
-require('model/Manager/Post.php');
-require('model/Manager/Author.php');
-require('model/Manager/Comment.php');
+require('Model/Manager/Manager.php');
+require('Model/Manager/Blog.php');
+require('Model/Manager/Content.php');
+require('Model/Manager/Post.php');
+require('Model/Manager/Author.php');
+require('Model/Manager/Comment.php');
 
 class Controller
 {

@@ -1,7 +1,7 @@
 <?php
-require_once('controller/controller.php');
+require_once('Controller/Controller.php');
 
-class backend extends Controller
+class Backend extends Controller
 {
   function editPosts()
   {
