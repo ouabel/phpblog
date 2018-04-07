@@ -1,6 +1,6 @@
 <?php
 
-require_once('Controller/Bbackend.php');
+require_once('Controller/Backend.php');
 try
 {
   $backend = new Backend();
