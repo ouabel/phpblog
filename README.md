@@ -1,7 +1,7 @@
 # Blog en php (Billet simple pour l'Alaska)
 
 Un moteur de blog en PHP et MySQL construit sur une architecture MVC et adopte la POO.
-http://webl.ml/blog/
+https://ahmed.fr.to/blog/
 ## Fonctionnalités
 ### I. Frontend
 1. Lecture d'articles
